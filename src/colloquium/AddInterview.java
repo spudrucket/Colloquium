@@ -8,6 +8,10 @@ package colloquium;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  *
@@ -68,6 +72,11 @@ public class AddInterview extends javax.swing.JFrame {
 
         dateFormatedTextField.setColumns(1);
         dateFormatedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("M/d/yyyy"))));
+        dateFormatedTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dateFormatedTextFieldActionPerformed(evt);
+            }
+        });
 
         informantLabel.setText("Informant:");
 
@@ -75,7 +84,7 @@ public class AddInterview extends javax.swing.JFrame {
 
         locationLabel.setText("Location:");
 
-        dateLabel.setText("Date (mm/dd/yyyy):");
+        dateLabel.setText("Date (M/d/yyyy):");
 
         summaryLabel.setText("Summary:");
 
@@ -114,7 +123,7 @@ public class AddInterview extends javax.swing.JFrame {
                         .addGap(35, 35, 35)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(dateFormatedTextField)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
                             .addComponent(interviewerTextField)
                             .addComponent(locationTextField)))
                     .addGroup(layout.createSequentialGroup()
@@ -169,13 +178,27 @@ public class AddInterview extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private java.sql.Date getSqlDate(String startDate) throws Exception {
+        java.sql.Date sqlStartDate = null;
+        if (startDate != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
+            java.util.Date date = sdf.parse(startDate);
+            sqlStartDate = new Date(date.getTime());
+        }
+        return sqlStartDate;
+    } 
+    
     private void addInterviewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInterviewButtonActionPerformed
         Interviews newInterview = new Interviews();
         newInterview.setTitle(titleTextField.getText());
         newInterview.setInformant((Informants)informantComboBox.getSelectedItem());
         newInterview.setInterviewer(interviewerTextField.getText());
         newInterview.setLocation(locationTextField.getText());
-//        newInterview.setInterviewdate(dateFormatedTextField.getText());
+        try {
+            newInterview.setInterviewdate(getSqlDate(dateFormatedTextField.getText()));
+        } catch (Exception ex) {
+            Logger.getLogger(AddInterview.class.getName()).log(Level.SEVERE, null, ex);
+        }
         newInterview.setSummary(summaryTextArea.getText());
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
         InterviewsJpaController ijc = new InterviewsJpaController(emf);
@@ -187,6 +210,10 @@ public class AddInterview extends javax.swing.JFrame {
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         this.setVisible(false);
     }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void dateFormatedTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateFormatedTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dateFormatedTextFieldActionPerformed
 
     /**
      * @param args the command line arguments

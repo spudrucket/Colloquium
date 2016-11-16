@@ -69,7 +69,7 @@
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="dateFormatedTextField" max="32767" attributes="0"/>
-                          <Component id="jScrollPane1" pref="226" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="245" max="32767" attributes="0"/>
                           <Component id="interviewerTextField" alignment="0" max="32767" attributes="0"/>
                           <Component id="locationTextField" alignment="0" max="32767" attributes="0"/>
                       </Group>
@@ -178,6 +178,9 @@
           <Format format="M/d/yyyy" subtype="-1" type="1"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dateFormatedTextFieldActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="informantLabel">
       <Properties>
@@ -196,7 +199,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="dateLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Date (mm/dd/yyyy):"/>
+        <Property name="text" type="java.lang.String" value="Date (M/d/yyyy):"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="summaryLabel">

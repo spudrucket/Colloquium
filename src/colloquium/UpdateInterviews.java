@@ -6,6 +6,8 @@
 package colloquium;
 
 import colloquium.exceptions.NonexistentEntityException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
@@ -29,6 +31,16 @@ public class UpdateInterviews extends javax.swing.JFrame {
         selectInterviewComboBox.setSelectedItem(selectedInterview);
     }
 
+    private java.sql.Date getSqlDate(String startDate) throws Exception {
+        java.sql.Date sqlStartDate = null;
+        if (startDate != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
+            java.util.Date date = sdf.parse(startDate);
+            sqlStartDate = new Date(date.getTime());
+        }
+        return sqlStartDate;
+    } 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -67,7 +79,7 @@ public class UpdateInterviews extends javax.swing.JFrame {
 
         locationLabel.setText("Location:");
 
-        dateLabel.setText("Date (mm/dd/yyyy):");
+        dateLabel.setText("Date (M/d/yyyy):");
 
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, informantsList, informantComboBox);
         bindingGroup.addBinding(jComboBoxBinding);
@@ -97,7 +109,7 @@ public class UpdateInterviews extends javax.swing.JFrame {
         });
 
         dateFormatedTextField.setColumns(1);
-        dateFormatedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("M/d/yyyy"))));
+        dateFormatedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat(""))));
 
         informantLabel.setText("Informant:");
 
@@ -138,7 +150,7 @@ public class UpdateInterviews extends javax.swing.JFrame {
                                 .addGap(35, 35, 35)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(dateFormatedTextField)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                                     .addComponent(interviewerTextField)
                                     .addComponent(locationTextField)))
                             .addGroup(layout.createSequentialGroup()
@@ -211,7 +223,11 @@ public class UpdateInterviews extends javax.swing.JFrame {
             updateInterview.setInformant((Informants)informantComboBox.getSelectedItem());
             updateInterview.setInterviewer(interviewerTextField.getText());
             updateInterview.setLocation(locationTextField.getText());
-            //        updateInterview.setInterviewdate(dateFormatedTextField.getText());
+            try {
+                updateInterview.setInterviewdate(getSqlDate(dateFormatedTextField.getText()));
+            } catch (Exception ex) {
+                Logger.getLogger(UpdateInterviews.class.getName()).log(Level.SEVERE, null, ex);
+            }
             updateInterview.setSummary(summaryTextArea.getText());
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
             InterviewsJpaController ijc = new InterviewsJpaController(emf);
@@ -240,7 +256,7 @@ public class UpdateInterviews extends javax.swing.JFrame {
             informantComboBox.setSelectedItem(updateInt.getInformant());
             interviewerTextField.setText(updateInt.getInterviewer());
             locationTextField.setText(updateInt.getLocation());
-//            dateFormatedTextField.setValue(updateInt.getInterviewdate());
+            dateFormatedTextField.setValue(updateInt.getInterviewdate());
             summaryTextArea.setText(updateInt.getSummary());
         }
     }//GEN-LAST:event_selectInterviewComboBoxActionPerformed
