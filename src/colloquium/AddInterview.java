@@ -9,8 +9,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 
 /**
@@ -55,6 +58,8 @@ public class AddInterview extends javax.swing.JFrame {
         titleTextField = new javax.swing.JTextField();
         instructionsLabel = new javax.swing.JLabel();
         cancelButton = new javax.swing.JButton();
+        hasTranslationLabel = new javax.swing.JLabel();
+        hasTranslationCheckBox = new javax.swing.JCheckBox();
 
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, informantsList, informantComboBox);
         bindingGroup.addBinding(jComboBoxBinding);
@@ -99,6 +104,11 @@ public class AddInterview extends javax.swing.JFrame {
             }
         });
 
+        hasTranslationLabel.setText("With Translation:");
+
+        hasTranslationCheckBox.setSelected(true);
+        hasTranslationCheckBox.setToolTipText("");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -110,7 +120,7 @@ public class AddInterview extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(informantLabel)
                             .addComponent(titleLabel))
-                        .addGap(55, 55, 55)
+                        .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(titleTextField)
                             .addComponent(informantComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -118,24 +128,30 @@ public class AddInterview extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(interviewerLabel)
                             .addComponent(locationLabel)
-                            .addComponent(dateLabel)
-                            .addComponent(summaryLabel))
+                            .addComponent(dateLabel))
                         .addGap(35, 35, 35)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(dateFormatedTextField)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
                             .addComponent(interviewerTextField)
                             .addComponent(locationTextField)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(instructionsLabel)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(summaryLabel)
+                        .addGap(71, 71, 71)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(hasTranslationLabel)
+                                .addGap(32, 32, 32)
+                                .addComponent(hasTranslationCheckBox))
+                            .addComponent(instructionsLabel))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(addInterviewButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(cancelButton)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(72, 72, 72)
-                .addComponent(addInterviewButton)
-                .addGap(18, 18, 18)
-                .addComponent(cancelButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,15 +178,19 @@ public class AddInterview extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dateFormatedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dateLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(hasTranslationCheckBox)
+                    .addComponent(hasTranslationLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(summaryLabel))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(summaryLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addInterviewButton)
                     .addComponent(cancelButton))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -191,7 +211,8 @@ public class AddInterview extends javax.swing.JFrame {
     private void addInterviewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInterviewButtonActionPerformed
         Interviews newInterview = new Interviews();
         newInterview.setTitle(titleTextField.getText());
-        newInterview.setInformant((Informants)informantComboBox.getSelectedItem());
+        Informants currentInformant = (Informants)informantComboBox.getSelectedItem();
+        newInterview.setInformant(currentInformant);
         newInterview.setInterviewer(interviewerTextField.getText());
         newInterview.setLocation(locationTextField.getText());
         try {
@@ -204,6 +225,16 @@ public class AddInterview extends javax.swing.JFrame {
         InterviewsJpaController ijc = new InterviewsJpaController(emf);
         ijc.create(newInterview);
         
+        EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
+        Query query = entityManager.createNamedQuery("Interviews.findAll");
+        List<Interviews> interviewsList = query.getResultList();
+        Interviews currentInterview = interviewsList.get(interviewsList.size() - 1);
+        
+        boolean hasTranslation = hasTranslationCheckBox.isSelected(); 
+        
+        ImportParagraph ip = new ImportParagraph(currentInformant, currentInterview, hasTranslation);
+        ip.setVisible(true);
+     
         this.setVisible(false);
     }//GEN-LAST:event_addInterviewButtonActionPerformed
 
@@ -256,6 +287,8 @@ public class AddInterview extends javax.swing.JFrame {
     private javax.swing.JButton cancelButton;
     private javax.swing.JFormattedTextField dateFormatedTextField;
     private javax.swing.JLabel dateLabel;
+    private javax.swing.JCheckBox hasTranslationCheckBox;
+    private javax.swing.JLabel hasTranslationLabel;
     private javax.swing.JComboBox<String> informantComboBox;
     private javax.swing.JLabel informantLabel;
     private java.util.List<colloquium.Informants> informantsList;

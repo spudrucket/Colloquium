@@ -137,7 +137,7 @@ public class UpdateInterviews extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(informantLabel)
                                     .addComponent(titleLabel))
-                                .addGap(55, 55, 55)
+                                .addGap(36, 36, 36)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(titleTextField)
                                     .addComponent(informantComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))

@@ -5,6 +5,8 @@
  */
 package colloquium;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -131,6 +134,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Paragraphs.findByTag98", query = "SELECT p FROM Paragraphs p WHERE p.tag98 = :tag98")
     , @NamedQuery(name = "Paragraphs.findByTag99", query = "SELECT p FROM Paragraphs p WHERE p.tag99 = :tag99")})
 public class Paragraphs implements Serializable {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -369,7 +375,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setId(Integer id) {
+        Integer oldId = this.id;
         this.id = id;
+        changeSupport.firePropertyChange("id", oldId, id);
     }
 
     public String getText() {
@@ -377,7 +385,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setText(String text) {
+        String oldText = this.text;
         this.text = text;
+        changeSupport.firePropertyChange("text", oldText, text);
     }
 
     public String getTrans() {
@@ -385,7 +395,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTrans(String trans) {
+        String oldTrans = this.trans;
         this.trans = trans;
+        changeSupport.firePropertyChange("trans", oldTrans, trans);
     }
 
     public Integer getTag00() {
@@ -393,7 +405,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag00(Integer tag00) {
+        Integer oldTag00 = this.tag00;
         this.tag00 = tag00;
+        changeSupport.firePropertyChange("tag00", oldTag00, tag00);
     }
 
     public Integer getTag01() {
@@ -401,7 +415,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag01(Integer tag01) {
+        Integer oldTag01 = this.tag01;
         this.tag01 = tag01;
+        changeSupport.firePropertyChange("tag01", oldTag01, tag01);
     }
 
     public Integer getTag02() {
@@ -409,7 +425,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag02(Integer tag02) {
+        Integer oldTag02 = this.tag02;
         this.tag02 = tag02;
+        changeSupport.firePropertyChange("tag02", oldTag02, tag02);
     }
 
     public Integer getTag03() {
@@ -417,7 +435,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag03(Integer tag03) {
+        Integer oldTag03 = this.tag03;
         this.tag03 = tag03;
+        changeSupport.firePropertyChange("tag03", oldTag03, tag03);
     }
 
     public Integer getTag04() {
@@ -425,7 +445,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag04(Integer tag04) {
+        Integer oldTag04 = this.tag04;
         this.tag04 = tag04;
+        changeSupport.firePropertyChange("tag04", oldTag04, tag04);
     }
 
     public Integer getTag05() {
@@ -433,7 +455,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag05(Integer tag05) {
+        Integer oldTag05 = this.tag05;
         this.tag05 = tag05;
+        changeSupport.firePropertyChange("tag05", oldTag05, tag05);
     }
 
     public Integer getTag06() {
@@ -441,7 +465,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag06(Integer tag06) {
+        Integer oldTag06 = this.tag06;
         this.tag06 = tag06;
+        changeSupport.firePropertyChange("tag06", oldTag06, tag06);
     }
 
     public Integer getTag07() {
@@ -449,7 +475,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag07(Integer tag07) {
+        Integer oldTag07 = this.tag07;
         this.tag07 = tag07;
+        changeSupport.firePropertyChange("tag07", oldTag07, tag07);
     }
 
     public Integer getTag08() {
@@ -457,7 +485,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag08(Integer tag08) {
+        Integer oldTag08 = this.tag08;
         this.tag08 = tag08;
+        changeSupport.firePropertyChange("tag08", oldTag08, tag08);
     }
 
     public Integer getTag09() {
@@ -465,7 +495,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag09(Integer tag09) {
+        Integer oldTag09 = this.tag09;
         this.tag09 = tag09;
+        changeSupport.firePropertyChange("tag09", oldTag09, tag09);
     }
 
     public Integer getTag10() {
@@ -473,7 +505,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag10(Integer tag10) {
+        Integer oldTag10 = this.tag10;
         this.tag10 = tag10;
+        changeSupport.firePropertyChange("tag10", oldTag10, tag10);
     }
 
     public Integer getTag11() {
@@ -481,7 +515,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag11(Integer tag11) {
+        Integer oldTag11 = this.tag11;
         this.tag11 = tag11;
+        changeSupport.firePropertyChange("tag11", oldTag11, tag11);
     }
 
     public Integer getTag12() {
@@ -489,7 +525,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag12(Integer tag12) {
+        Integer oldTag12 = this.tag12;
         this.tag12 = tag12;
+        changeSupport.firePropertyChange("tag12", oldTag12, tag12);
     }
 
     public Integer getTag13() {
@@ -497,7 +535,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag13(Integer tag13) {
+        Integer oldTag13 = this.tag13;
         this.tag13 = tag13;
+        changeSupport.firePropertyChange("tag13", oldTag13, tag13);
     }
 
     public Integer getTag14() {
@@ -505,7 +545,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag14(Integer tag14) {
+        Integer oldTag14 = this.tag14;
         this.tag14 = tag14;
+        changeSupport.firePropertyChange("tag14", oldTag14, tag14);
     }
 
     public Integer getTag15() {
@@ -513,7 +555,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag15(Integer tag15) {
+        Integer oldTag15 = this.tag15;
         this.tag15 = tag15;
+        changeSupport.firePropertyChange("tag15", oldTag15, tag15);
     }
 
     public Integer getTag16() {
@@ -521,7 +565,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag16(Integer tag16) {
+        Integer oldTag16 = this.tag16;
         this.tag16 = tag16;
+        changeSupport.firePropertyChange("tag16", oldTag16, tag16);
     }
 
     public Integer getTag17() {
@@ -529,7 +575,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag17(Integer tag17) {
+        Integer oldTag17 = this.tag17;
         this.tag17 = tag17;
+        changeSupport.firePropertyChange("tag17", oldTag17, tag17);
     }
 
     public Integer getTag18() {
@@ -537,7 +585,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag18(Integer tag18) {
+        Integer oldTag18 = this.tag18;
         this.tag18 = tag18;
+        changeSupport.firePropertyChange("tag18", oldTag18, tag18);
     }
 
     public Integer getTag19() {
@@ -545,7 +595,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag19(Integer tag19) {
+        Integer oldTag19 = this.tag19;
         this.tag19 = tag19;
+        changeSupport.firePropertyChange("tag19", oldTag19, tag19);
     }
 
     public Integer getTag20() {
@@ -553,7 +605,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag20(Integer tag20) {
+        Integer oldTag20 = this.tag20;
         this.tag20 = tag20;
+        changeSupport.firePropertyChange("tag20", oldTag20, tag20);
     }
 
     public Integer getTag21() {
@@ -561,7 +615,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag21(Integer tag21) {
+        Integer oldTag21 = this.tag21;
         this.tag21 = tag21;
+        changeSupport.firePropertyChange("tag21", oldTag21, tag21);
     }
 
     public Integer getTag22() {
@@ -569,7 +625,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag22(Integer tag22) {
+        Integer oldTag22 = this.tag22;
         this.tag22 = tag22;
+        changeSupport.firePropertyChange("tag22", oldTag22, tag22);
     }
 
     public Integer getTag23() {
@@ -577,7 +635,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag23(Integer tag23) {
+        Integer oldTag23 = this.tag23;
         this.tag23 = tag23;
+        changeSupport.firePropertyChange("tag23", oldTag23, tag23);
     }
 
     public Integer getTag24() {
@@ -585,7 +645,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag24(Integer tag24) {
+        Integer oldTag24 = this.tag24;
         this.tag24 = tag24;
+        changeSupport.firePropertyChange("tag24", oldTag24, tag24);
     }
 
     public Integer getTag25() {
@@ -593,7 +655,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag25(Integer tag25) {
+        Integer oldTag25 = this.tag25;
         this.tag25 = tag25;
+        changeSupport.firePropertyChange("tag25", oldTag25, tag25);
     }
 
     public Integer getTag26() {
@@ -601,7 +665,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag26(Integer tag26) {
+        Integer oldTag26 = this.tag26;
         this.tag26 = tag26;
+        changeSupport.firePropertyChange("tag26", oldTag26, tag26);
     }
 
     public Integer getTag27() {
@@ -609,7 +675,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag27(Integer tag27) {
+        Integer oldTag27 = this.tag27;
         this.tag27 = tag27;
+        changeSupport.firePropertyChange("tag27", oldTag27, tag27);
     }
 
     public Integer getTag28() {
@@ -617,7 +685,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag28(Integer tag28) {
+        Integer oldTag28 = this.tag28;
         this.tag28 = tag28;
+        changeSupport.firePropertyChange("tag28", oldTag28, tag28);
     }
 
     public Integer getTag29() {
@@ -625,7 +695,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag29(Integer tag29) {
+        Integer oldTag29 = this.tag29;
         this.tag29 = tag29;
+        changeSupport.firePropertyChange("tag29", oldTag29, tag29);
     }
 
     public Integer getTag30() {
@@ -633,7 +705,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag30(Integer tag30) {
+        Integer oldTag30 = this.tag30;
         this.tag30 = tag30;
+        changeSupport.firePropertyChange("tag30", oldTag30, tag30);
     }
 
     public Integer getTag31() {
@@ -641,7 +715,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag31(Integer tag31) {
+        Integer oldTag31 = this.tag31;
         this.tag31 = tag31;
+        changeSupport.firePropertyChange("tag31", oldTag31, tag31);
     }
 
     public Integer getTag32() {
@@ -649,7 +725,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag32(Integer tag32) {
+        Integer oldTag32 = this.tag32;
         this.tag32 = tag32;
+        changeSupport.firePropertyChange("tag32", oldTag32, tag32);
     }
 
     public Integer getTag33() {
@@ -657,7 +735,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag33(Integer tag33) {
+        Integer oldTag33 = this.tag33;
         this.tag33 = tag33;
+        changeSupport.firePropertyChange("tag33", oldTag33, tag33);
     }
 
     public Integer getTag34() {
@@ -665,7 +745,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag34(Integer tag34) {
+        Integer oldTag34 = this.tag34;
         this.tag34 = tag34;
+        changeSupport.firePropertyChange("tag34", oldTag34, tag34);
     }
 
     public Integer getTag35() {
@@ -673,7 +755,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag35(Integer tag35) {
+        Integer oldTag35 = this.tag35;
         this.tag35 = tag35;
+        changeSupport.firePropertyChange("tag35", oldTag35, tag35);
     }
 
     public Integer getTag36() {
@@ -681,7 +765,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag36(Integer tag36) {
+        Integer oldTag36 = this.tag36;
         this.tag36 = tag36;
+        changeSupport.firePropertyChange("tag36", oldTag36, tag36);
     }
 
     public Integer getTag37() {
@@ -689,7 +775,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag37(Integer tag37) {
+        Integer oldTag37 = this.tag37;
         this.tag37 = tag37;
+        changeSupport.firePropertyChange("tag37", oldTag37, tag37);
     }
 
     public Integer getTag38() {
@@ -697,7 +785,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag38(Integer tag38) {
+        Integer oldTag38 = this.tag38;
         this.tag38 = tag38;
+        changeSupport.firePropertyChange("tag38", oldTag38, tag38);
     }
 
     public Integer getTag39() {
@@ -705,7 +795,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag39(Integer tag39) {
+        Integer oldTag39 = this.tag39;
         this.tag39 = tag39;
+        changeSupport.firePropertyChange("tag39", oldTag39, tag39);
     }
 
     public Integer getTag40() {
@@ -713,7 +805,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag40(Integer tag40) {
+        Integer oldTag40 = this.tag40;
         this.tag40 = tag40;
+        changeSupport.firePropertyChange("tag40", oldTag40, tag40);
     }
 
     public Integer getTag41() {
@@ -721,7 +815,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag41(Integer tag41) {
+        Integer oldTag41 = this.tag41;
         this.tag41 = tag41;
+        changeSupport.firePropertyChange("tag41", oldTag41, tag41);
     }
 
     public Integer getTag42() {
@@ -729,7 +825,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag42(Integer tag42) {
+        Integer oldTag42 = this.tag42;
         this.tag42 = tag42;
+        changeSupport.firePropertyChange("tag42", oldTag42, tag42);
     }
 
     public Integer getTag43() {
@@ -737,7 +835,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag43(Integer tag43) {
+        Integer oldTag43 = this.tag43;
         this.tag43 = tag43;
+        changeSupport.firePropertyChange("tag43", oldTag43, tag43);
     }
 
     public Integer getTag44() {
@@ -745,7 +845,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag44(Integer tag44) {
+        Integer oldTag44 = this.tag44;
         this.tag44 = tag44;
+        changeSupport.firePropertyChange("tag44", oldTag44, tag44);
     }
 
     public Integer getTag45() {
@@ -753,7 +855,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag45(Integer tag45) {
+        Integer oldTag45 = this.tag45;
         this.tag45 = tag45;
+        changeSupport.firePropertyChange("tag45", oldTag45, tag45);
     }
 
     public Integer getTag46() {
@@ -761,7 +865,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag46(Integer tag46) {
+        Integer oldTag46 = this.tag46;
         this.tag46 = tag46;
+        changeSupport.firePropertyChange("tag46", oldTag46, tag46);
     }
 
     public Integer getTag47() {
@@ -769,7 +875,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag47(Integer tag47) {
+        Integer oldTag47 = this.tag47;
         this.tag47 = tag47;
+        changeSupport.firePropertyChange("tag47", oldTag47, tag47);
     }
 
     public Integer getTag48() {
@@ -777,7 +885,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag48(Integer tag48) {
+        Integer oldTag48 = this.tag48;
         this.tag48 = tag48;
+        changeSupport.firePropertyChange("tag48", oldTag48, tag48);
     }
 
     public Integer getTag49() {
@@ -785,7 +895,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag49(Integer tag49) {
+        Integer oldTag49 = this.tag49;
         this.tag49 = tag49;
+        changeSupport.firePropertyChange("tag49", oldTag49, tag49);
     }
 
     public Integer getTag50() {
@@ -793,7 +905,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag50(Integer tag50) {
+        Integer oldTag50 = this.tag50;
         this.tag50 = tag50;
+        changeSupport.firePropertyChange("tag50", oldTag50, tag50);
     }
 
     public Integer getTag51() {
@@ -801,7 +915,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag51(Integer tag51) {
+        Integer oldTag51 = this.tag51;
         this.tag51 = tag51;
+        changeSupport.firePropertyChange("tag51", oldTag51, tag51);
     }
 
     public Integer getTag52() {
@@ -809,7 +925,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag52(Integer tag52) {
+        Integer oldTag52 = this.tag52;
         this.tag52 = tag52;
+        changeSupport.firePropertyChange("tag52", oldTag52, tag52);
     }
 
     public Integer getTag53() {
@@ -817,7 +935,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag53(Integer tag53) {
+        Integer oldTag53 = this.tag53;
         this.tag53 = tag53;
+        changeSupport.firePropertyChange("tag53", oldTag53, tag53);
     }
 
     public Integer getTag54() {
@@ -825,7 +945,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag54(Integer tag54) {
+        Integer oldTag54 = this.tag54;
         this.tag54 = tag54;
+        changeSupport.firePropertyChange("tag54", oldTag54, tag54);
     }
 
     public Integer getTag55() {
@@ -833,7 +955,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag55(Integer tag55) {
+        Integer oldTag55 = this.tag55;
         this.tag55 = tag55;
+        changeSupport.firePropertyChange("tag55", oldTag55, tag55);
     }
 
     public Integer getTag56() {
@@ -841,7 +965,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag56(Integer tag56) {
+        Integer oldTag56 = this.tag56;
         this.tag56 = tag56;
+        changeSupport.firePropertyChange("tag56", oldTag56, tag56);
     }
 
     public Integer getTag57() {
@@ -849,7 +975,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag57(Integer tag57) {
+        Integer oldTag57 = this.tag57;
         this.tag57 = tag57;
+        changeSupport.firePropertyChange("tag57", oldTag57, tag57);
     }
 
     public Integer getTag58() {
@@ -857,7 +985,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag58(Integer tag58) {
+        Integer oldTag58 = this.tag58;
         this.tag58 = tag58;
+        changeSupport.firePropertyChange("tag58", oldTag58, tag58);
     }
 
     public Integer getTag59() {
@@ -865,7 +995,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag59(Integer tag59) {
+        Integer oldTag59 = this.tag59;
         this.tag59 = tag59;
+        changeSupport.firePropertyChange("tag59", oldTag59, tag59);
     }
 
     public Integer getTag60() {
@@ -873,7 +1005,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag60(Integer tag60) {
+        Integer oldTag60 = this.tag60;
         this.tag60 = tag60;
+        changeSupport.firePropertyChange("tag60", oldTag60, tag60);
     }
 
     public Integer getTag61() {
@@ -881,7 +1015,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag61(Integer tag61) {
+        Integer oldTag61 = this.tag61;
         this.tag61 = tag61;
+        changeSupport.firePropertyChange("tag61", oldTag61, tag61);
     }
 
     public Integer getTag62() {
@@ -889,7 +1025,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag62(Integer tag62) {
+        Integer oldTag62 = this.tag62;
         this.tag62 = tag62;
+        changeSupport.firePropertyChange("tag62", oldTag62, tag62);
     }
 
     public Integer getTag63() {
@@ -897,7 +1035,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag63(Integer tag63) {
+        Integer oldTag63 = this.tag63;
         this.tag63 = tag63;
+        changeSupport.firePropertyChange("tag63", oldTag63, tag63);
     }
 
     public Integer getTag64() {
@@ -905,7 +1045,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag64(Integer tag64) {
+        Integer oldTag64 = this.tag64;
         this.tag64 = tag64;
+        changeSupport.firePropertyChange("tag64", oldTag64, tag64);
     }
 
     public Integer getTag65() {
@@ -913,7 +1055,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag65(Integer tag65) {
+        Integer oldTag65 = this.tag65;
         this.tag65 = tag65;
+        changeSupport.firePropertyChange("tag65", oldTag65, tag65);
     }
 
     public Integer getTag66() {
@@ -921,7 +1065,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag66(Integer tag66) {
+        Integer oldTag66 = this.tag66;
         this.tag66 = tag66;
+        changeSupport.firePropertyChange("tag66", oldTag66, tag66);
     }
 
     public Integer getTag67() {
@@ -929,7 +1075,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag67(Integer tag67) {
+        Integer oldTag67 = this.tag67;
         this.tag67 = tag67;
+        changeSupport.firePropertyChange("tag67", oldTag67, tag67);
     }
 
     public Integer getTag68() {
@@ -937,7 +1085,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag68(Integer tag68) {
+        Integer oldTag68 = this.tag68;
         this.tag68 = tag68;
+        changeSupport.firePropertyChange("tag68", oldTag68, tag68);
     }
 
     public Integer getTag69() {
@@ -945,7 +1095,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag69(Integer tag69) {
+        Integer oldTag69 = this.tag69;
         this.tag69 = tag69;
+        changeSupport.firePropertyChange("tag69", oldTag69, tag69);
     }
 
     public Integer getTag70() {
@@ -953,7 +1105,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag70(Integer tag70) {
+        Integer oldTag70 = this.tag70;
         this.tag70 = tag70;
+        changeSupport.firePropertyChange("tag70", oldTag70, tag70);
     }
 
     public Integer getTag71() {
@@ -961,7 +1115,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag71(Integer tag71) {
+        Integer oldTag71 = this.tag71;
         this.tag71 = tag71;
+        changeSupport.firePropertyChange("tag71", oldTag71, tag71);
     }
 
     public Integer getTag72() {
@@ -969,7 +1125,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag72(Integer tag72) {
+        Integer oldTag72 = this.tag72;
         this.tag72 = tag72;
+        changeSupport.firePropertyChange("tag72", oldTag72, tag72);
     }
 
     public Integer getTag73() {
@@ -977,7 +1135,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag73(Integer tag73) {
+        Integer oldTag73 = this.tag73;
         this.tag73 = tag73;
+        changeSupport.firePropertyChange("tag73", oldTag73, tag73);
     }
 
     public Integer getTag74() {
@@ -985,7 +1145,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag74(Integer tag74) {
+        Integer oldTag74 = this.tag74;
         this.tag74 = tag74;
+        changeSupport.firePropertyChange("tag74", oldTag74, tag74);
     }
 
     public Integer getTag75() {
@@ -993,7 +1155,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag75(Integer tag75) {
+        Integer oldTag75 = this.tag75;
         this.tag75 = tag75;
+        changeSupport.firePropertyChange("tag75", oldTag75, tag75);
     }
 
     public Integer getTag76() {
@@ -1001,7 +1165,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag76(Integer tag76) {
+        Integer oldTag76 = this.tag76;
         this.tag76 = tag76;
+        changeSupport.firePropertyChange("tag76", oldTag76, tag76);
     }
 
     public Integer getTag77() {
@@ -1009,7 +1175,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag77(Integer tag77) {
+        Integer oldTag77 = this.tag77;
         this.tag77 = tag77;
+        changeSupport.firePropertyChange("tag77", oldTag77, tag77);
     }
 
     public Integer getTag78() {
@@ -1017,7 +1185,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag78(Integer tag78) {
+        Integer oldTag78 = this.tag78;
         this.tag78 = tag78;
+        changeSupport.firePropertyChange("tag78", oldTag78, tag78);
     }
 
     public Integer getTag79() {
@@ -1025,7 +1195,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag79(Integer tag79) {
+        Integer oldTag79 = this.tag79;
         this.tag79 = tag79;
+        changeSupport.firePropertyChange("tag79", oldTag79, tag79);
     }
 
     public Integer getTag80() {
@@ -1033,7 +1205,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag80(Integer tag80) {
+        Integer oldTag80 = this.tag80;
         this.tag80 = tag80;
+        changeSupport.firePropertyChange("tag80", oldTag80, tag80);
     }
 
     public Integer getTag81() {
@@ -1041,7 +1215,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag81(Integer tag81) {
+        Integer oldTag81 = this.tag81;
         this.tag81 = tag81;
+        changeSupport.firePropertyChange("tag81", oldTag81, tag81);
     }
 
     public Integer getTag82() {
@@ -1049,7 +1225,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag82(Integer tag82) {
+        Integer oldTag82 = this.tag82;
         this.tag82 = tag82;
+        changeSupport.firePropertyChange("tag82", oldTag82, tag82);
     }
 
     public Integer getTag83() {
@@ -1057,7 +1235,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag83(Integer tag83) {
+        Integer oldTag83 = this.tag83;
         this.tag83 = tag83;
+        changeSupport.firePropertyChange("tag83", oldTag83, tag83);
     }
 
     public Integer getTag84() {
@@ -1065,7 +1245,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag84(Integer tag84) {
+        Integer oldTag84 = this.tag84;
         this.tag84 = tag84;
+        changeSupport.firePropertyChange("tag84", oldTag84, tag84);
     }
 
     public Integer getTag85() {
@@ -1073,7 +1255,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag85(Integer tag85) {
+        Integer oldTag85 = this.tag85;
         this.tag85 = tag85;
+        changeSupport.firePropertyChange("tag85", oldTag85, tag85);
     }
 
     public Integer getTag86() {
@@ -1081,7 +1265,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag86(Integer tag86) {
+        Integer oldTag86 = this.tag86;
         this.tag86 = tag86;
+        changeSupport.firePropertyChange("tag86", oldTag86, tag86);
     }
 
     public Integer getTag87() {
@@ -1089,7 +1275,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag87(Integer tag87) {
+        Integer oldTag87 = this.tag87;
         this.tag87 = tag87;
+        changeSupport.firePropertyChange("tag87", oldTag87, tag87);
     }
 
     public Integer getTag88() {
@@ -1097,7 +1285,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag88(Integer tag88) {
+        Integer oldTag88 = this.tag88;
         this.tag88 = tag88;
+        changeSupport.firePropertyChange("tag88", oldTag88, tag88);
     }
 
     public Integer getTag89() {
@@ -1105,7 +1295,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag89(Integer tag89) {
+        Integer oldTag89 = this.tag89;
         this.tag89 = tag89;
+        changeSupport.firePropertyChange("tag89", oldTag89, tag89);
     }
 
     public Integer getTag90() {
@@ -1113,7 +1305,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag90(Integer tag90) {
+        Integer oldTag90 = this.tag90;
         this.tag90 = tag90;
+        changeSupport.firePropertyChange("tag90", oldTag90, tag90);
     }
 
     public Integer getTag91() {
@@ -1121,7 +1315,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag91(Integer tag91) {
+        Integer oldTag91 = this.tag91;
         this.tag91 = tag91;
+        changeSupport.firePropertyChange("tag91", oldTag91, tag91);
     }
 
     public Integer getTag92() {
@@ -1129,7 +1325,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag92(Integer tag92) {
+        Integer oldTag92 = this.tag92;
         this.tag92 = tag92;
+        changeSupport.firePropertyChange("tag92", oldTag92, tag92);
     }
 
     public Integer getTag93() {
@@ -1137,7 +1335,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag93(Integer tag93) {
+        Integer oldTag93 = this.tag93;
         this.tag93 = tag93;
+        changeSupport.firePropertyChange("tag93", oldTag93, tag93);
     }
 
     public Integer getTag94() {
@@ -1145,7 +1345,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag94(Integer tag94) {
+        Integer oldTag94 = this.tag94;
         this.tag94 = tag94;
+        changeSupport.firePropertyChange("tag94", oldTag94, tag94);
     }
 
     public Integer getTag95() {
@@ -1153,7 +1355,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag95(Integer tag95) {
+        Integer oldTag95 = this.tag95;
         this.tag95 = tag95;
+        changeSupport.firePropertyChange("tag95", oldTag95, tag95);
     }
 
     public Integer getTag96() {
@@ -1161,7 +1365,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag96(Integer tag96) {
+        Integer oldTag96 = this.tag96;
         this.tag96 = tag96;
+        changeSupport.firePropertyChange("tag96", oldTag96, tag96);
     }
 
     public Integer getTag97() {
@@ -1169,7 +1375,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag97(Integer tag97) {
+        Integer oldTag97 = this.tag97;
         this.tag97 = tag97;
+        changeSupport.firePropertyChange("tag97", oldTag97, tag97);
     }
 
     public Integer getTag98() {
@@ -1177,7 +1385,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag98(Integer tag98) {
+        Integer oldTag98 = this.tag98;
         this.tag98 = tag98;
+        changeSupport.firePropertyChange("tag98", oldTag98, tag98);
     }
 
     public Integer getTag99() {
@@ -1185,7 +1395,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setTag99(Integer tag99) {
+        Integer oldTag99 = this.tag99;
         this.tag99 = tag99;
+        changeSupport.firePropertyChange("tag99", oldTag99, tag99);
     }
 
     public Informants getInformant() {
@@ -1193,7 +1405,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setInformant(Informants informant) {
+        Informants oldInformant = this.informant;
         this.informant = informant;
+        changeSupport.firePropertyChange("informant", oldInformant, informant);
     }
 
     public Interviews getInterviewnumber() {
@@ -1201,7 +1415,9 @@ public class Paragraphs implements Serializable {
     }
 
     public void setInterviewnumber(Interviews interviewnumber) {
+        Interviews oldInterviewnumber = this.interviewnumber;
         this.interviewnumber = interviewnumber;
+        changeSupport.firePropertyChange("interviewnumber", oldInterviewnumber, interviewnumber);
     }
 
     @Override
@@ -1227,6 +1443,14 @@ public class Paragraphs implements Serializable {
     @Override
     public String toString() {
         return "colloquium.Paragraphs[ id=" + id + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }
