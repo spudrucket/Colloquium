@@ -23,7 +23,9 @@ public class ParagraphPreview extends javax.swing.JFrame {
     
     public ParagraphPreview(ArrayList textArray) {
         initComponents();
+        jTable1.setDefaultRenderer(String.class, new LineWrapCellRenderer());
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        
         for (int i = 0; i < textArray.size(); i++) {
             String data1 = textArray.get(i).toString();
             Object[] row = {data1};
@@ -33,13 +35,16 @@ public class ParagraphPreview extends javax.swing.JFrame {
     
     public ParagraphPreview(ArrayList textArray, ArrayList transArray) {
         initComponents();
+        jTable1.setDefaultRenderer(String.class, new LineWrapCellRenderer());
+        
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        
         for (int i = 0; i < textArray.size(); i++) {
             String data1 = textArray.get(i).toString();
             String data2 = transArray.get(i).toString();
             Object[] row = {data1, data2};
             model.addRow(row);
-        }
+        }        
     }
 
     /**

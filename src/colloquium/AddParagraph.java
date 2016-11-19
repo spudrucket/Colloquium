@@ -20,7 +20,7 @@ import javax.swing.event.DocumentListener;
  *
  * @author Mark_K
  */
-public class ImportParagraph extends javax.swing.JFrame implements ActionListener {
+public class AddParagraph extends javax.swing.JFrame implements ActionListener {
     
 Informants selectedInformant;
 Interviews selectedInterview;
@@ -28,14 +28,14 @@ Interviews selectedInterview;
     /**
      * Creates new form ImportParagraph
      */
-    public ImportParagraph() {
+    public AddParagraph() {
         initComponents();
         textTextArea.getDocument().addDocumentListener(new TextDocumentListener());
         transTextArea.getDocument().addDocumentListener(new TransDocumentListener());
         hasTranslationCheckBox.setSelected(true);
     }
     
-    public ImportParagraph(Informants informant, Interviews interview, boolean yesno) {
+    public AddParagraph(Informants informant, Interviews interview, boolean yesno) {
         selectedInformant = informant;
         selectedInterview = interview;
         initComponents();
@@ -210,6 +210,7 @@ Interviews selectedInterview;
                     }                
                 }
             }
+            System.out.println(transArray.size() + " " + textArray.size());
             if (transArray.size() == textArray.size()) {
                 ParagraphPreview pp = new ParagraphPreview(textArray, transArray);
                 pp.setVisible(true);
@@ -380,20 +381,21 @@ Interviews selectedInterview;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ImportParagraph.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddParagraph.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ImportParagraph.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddParagraph.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ImportParagraph.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddParagraph.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ImportParagraph.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddParagraph.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ImportParagraph().setVisible(true);
+                new AddParagraph().setVisible(true);
             }
         });
     }

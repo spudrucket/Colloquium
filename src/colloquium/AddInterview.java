@@ -68,7 +68,7 @@ public class AddInterview extends javax.swing.JFrame {
         summaryTextArea.setRows(5);
         jScrollPane1.setViewportView(summaryTextArea);
 
-        addInterviewButton.setText("Add Interview");
+        addInterviewButton.setText("Next");
         addInterviewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addInterviewButtonActionPerformed(evt);
@@ -153,6 +153,9 @@ public class AddInterview extends javax.swing.JFrame {
                         .addComponent(cancelButton)))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {addInterviewButton, cancelButton});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -232,8 +235,8 @@ public class AddInterview extends javax.swing.JFrame {
         
         boolean hasTranslation = hasTranslationCheckBox.isSelected(); 
         
-        ImportParagraph ip = new ImportParagraph(currentInformant, currentInterview, hasTranslation);
-        ip.setVisible(true);
+        AddParagraph ap = new AddParagraph(currentInformant, currentInterview, hasTranslation);
+        ap.setVisible(true);
      
         this.setVisible(false);
     }//GEN-LAST:event_addInterviewButtonActionPerformed

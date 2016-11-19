@@ -33,6 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Paragraphs.findAll", query = "SELECT p FROM Paragraphs p")
     , @NamedQuery(name = "Paragraphs.findById", query = "SELECT p FROM Paragraphs p WHERE p.id = :id")
+    , @NamedQuery(name = "Paragraphs.findByInformant", query = "SELECT p FROM Paragraphs p WHERE p.informant = :informant")
+    , @NamedQuery(name = "Paragraphs.findByInterviewnumber", query = "SELECT P FROM Paragraphs p WHERE p.interviewnumber = :interviewnumber")
     , @NamedQuery(name = "Paragraphs.findByTag00", query = "SELECT p FROM Paragraphs p WHERE p.tag00 = :tag00")
     , @NamedQuery(name = "Paragraphs.findByTag01", query = "SELECT p FROM Paragraphs p WHERE p.tag01 = :tag01")
     , @NamedQuery(name = "Paragraphs.findByTag02", query = "SELECT p FROM Paragraphs p WHERE p.tag02 = :tag02")
@@ -1442,7 +1444,7 @@ public class Paragraphs implements Serializable {
 
     @Override
     public String toString() {
-        return "colloquium.Paragraphs[ id=" + id + " ]";
+        return text;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

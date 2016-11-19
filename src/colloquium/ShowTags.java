@@ -163,6 +163,10 @@ public class ShowTags extends javax.swing.JFrame {
                 }
             }
         }
+        
+        this.setVisible(false);
+        ShowTags st = new ShowTags();
+        st.setVisible(true);
     }//GEN-LAST:event_deleteTagButtonActionPerformed
 
     /**
