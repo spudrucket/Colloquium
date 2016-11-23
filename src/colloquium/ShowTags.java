@@ -47,6 +47,8 @@ public class ShowTags extends javax.swing.JFrame {
         updateTagButton = new javax.swing.JButton();
         deleteTagButton = new javax.swing.JButton();
 
+        setTitle("Tags");
+
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tagsList, jTable1);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
         columnBinding.setColumnName("Id");
@@ -65,14 +67,14 @@ public class ShowTags extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(jTable1);
 
-        addNewButton.setText("Add New");
+        addNewButton.setText("New");
         addNewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addNewButtonActionPerformed(evt);
             }
         });
 
-        updateTagButton.setText("Update");
+        updateTagButton.setText("Edit");
         updateTagButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateTagButtonActionPerformed(evt);
@@ -94,13 +96,13 @@ public class ShowTags extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 790, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(addNewButton)
                         .addGap(18, 18, 18)
                         .addComponent(updateTagButton)
                         .addGap(18, 18, 18)
-                        .addComponent(deleteTagButton)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(deleteTagButton)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

@@ -48,14 +48,16 @@ public class ShowInterviews extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
-        addNewButton.setText("Add New");
+        setTitle("Interviews");
+
+        addNewButton.setText("New");
         addNewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addNewButtonActionPerformed(evt);
             }
         });
 
-        updateInterviewButton.setText("Update");
+        updateInterviewButton.setText("Edit");
         updateInterviewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateInterviewButtonActionPerformed(evt);
@@ -104,13 +106,13 @@ public class ShowInterviews extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 744, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(addNewButton)
                         .addGap(18, 18, 18)
                         .addComponent(updateInterviewButton)
                         .addGap(18, 18, 18)
-                        .addComponent(deleteInterviewButton)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(deleteInterviewButton)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

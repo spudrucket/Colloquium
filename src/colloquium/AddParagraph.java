@@ -73,12 +73,14 @@ Interviews selectedInterview;
         textTextArea.setColumns(20);
         textTextArea.setLineWrap(true);
         textTextArea.setRows(5);
+        textTextArea.setWrapStyleWord(true);
         jScrollPane1.setViewportView(textTextArea);
 
         transTextArea.setColumns(20);
         transTextArea.setLineWrap(true);
         transTextArea.setRows(5);
         transTextArea.setToolTipText("");
+        transTextArea.setWrapStyleWord(true);
         jScrollPane2.setViewportView(transTextArea);
 
         textParagraphNumLabel.setText("0");
@@ -183,10 +185,10 @@ Interviews selectedInterview;
         ArrayList transArray = new ArrayList();
         String currentParagraph = "";
 
-        char[] charsText = textTextArea.getText().toCharArray();   
-        for (int i = 0; i < charsText.length; i++) {
-            if (charsText[i] != '\n') {
-                currentParagraph = currentParagraph + (Character.toString(charsText[i]));
+        char[] charsText = textTextArea.getText().toCharArray();
+        for (char c : charsText) {
+            if (c != '\n') {
+                currentParagraph = currentParagraph + (Character.toString(c));
             }
             else {
                 if (!currentParagraph.isEmpty()) {
@@ -199,9 +201,9 @@ Interviews selectedInterview;
         if (hasTranslationCheckBox.isSelected()) {
             currentParagraph = "";
             char[] charsTrans = transTextArea.getText().toCharArray();   
-            for (int i = 0; i < charsTrans.length; i++) {
-                if (charsTrans[i] != '\n') {
-                    currentParagraph = currentParagraph + (Character.toString(charsTrans[i]));
+            for (char c : charsTrans) {
+                if (c != '\n') {
+                    currentParagraph = currentParagraph + (Character.toString(c));
                 }
                 else {
                     if (!currentParagraph.isEmpty()) {
@@ -210,8 +212,7 @@ Interviews selectedInterview;
                     }                
                 }
             }
-            System.out.println(transArray.size() + " " + textArray.size());
-            if (transArray.size() == textArray.size()) {
+            if (transArray.size() == textArray.size()) {                
                 ParagraphPreview pp = new ParagraphPreview(textArray, transArray);
                 pp.setVisible(true);
             }
@@ -240,9 +241,9 @@ Interviews selectedInterview;
         String currentParagraph = "";
 
         char[] charsText = textTextArea.getText().toCharArray();   
-        for (int i = 0; i < charsText.length; i++) {
-            if (charsText[i] != '\n') {
-                currentParagraph = currentParagraph + (Character.toString(charsText[i]));
+        for (char c : charsText) {
+            if (c != '\n') {
+                currentParagraph = currentParagraph + (Character.toString(c));
             }
             else {
                 if (!currentParagraph.isEmpty()) {
@@ -255,9 +256,9 @@ Interviews selectedInterview;
         if (hasTranslationCheckBox.isSelected()) {
             currentParagraph = "";
             char[] charsTrans = transTextArea.getText().toCharArray();   
-            for (int i = 0; i < charsTrans.length; i++) {
-                if (charsTrans[i] != '\n') {
-                    currentParagraph = currentParagraph + (Character.toString(charsTrans[i]));
+            for (char c : charsTrans) {
+                if (c != '\n') {
+                    currentParagraph = currentParagraph + (Character.toString(c));
                 }
                 else {
                     if (!currentParagraph.isEmpty()) {

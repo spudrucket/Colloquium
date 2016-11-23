@@ -5,10 +5,15 @@
  */
 package colloquium;
 
-import java.util.ArrayList;
+import java.awt.event.MouseEvent;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.table.DefaultTableModel;
@@ -26,6 +31,7 @@ public class MainWindow extends javax.swing.JFrame {
     TableColumn textColumn;
     TableColumn transColumn;
     TableColumn tagsColumn;
+    Interviews currentInterview;
     
 
     /**
@@ -33,6 +39,8 @@ public class MainWindow extends javax.swing.JFrame {
      */
     public MainWindow() {
         initComponents();
+        jList1.setComponentPopupMenu(jList1PopupMenu);
+        resultsTable.setComponentPopupMenu(resultsTablePopupMenu);
         resultsTable.setDefaultRenderer(String.class, new LineWrapCellRenderer());
         
         idColumn = resultsTable.getColumnModel().getColumn(0);
@@ -43,7 +51,7 @@ public class MainWindow extends javax.swing.JFrame {
         
         populateTree();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,9 +64,16 @@ public class MainWindow extends javax.swing.JFrame {
 
         ColloquiumPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
         tagsQuery = java.beans.Beans.isDesignTime() ? null : ColloquiumPUEntityManager.createQuery("SELECT t FROM Tags t");
-        tagsList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : tagsQuery.getResultList();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tagsList = new javax.swing.JList<>();
+        tagsList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : tagsQuery.getResultList();
+        jList1PopupMenu = new javax.swing.JPopupMenu();
+        addTagPopupMenuItem = new javax.swing.JMenuItem();
+        deletePopupMenuItem = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        createTagPopupMenuItem = new javax.swing.JMenuItem();
+        editTagPopupMenuItem = new javax.swing.JMenuItem();
+        resultsTablePopupMenu = new javax.swing.JPopupMenu();
+        editParagraphPopupMenuItem = new javax.swing.JMenuItem();
+        deleteAllTagsPopupMenuItem = new javax.swing.JMenuItem();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -69,6 +84,8 @@ public class MainWindow extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         showTransCheckBox = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -79,19 +96,54 @@ public class MainWindow extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         editInformantsMenuItem = new javax.swing.JMenuItem();
         editInterviewsMenuItem = new javax.swing.JMenuItem();
+        editParagraphsMenuItem = new javax.swing.JMenuItem();
         editTagsMenuItem = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         refreshMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
+        addTagPopupMenuItem.setText("Add Tag");
+        addTagPopupMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addTagPopupMenuItemActionPerformed(evt);
+            }
+        });
+        jList1PopupMenu.add(addTagPopupMenuItem);
+
+        deletePopupMenuItem.setText("Delete Tag");
+        deletePopupMenuItem.setActionCommand("Delete Tag(s)");
+        deletePopupMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deletePopupMenuItemActionPerformed(evt);
+            }
+        });
+        jList1PopupMenu.add(deletePopupMenuItem);
+        jList1PopupMenu.add(jSeparator4);
+
+        createTagPopupMenuItem.setText("New Tag");
+        createTagPopupMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createTagPopupMenuItemActionPerformed(evt);
+            }
+        });
+        jList1PopupMenu.add(createTagPopupMenuItem);
+
+        editTagPopupMenuItem.setText("Edit Tags");
+        editTagPopupMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editTagPopupMenuItemActionPerformed(evt);
+            }
+        });
+        jList1PopupMenu.add(editTagPopupMenuItem);
+
+        editParagraphPopupMenuItem.setText("Edit Paragraph");
+        resultsTablePopupMenu.add(editParagraphPopupMenuItem);
+
+        deleteAllTagsPopupMenuItem.setText("Delete All Tags");
+        resultsTablePopupMenu.add(deleteAllTagsPopupMenuItem);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        tagsList.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
-        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tagsList1, tagsList);
-        bindingGroup.addBinding(jListBinding);
-
-        jScrollPane1.setViewportView(tagsList);
+        setTitle("Colloquium");
 
         jTree1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
@@ -128,14 +180,20 @@ public class MainWindow extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        resultsTable.setInheritsPopupMenu(true);
         resultsTable.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         resultsTable.getTableHeader().setReorderingAllowed(false);
+        resultsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                resultsTableMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(resultsTable);
         if (resultsTable.getColumnModel().getColumnCount() > 0) {
             resultsTable.getColumnModel().getColumn(3).setMaxWidth(200);
         }
 
-        jToolBar1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 1, 5, 1));
+        jToolBar1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
         jToolBar1.setMaximumSize(new java.awt.Dimension(32769, 50));
@@ -146,8 +204,8 @@ public class MainWindow extends javax.swing.JFrame {
         informantsButton.setToolTipText("Informants");
         informantsButton.setFocusable(false);
         informantsButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        informantsButton.setMaximumSize(new java.awt.Dimension(47, 47));
-        informantsButton.setMinimumSize(new java.awt.Dimension(47, 47));
+        informantsButton.setMaximumSize(new java.awt.Dimension(50, 50));
+        informantsButton.setMinimumSize(new java.awt.Dimension(50, 50));
         informantsButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         informantsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,8 +218,8 @@ public class MainWindow extends javax.swing.JFrame {
         interviewsButton.setToolTipText("Interviews");
         interviewsButton.setFocusable(false);
         interviewsButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        interviewsButton.setMaximumSize(new java.awt.Dimension(47, 47));
-        interviewsButton.setMinimumSize(new java.awt.Dimension(47, 47));
+        interviewsButton.setMaximumSize(new java.awt.Dimension(50, 50));
+        interviewsButton.setMinimumSize(new java.awt.Dimension(50, 50));
         interviewsButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         interviewsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -174,8 +232,8 @@ public class MainWindow extends javax.swing.JFrame {
         jButton1.setToolTipText("Tags");
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setMaximumSize(new java.awt.Dimension(47, 47));
-        jButton1.setMinimumSize(new java.awt.Dimension(47, 47));
+        jButton1.setMaximumSize(new java.awt.Dimension(50, 50));
+        jButton1.setMinimumSize(new java.awt.Dimension(50, 50));
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -198,6 +256,18 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel1.setText("Show Translation");
         jToolBar1.add(jLabel1);
 
+        jList1.setInheritsPopupMenu(true);
+
+        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tagsList, jList1);
+        bindingGroup.addBinding(jListBinding);
+
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(jList1);
+
         jMenu1.setText("File");
 
         jMenuItem1.setText("New Project");
@@ -210,7 +280,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu1.add(jMenuItem1);
         jMenu1.add(jSeparator1);
 
-        addInformantMenuItem.setText("Add Informant");
+        addInformantMenuItem.setText("New Informant");
         addInformantMenuItem.setActionCommand("Add Informants");
         addInformantMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -219,7 +289,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jMenu1.add(addInformantMenuItem);
 
-        addInterviewMenuItem.setText("Add Interview");
+        addInterviewMenuItem.setText("New Interview");
         addInterviewMenuItem.setToolTipText("");
         addInterviewMenuItem.setActionCommand("Add Interviews");
         addInterviewMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -229,7 +299,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jMenu1.add(addInterviewMenuItem);
 
-        addTagMenuItem.setText("Add Tag");
+        addTagMenuItem.setText("New Tag");
         addTagMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addTagMenuItemActionPerformed(evt);
@@ -253,6 +323,14 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         jMenu1.add(editInterviewsMenuItem);
+
+        editParagraphsMenuItem.setText("Edit Paragraphs");
+        editParagraphsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editParagraphsMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(editParagraphsMenuItem);
 
         editTagsMenuItem.setText("Edit Tags");
         editTagsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -287,18 +365,18 @@ public class MainWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 1326, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane4))
                 .addContainerGap())
         );
 
@@ -307,6 +385,63 @@ public class MainWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private LinkedList getSelectedParagraphs() {
+        EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
+        LinkedList<Paragraphs> paragraphsList = new LinkedList();
+        int[] rows = resultsTable.getSelectedRows();
+        for (int i = 0; i < rows.length; i++) {
+            int currentId = Integer.parseInt(resultsTable.getModel().getValueAt(rows[i], 0).toString());
+            Query query = entityManager.createNamedQuery("Paragraphs.findById").setParameter("id", currentId);
+            List<Paragraphs> selectedParagraphs = query.getResultList();
+            for (Paragraphs p : selectedParagraphs) {
+                paragraphsList.add(p);
+            }
+        }
+        return paragraphsList;
+    }
+    
+    private void addParagraphTags() {
+        List<Tags> newTagsList;
+        if (resultsTable.isColumnSelected(resultsTable.getSelectedColumn())) {
+            EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
+            DefaultTableModel model = (DefaultTableModel) resultsTable.getModel();
+            newTagsList = jList1.getSelectedValuesList();                                    
+            LinkedList<Paragraphs> selectedParagraphs = getSelectedParagraphs();
+            int[] rows = resultsTable.getSelectedRows();
+            int idColumn = resultsTable.getColumnCount();
+
+            int count = 0;
+            for (Paragraphs p : selectedParagraphs) {
+                TreeSet<String> newTags = new TreeSet();
+                String oldTagsString = p.getTags();
+                if (!oldTagsString.isEmpty()) {
+                   String[] oldTagsArray = oldTagsString.split(" *, *");                        
+                   newTags.addAll(Arrays.asList(oldTagsArray));
+                }                     
+                for (Tags t : newTagsList) {
+                    newTags.add(t.toString());
+                }
+                StringBuilder sb = new StringBuilder();
+                for (String s : newTags) {
+                    sb.append(s);
+                    sb.append(", ");
+                }
+
+                p.setTags(sb.toString());
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
+                ParagraphsJpaController pjc = new ParagraphsJpaController(emf);
+                try {
+                    pjc.edit(p);
+                } catch (Exception ex) {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                                               
+                model.setValueAt(sb.toString(), rows[count], idColumn);
+                count++;
+            }
+        }
+    }
+    
     private void popTable(Interviews interview) {
         DefaultTableModel model = (DefaultTableModel) resultsTable.getModel();
         model.setRowCount(0);
@@ -315,126 +450,11 @@ public class MainWindow extends javax.swing.JFrame {
         Query query = entityManager.createNamedQuery("Paragraphs.findByInterviewnumber").setParameter("interviewnumber", interview);
         List<Paragraphs> paragraphsList = query.getResultList();
 
-        for (int i = 0; i < paragraphsList.size(); i++) {
-            int data0 = paragraphsList.get(i).getId();
-            String data1 = paragraphsList.get(i).getText();
-            String data2 = paragraphsList.get(i).getTrans();
-            
-            ArrayList<Integer> tagsList = new ArrayList();
-            tagsList.add(paragraphsList.get(i).getTag00());
-            tagsList.add(paragraphsList.get(i).getTag01());
-            tagsList.add(paragraphsList.get(i).getTag02());
-            tagsList.add(paragraphsList.get(i).getTag03());
-            tagsList.add(paragraphsList.get(i).getTag04());
-            tagsList.add(paragraphsList.get(i).getTag05());
-            tagsList.add(paragraphsList.get(i).getTag06());
-            tagsList.add(paragraphsList.get(i).getTag07());
-            tagsList.add(paragraphsList.get(i).getTag08());
-            tagsList.add(paragraphsList.get(i).getTag09());
-            tagsList.add(paragraphsList.get(i).getTag10());
-            tagsList.add(paragraphsList.get(i).getTag11());
-            tagsList.add(paragraphsList.get(i).getTag12());
-            tagsList.add(paragraphsList.get(i).getTag13());
-            tagsList.add(paragraphsList.get(i).getTag14());
-            tagsList.add(paragraphsList.get(i).getTag15());
-            tagsList.add(paragraphsList.get(i).getTag16());
-            tagsList.add(paragraphsList.get(i).getTag17());
-            tagsList.add(paragraphsList.get(i).getTag18());
-            tagsList.add(paragraphsList.get(i).getTag19());
-            tagsList.add(paragraphsList.get(i).getTag20());
-            tagsList.add(paragraphsList.get(i).getTag21());
-            tagsList.add(paragraphsList.get(i).getTag22());
-            tagsList.add(paragraphsList.get(i).getTag23());
-            tagsList.add(paragraphsList.get(i).getTag24());
-            tagsList.add(paragraphsList.get(i).getTag25());
-            tagsList.add(paragraphsList.get(i).getTag26());
-            tagsList.add(paragraphsList.get(i).getTag27());
-            tagsList.add(paragraphsList.get(i).getTag28());
-            tagsList.add(paragraphsList.get(i).getTag29());
-            tagsList.add(paragraphsList.get(i).getTag30());
-            tagsList.add(paragraphsList.get(i).getTag31());
-            tagsList.add(paragraphsList.get(i).getTag32());
-            tagsList.add(paragraphsList.get(i).getTag33());
-            tagsList.add(paragraphsList.get(i).getTag34());
-            tagsList.add(paragraphsList.get(i).getTag35());
-            tagsList.add(paragraphsList.get(i).getTag36());
-            tagsList.add(paragraphsList.get(i).getTag37());
-            tagsList.add(paragraphsList.get(i).getTag38());
-            tagsList.add(paragraphsList.get(i).getTag39());
-            tagsList.add(paragraphsList.get(i).getTag40());
-            tagsList.add(paragraphsList.get(i).getTag41());
-            tagsList.add(paragraphsList.get(i).getTag42());
-            tagsList.add(paragraphsList.get(i).getTag43());
-            tagsList.add(paragraphsList.get(i).getTag44());
-            tagsList.add(paragraphsList.get(i).getTag45());
-            tagsList.add(paragraphsList.get(i).getTag46());
-            tagsList.add(paragraphsList.get(i).getTag47());
-            tagsList.add(paragraphsList.get(i).getTag48());
-            tagsList.add(paragraphsList.get(i).getTag49());
-            tagsList.add(paragraphsList.get(i).getTag50());
-            tagsList.add(paragraphsList.get(i).getTag51());
-            tagsList.add(paragraphsList.get(i).getTag52());
-            tagsList.add(paragraphsList.get(i).getTag53());
-            tagsList.add(paragraphsList.get(i).getTag54());
-            tagsList.add(paragraphsList.get(i).getTag55());
-            tagsList.add(paragraphsList.get(i).getTag56());
-            tagsList.add(paragraphsList.get(i).getTag57());
-            tagsList.add(paragraphsList.get(i).getTag58());
-            tagsList.add(paragraphsList.get(i).getTag59());
-            tagsList.add(paragraphsList.get(i).getTag60());
-            tagsList.add(paragraphsList.get(i).getTag61());
-            tagsList.add(paragraphsList.get(i).getTag62());
-            tagsList.add(paragraphsList.get(i).getTag63());
-            tagsList.add(paragraphsList.get(i).getTag64());
-            tagsList.add(paragraphsList.get(i).getTag65());
-            tagsList.add(paragraphsList.get(i).getTag66());
-            tagsList.add(paragraphsList.get(i).getTag67());
-            tagsList.add(paragraphsList.get(i).getTag68());
-            tagsList.add(paragraphsList.get(i).getTag69());
-            tagsList.add(paragraphsList.get(i).getTag70());
-            tagsList.add(paragraphsList.get(i).getTag71());
-            tagsList.add(paragraphsList.get(i).getTag72());
-            tagsList.add(paragraphsList.get(i).getTag73());
-            tagsList.add(paragraphsList.get(i).getTag74());
-            tagsList.add(paragraphsList.get(i).getTag75());
-            tagsList.add(paragraphsList.get(i).getTag76());
-            tagsList.add(paragraphsList.get(i).getTag77());
-            tagsList.add(paragraphsList.get(i).getTag78());
-            tagsList.add(paragraphsList.get(i).getTag79());
-            tagsList.add(paragraphsList.get(i).getTag80());
-            tagsList.add(paragraphsList.get(i).getTag81());
-            tagsList.add(paragraphsList.get(i).getTag82());
-            tagsList.add(paragraphsList.get(i).getTag83());
-            tagsList.add(paragraphsList.get(i).getTag84());
-            tagsList.add(paragraphsList.get(i).getTag85());
-            tagsList.add(paragraphsList.get(i).getTag86());
-            tagsList.add(paragraphsList.get(i).getTag87());
-            tagsList.add(paragraphsList.get(i).getTag88());
-            tagsList.add(paragraphsList.get(i).getTag89());
-            tagsList.add(paragraphsList.get(i).getTag90());
-            tagsList.add(paragraphsList.get(i).getTag91());
-            tagsList.add(paragraphsList.get(i).getTag92());
-            tagsList.add(paragraphsList.get(i).getTag93());
-            tagsList.add(paragraphsList.get(i).getTag94());
-            tagsList.add(paragraphsList.get(i).getTag95());
-            tagsList.add(paragraphsList.get(i).getTag96());
-            tagsList.add(paragraphsList.get(i).getTag97());
-            tagsList.add(paragraphsList.get(i).getTag98());
-            tagsList.add(paragraphsList.get(i).getTag99()); 
-            
-            String data3 = "";
-            for (int ii = 0; ii < tagsList.size(); ii++) {
-                if (tagsList.get(ii) != null) {
-                    Query query1 = entityManager.createNamedQuery("Tags.findById").setParameter("id", tagsList.get(ii));
-                    try {
-                        Tags selectedTag = (Tags) query1.getSingleResult();
-                        System.out.println(selectedTag);
-                        data3 = data3 + selectedTag.getTagname() + ", ";
-                    } catch (NoResultException nre) {  
-                        System.out.println("no tag");
-                    }
-                }
-            }          
+        for (Paragraphs p : paragraphsList) {
+            int data0 = p.getId();
+            String data1 = p.getText();
+            String data2 = p.getTrans();
+            String data3 = p.getTags();                                  
             Object[] row = {data0, data1, data2, data3};
             model.addRow(row);
         } 
@@ -481,20 +501,16 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_editTagsMenuItemActionPerformed
 
     private void jTree1ValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jTree1ValueChanged
-        
-        Interviews selectedNode;
-        
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
         if (node == null)
             return;
         
         if (node.isLeaf()) {
-         //   try {
-                selectedNode = (Interviews) node.getUserObject();
-                popTable(selectedNode);
-            //} catch (ClassCastException cce) {
-              //  JOptionPane.showMessageDialog(null,"Please first add an interview.");
-            //}
+            try {
+                currentInterview = (Interviews) node.getUserObject();
+                popTable(currentInterview);
+            } catch (ClassCastException cce) {
+            }
                 
         }         
     }//GEN-LAST:event_jTree1ValueChanged
@@ -524,9 +540,84 @@ public class MainWindow extends javax.swing.JFrame {
         stag.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        if (evt.getClickCount() == 2) {
+            addParagraphTags();
+        }
+        if (evt.getButton() == MouseEvent.BUTTON3) {
+            jList1PopupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_jList1MouseClicked
+
+    private void editParagraphsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editParagraphsMenuItemActionPerformed
+        ShowParagraphs sp = new ShowParagraphs();
+        sp.setVisible(true);
+    }//GEN-LAST:event_editParagraphsMenuItemActionPerformed
+
+    private void deletePopupMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletePopupMenuItemActionPerformed
+        List<Tags> newTagsList;
+        if (resultsTable.isColumnSelected(resultsTable.getSelectedColumn())) {
+            EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
+            DefaultTableModel model = (DefaultTableModel) resultsTable.getModel();
+            newTagsList = jList1.getSelectedValuesList();                                    
+            LinkedList<Paragraphs> selectedParagraphs = getSelectedParagraphs();
+            int[] rows = resultsTable.getSelectedRows();
+            int idColumn = resultsTable.getColumnCount();
+            int count = 0;
+
+            for (Paragraphs p : selectedParagraphs) {
+                TreeSet<String> newTags = new TreeSet();
+                String oldTagsString = p.getTags();
+                if (!oldTagsString.isEmpty()) {
+                   String[] oldTagsArray = oldTagsString.split(" *, *");                        
+                   newTags.addAll(Arrays.asList(oldTagsArray));
+                }                     
+                for (Tags t : newTagsList) {
+                    newTags.remove(t.toString());
+                }
+                StringBuilder sb = new StringBuilder();
+                for (String s : newTags) {
+                    sb.append(s);
+                    sb.append(", ");
+                }
+
+                p.setTags(sb.toString());
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
+                ParagraphsJpaController pjc = new ParagraphsJpaController(emf);
+                try {
+                    pjc.edit(p);
+                } catch (Exception ex) {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                model.setValueAt(sb.toString(), rows[count], idColumn);
+                count++;
+            }           
+        }
+    }//GEN-LAST:event_deletePopupMenuItemActionPerformed
+
+    private void addTagPopupMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTagPopupMenuItemActionPerformed
+        addParagraphTags();
+    }//GEN-LAST:event_addTagPopupMenuItemActionPerformed
+
+    private void createTagPopupMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createTagPopupMenuItemActionPerformed
+        AddTag at = new AddTag();
+        at.setVisible(true);
+    }//GEN-LAST:event_createTagPopupMenuItemActionPerformed
+
+    private void editTagPopupMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editTagPopupMenuItemActionPerformed
+        ShowTags st = new ShowTags();
+        st.setVisible(true);
+    }//GEN-LAST:event_editTagPopupMenuItemActionPerformed
+
+    private void resultsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTableMouseClicked
+        if (evt.getButton() == MouseEvent.BUTTON3) {
+            resultsTablePopupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_resultsTableMouseClicked
+
     public final void populateTree() {
         try {
-            ArrayList list = new ArrayList();
+            LinkedList list = new LinkedList();
             list.add("Informants");
             EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
             Query query = entityManager.createNamedQuery("Informants.findAll");
@@ -606,30 +697,40 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem addInformantMenuItem;
     private javax.swing.JMenuItem addInterviewMenuItem;
     private javax.swing.JMenuItem addTagMenuItem;
+    private javax.swing.JMenuItem addTagPopupMenuItem;
+    private javax.swing.JMenuItem createTagPopupMenuItem;
+    private javax.swing.JMenuItem deleteAllTagsPopupMenuItem;
+    private javax.swing.JMenuItem deletePopupMenuItem;
     private javax.swing.JMenuItem editInformantsMenuItem;
     private javax.swing.JMenuItem editInterviewsMenuItem;
+    private javax.swing.JMenuItem editParagraphPopupMenuItem;
+    private javax.swing.JMenuItem editParagraphsMenuItem;
+    private javax.swing.JMenuItem editTagPopupMenuItem;
     private javax.swing.JMenuItem editTagsMenuItem;
     private javax.swing.JButton informantsButton;
     private javax.swing.JButton interviewsButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JList<Tags> jList1;
+    private javax.swing.JPopupMenu jList1PopupMenu;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTree jTree1;
     private javax.swing.JMenuItem refreshMenuItem;
     private javax.swing.JTable resultsTable;
+    private javax.swing.JPopupMenu resultsTablePopupMenu;
     private javax.swing.JCheckBox showTransCheckBox;
-    private javax.swing.JList<String> tagsList;
-    private java.util.List<colloquium.Tags> tagsList1;
+    private java.util.List<colloquium.Tags> tagsList;
     private javax.persistence.Query tagsQuery;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables

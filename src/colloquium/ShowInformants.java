@@ -47,7 +47,7 @@ public class ShowInformants extends javax.swing.JFrame {
         updateInformantButton = new javax.swing.JButton();
         deleteInformantButton = new javax.swing.JButton();
 
-        setTitle("Show Informants");
+        setTitle("Informants");
 
         jTable1.setAutoCreateRowSorter(true);
         jTable1.getTableHeader().setReorderingAllowed(false);
@@ -116,14 +116,14 @@ public class ShowInformants extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        addNewButton.setText("Add New");
+        addNewButton.setText("New");
         addNewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addNewButtonActionPerformed(evt);
             }
         });
 
-        updateInformantButton.setText("Update");
+        updateInformantButton.setText("Edit");
         updateInformantButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateInformantButtonActionPerformed(evt);
@@ -141,34 +141,34 @@ public class ShowInformants extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 982, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(755, Short.MAX_VALUE)
+                .addComponent(addNewButton)
+                .addGap(18, 18, 18)
+                .addComponent(updateInformantButton)
+                .addGap(18, 18, 18)
+                .addComponent(deleteInformantButton)
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 958, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(addNewButton)
-                            .addGap(18, 18, 18)
-                            .addComponent(updateInformantButton)
-                            .addGap(18, 18, 18)
-                            .addComponent(deleteInformantButton)
-                            .addGap(653, 653, 653)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 958, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 520, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(482, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addNewButton)
+                    .addComponent(updateInformantButton)
+                    .addComponent(deleteInformantButton))
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(10, 10, 10)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(addNewButton)
-                        .addComponent(updateInformantButton)
-                        .addComponent(deleteInformantButton))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(48, Short.MAX_VALUE)))
         );
 
         bindingGroup.bind();

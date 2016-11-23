@@ -2,10 +2,10 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="ColloquiumPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>colloquium.Interviews</class>
     <class>colloquium.Paragraphs</class>
-    <class>colloquium.Informants</class>
+    <class>colloquium.Interviews</class>
     <class>colloquium.Tags</class>
+    <class>colloquium.Informants</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/Colloquium"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
