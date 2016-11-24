@@ -64,8 +64,6 @@ public class UpdateParagraphs extends javax.swing.JFrame {
         updateButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         textTextArea.setColumns(20);
         textTextArea.setLineWrap(true);
         textTextArea.setRows(5);
