@@ -208,6 +208,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(resultsTable);
         if (resultsTable.getColumnModel().getColumnCount() > 0) {
+            resultsTable.getColumnModel().getColumn(3).setPreferredWidth(100);
             resultsTable.getColumnModel().getColumn(3).setMaxWidth(200);
         }
 
@@ -273,7 +274,6 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jToolBar1.add(queryButton);
 
-        jSeparator6.setMaximumSize(new java.awt.Dimension(32769, 0));
         jSeparator6.setOpaque(true);
         jSeparator6.setSeparatorSize(new java.awt.Dimension(775, 0));
         jToolBar1.add(jSeparator6);
@@ -455,10 +455,7 @@ public class MainWindow extends javax.swing.JFrame {
         for (int i = 0; i < rows.length; i++) {
             int currentId = Integer.parseInt(resultsTable.getModel().getValueAt(rows[i], 0).toString());
             Query query = entityManager.createNamedQuery("Paragraphs.findById").setParameter("id", currentId);
-            List<Paragraphs> selectedParagraphs = query.getResultList();
-            for (Paragraphs p : selectedParagraphs) {
-                paragraphsList.add(p);
-            }
+            paragraphsList.addAll(query.getResultList());
         }
         return paragraphsList;
     }
@@ -732,7 +729,7 @@ public class MainWindow extends javax.swing.JFrame {
             if (!searchTextField.getText().isEmpty()) {
                 LocalSearch si = new LocalSearch();
                 try {
-                    selectedId = si.search(paragraphsList, searchTextField.getText());
+                    selectedId = si.searchText(paragraphsList, searchTextField.getText());
                 } catch (IOException ex) {
                     Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ParseException ex) {

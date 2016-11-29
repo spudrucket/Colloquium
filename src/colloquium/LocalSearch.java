@@ -43,18 +43,27 @@ public class LocalSearch {
     public LocalSearch() { 
     }
     
-    public static LinkedList search(List<Paragraphs> paragraphsList, String searchString) throws IOException, ParseException {
-        Boolean hasTranslation = true;
-        if (paragraphsList.get(0).getTrans() == null) {
-            hasTranslation = false;
-        }
-        if (hasTranslation) {
+    public static LinkedList searchText(List<Paragraphs> paragraphsList, String searchString) throws IOException, ParseException {
             Directory index = new RAMDirectory();
             SimpleAnalyzer analyzer = new SimpleAnalyzer();
             IndexWriterConfig writerConfig = new IndexWriterConfig(analyzer);
             IndexWriter writer = new IndexWriter(index, writerConfig);
             for (Paragraphs p : paragraphsList) {
-                indexDb(writer, Integer.toString(p.getId()), p.getText(), p.getTrans());
+                String trans;
+                if (p.getTrans() == null) {
+                    trans = "";
+                }
+                else {
+                    trans = p.getTrans();
+                }
+                String text;
+                if (p.getText() == null) {
+                    text = "";
+                }
+                else {
+                    text = p.getText();
+                }
+                indexText(writer, Integer.toString(p.getId()), text, trans);
             }
             writer.close();
             MultiFieldQueryParser mfqp = new MultiFieldQueryParser(new String[] {"text", "trans"}, analyzer);
@@ -63,39 +72,16 @@ public class LocalSearch {
             IndexSearcher searcher = new IndexSearcher(reader);
             TopDocs docs = searcher.search(q, MAX_RESULTS);
             ScoreDoc[] hits = docs.scoreDocs;
-            LinkedList<String> idArray = new LinkedList();
+            LinkedList<String> idList = new LinkedList();
             for (int i = 0; i < hits.length; ++i) {
                 int docId = hits[i].doc;
                 Document d = searcher.doc(docId);
-                idArray.add(d.get("id"));
+                idList.add(d.get("id"));
             }
-            return idArray;
-        }
-        else {
-            Directory index = new RAMDirectory();
-            SimpleAnalyzer analyzer = new SimpleAnalyzer();
-            IndexWriterConfig writerConfig = new IndexWriterConfig(analyzer);
-            IndexWriter writer = new IndexWriter(index, writerConfig);
-            for (Paragraphs p : paragraphsList) {
-                indexDb(writer, Integer.toString(p.getId()), p.getText());
-            }
-            writer.close();
-            Query q = new QueryParser("text", analyzer).parse(searchString);
-            IndexReader reader = DirectoryReader.open(index);
-            IndexSearcher searcher = new IndexSearcher(reader);
-            TopDocs docs = searcher.search(q, MAX_RESULTS);
-            ScoreDoc[] hits = docs.scoreDocs;
-            LinkedList<String> idArray = new LinkedList();
-            for (int i = 0; i < hits.length; ++i) {
-                int docId = hits[i].doc;
-                Document d = searcher.doc(docId);
-                idArray.add(d.get("id"));
-            }
-            return idArray;
-            }        
+            return idList;
     }
     
-    private static void indexDb(IndexWriter writer, String id, String text, String trans) throws IOException {
+    private static void indexText(IndexWriter writer, String id, String text, String trans) throws IOException {
         Document d = new Document();      
         d.add(new StringField("id", id, Field.Store.YES));
         d.add(new TextField("text", text, Field.Store.NO));
@@ -107,10 +93,40 @@ public class LocalSearch {
         }
     }
     
-    private static void indexDb(IndexWriter writer, String id, String text) throws IOException {
+    public static LinkedList searchTags(List<Paragraphs> paragraphsList, String searchString) throws IOException, ParseException {
+        Directory index = new RAMDirectory();
+        SimpleAnalyzer analyzer = new SimpleAnalyzer();
+        IndexWriterConfig writerConfig = new IndexWriterConfig(analyzer);
+        IndexWriter writer = new IndexWriter(index, writerConfig);
+        for (Paragraphs p : paragraphsList) {
+            String tag;
+            if (p.getTags() == null) {
+                tag = "";
+            }
+            else {
+                tag = p.getTags();
+            }
+            indexTags(writer, Integer.toString(p.getId()), tag);
+        }
+        writer.close();
+        Query q = new QueryParser("tags", analyzer).parse(searchString);
+        IndexReader reader = DirectoryReader.open(index);
+        IndexSearcher searcher = new IndexSearcher(reader);
+        TopDocs docs = searcher.search(q, MAX_RESULTS);
+        ScoreDoc[] hits = docs.scoreDocs;
+        LinkedList<String> idList = new LinkedList();
+        for (int i = 0; i < hits.length; ++i) {
+            int docId = hits[i].doc;
+            Document d = searcher.doc(docId);
+            idList.add(d.get("id"));
+        }
+        return idList;                   
+    }
+    
+    private static void indexTags(IndexWriter writer, String id, String tags) throws IOException {
         Document d = new Document();      
         d.add(new StringField("id", id, Field.Store.YES));
-        d.add(new TextField("text", text, Field.Store.NO));
+        d.add(new TextField("tags", tags, Field.Store.NO));
         try {        
             writer.addDocument(d);
         } catch (IOException ex) {

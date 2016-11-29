@@ -5,17 +5,37 @@
  */
 package colloquium;
 
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.apache.lucene.queryparser.classic.ParseException;
+
 /**
  *
  * @author Mark_K
  */
 public class SearchWindow extends javax.swing.JFrame {
-
+    
+    List<Paragraphs> paragraphsList;
+    
     /**
      * Creates new form SearchWindow
      */
     public SearchWindow() {
         initComponents();
+        searchTable.setDefaultRenderer(String.class, new LineWrapCellRenderer());
+        
+        EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
+        Query query = entityManager.createNamedQuery("Paragraphs.findAll");
+        this.paragraphsList = query.getResultList();
     }
 
     /**
@@ -27,53 +47,166 @@ public class SearchWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
+        searchTextField = new javax.swing.JTextField();
         searchLabel = new javax.swing.JLabel();
         searchButton = new javax.swing.JButton();
+        instructionsLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        searchTable = new javax.swing.JTable();
 
         setTitle("Search");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+        searchTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                searchTextFieldFocusGained(evt);
+            }
+        });
+        searchTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                searchTextFieldKeyPressed(evt);
             }
         });
 
-        searchLabel.setText("Full Text Search");
+        searchLabel.setText("Search Tags");
 
         searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
+        instructionsLabel.setText("Basic boolean search operators (AND, OR, NOT, *)");
+
+        searchTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Informant", "Interview", "Text", "Translation", "Tags"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        searchTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(searchTable);
+        if (searchTable.getColumnModel().getColumnCount() > 0) {
+            searchTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+            searchTable.getColumnModel().getColumn(0).setMaxWidth(200);
+            searchTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+            searchTable.getColumnModel().getColumn(1).setMaxWidth(200);
+            searchTable.getColumnModel().getColumn(4).setPreferredWidth(100);
+            searchTable.getColumnModel().getColumn(4).setMaxWidth(200);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(searchLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(searchButton)
-                .addContainerGap(940, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 872, Short.MAX_VALUE)
+                        .addComponent(searchLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(instructionsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(searchTextField))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchButton)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchLabel)
                     .addComponent(searchButton))
-                .addContainerGap(629, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(instructionsLabel)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    private void searchTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchTextFieldFocusGained
+        searchTextField.selectAll();
+    }//GEN-LAST:event_searchTextFieldFocusGained
 
+    private void searchTags() {
+        LinkedList<String> idList = new LinkedList();
+        LocalSearch ls = new LocalSearch();
+        try {            
+            idList = ls.searchTags(paragraphsList, searchTextField.getText());
+        } catch (IOException ex) {
+            Logger.getLogger(SearchWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(SearchWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (idList.isEmpty()) {
+            JOptionPane.showMessageDialog(null,"No results found.");
+        }
+        else {
+            popTable(idList);
+        }
+    }
+    
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        searchTags();        
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void searchTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTextFieldKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            searchTags();
+        }
+    }//GEN-LAST:event_searchTextFieldKeyPressed
+
+    private LinkedList<Paragraphs> getParagraphs (LinkedList<String> idList) {
+        LinkedList<Paragraphs> paragraphsList = new LinkedList();
+        EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
+        for (String s : idList) {
+            Query query = entityManager.createNamedQuery("Paragraphs.findById").setParameter("id", Integer.parseInt(s));
+            paragraphsList.addAll(query.getResultList());
+        }
+        return paragraphsList;
+    }
+    
+    private void popTable(LinkedList<String> idList) {
+        DefaultTableModel model = (DefaultTableModel) searchTable.getModel();
+        model.setRowCount(0);
+        LinkedList<Paragraphs> paragraphsList = getParagraphs(idList);
+
+        for (Paragraphs p : paragraphsList) {
+            String data0 = p.getInformant().toString();
+            String data1 = p.getInterviewnumber().toString();
+            String data2 = p.getText();
+            String data3 = p.getTrans();
+            String data4 = p.getTags();
+            Object[] row = {data0, data1, data2, data3, data4};
+            model.addRow(row);
+        } 
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -110,8 +243,11 @@ public class SearchWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel instructionsLabel;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton searchButton;
     private javax.swing.JLabel searchLabel;
+    private javax.swing.JTable searchTable;
+    private javax.swing.JTextField searchTextField;
     // End of variables declaration//GEN-END:variables
 }
