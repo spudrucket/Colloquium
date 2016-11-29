@@ -5,8 +5,6 @@
  */
 package colloquium;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -20,7 +18,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -63,9 +60,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Informants.findByOther8", query = "SELECT i FROM Informants i WHERE i.other8 = :other8")
     , @NamedQuery(name = "Informants.findByOther9", query = "SELECT i FROM Informants i WHERE i.other9 = :other9")})
 public class Informants implements Serializable {
-
-    @Transient
-    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -148,9 +142,7 @@ public class Informants implements Serializable {
     }
 
     public void setId(Integer id) {
-        Integer oldId = this.id;
         this.id = id;
-        changeSupport.firePropertyChange("id", oldId, id);
     }
 
     public String getFirstname() {
@@ -158,9 +150,7 @@ public class Informants implements Serializable {
     }
 
     public void setFirstname(String firstname) {
-        String oldFirstname = this.firstname;
         this.firstname = firstname;
-        changeSupport.firePropertyChange("firstname", oldFirstname, firstname);
     }
 
     public String getSurname() {
@@ -168,9 +158,7 @@ public class Informants implements Serializable {
     }
 
     public void setSurname(String surname) {
-        String oldSurname = this.surname;
         this.surname = surname;
-        changeSupport.firePropertyChange("surname", oldSurname, surname);
     }
 
     public String getNickname() {
@@ -178,9 +166,7 @@ public class Informants implements Serializable {
     }
 
     public void setNickname(String nickname) {
-        String oldNickname = this.nickname;
         this.nickname = nickname;
-        changeSupport.firePropertyChange("nickname", oldNickname, nickname);
     }
 
     public String getGender() {
@@ -188,9 +174,7 @@ public class Informants implements Serializable {
     }
 
     public void setGender(String gender) {
-        String oldGender = this.gender;
         this.gender = gender;
-        changeSupport.firePropertyChange("gender", oldGender, gender);
     }
 
     public Integer getAge() {
@@ -198,9 +182,7 @@ public class Informants implements Serializable {
     }
 
     public void setAge(Integer age) {
-        Integer oldAge = this.age;
         this.age = age;
-        changeSupport.firePropertyChange("age", oldAge, age);
     }
 
     public String getBirthplace() {
@@ -208,9 +190,7 @@ public class Informants implements Serializable {
     }
 
     public void setBirthplace(String birthplace) {
-        String oldBirthplace = this.birthplace;
         this.birthplace = birthplace;
-        changeSupport.firePropertyChange("birthplace", oldBirthplace, birthplace);
     }
 
     public String getResidence() {
@@ -218,9 +198,7 @@ public class Informants implements Serializable {
     }
 
     public void setResidence(String residence) {
-        String oldResidence = this.residence;
         this.residence = residence;
-        changeSupport.firePropertyChange("residence", oldResidence, residence);
     }
 
     public String getPrimarylang() {
@@ -228,9 +206,7 @@ public class Informants implements Serializable {
     }
 
     public void setPrimarylang(String primarylang) {
-        String oldPrimarylang = this.primarylang;
         this.primarylang = primarylang;
-        changeSupport.firePropertyChange("primarylang", oldPrimarylang, primarylang);
     }
 
     public String getSecondarylang() {
@@ -238,9 +214,7 @@ public class Informants implements Serializable {
     }
 
     public void setSecondarylang(String secondarylang) {
-        String oldSecondarylang = this.secondarylang;
         this.secondarylang = secondarylang;
-        changeSupport.firePropertyChange("secondarylang", oldSecondarylang, secondarylang);
     }
 
     public String getTribe() {
@@ -248,9 +222,7 @@ public class Informants implements Serializable {
     }
 
     public void setTribe(String tribe) {
-        String oldTribe = this.tribe;
         this.tribe = tribe;
-        changeSupport.firePropertyChange("tribe", oldTribe, tribe);
     }
 
     public String getClan() {
@@ -258,9 +230,7 @@ public class Informants implements Serializable {
     }
 
     public void setClan(String clan) {
-        String oldClan = this.clan;
         this.clan = clan;
-        changeSupport.firePropertyChange("clan", oldClan, clan);
     }
 
     public String getMarriage() {
@@ -268,9 +238,7 @@ public class Informants implements Serializable {
     }
 
     public void setMarriage(String marriage) {
-        String oldMarriage = this.marriage;
         this.marriage = marriage;
-        changeSupport.firePropertyChange("marriage", oldMarriage, marriage);
     }
 
     public Integer getNumberofchildren() {
@@ -278,9 +246,7 @@ public class Informants implements Serializable {
     }
 
     public void setNumberofchildren(Integer numberofchildren) {
-        Integer oldNumberofchildren = this.numberofchildren;
         this.numberofchildren = numberofchildren;
-        changeSupport.firePropertyChange("numberofchildren", oldNumberofchildren, numberofchildren);
     }
 
     public String getEconomic() {
@@ -288,9 +254,7 @@ public class Informants implements Serializable {
     }
 
     public void setEconomic(String economic) {
-        String oldEconomic = this.economic;
         this.economic = economic;
-        changeSupport.firePropertyChange("economic", oldEconomic, economic);
     }
 
     public String getProfession() {
@@ -298,9 +262,7 @@ public class Informants implements Serializable {
     }
 
     public void setProfession(String profession) {
-        String oldProfession = this.profession;
         this.profession = profession;
-        changeSupport.firePropertyChange("profession", oldProfession, profession);
     }
 
     public String getEducation() {
@@ -308,9 +270,7 @@ public class Informants implements Serializable {
     }
 
     public void setEducation(String education) {
-        String oldEducation = this.education;
         this.education = education;
-        changeSupport.firePropertyChange("education", oldEducation, education);
     }
 
     public String getReligion() {
@@ -318,9 +278,7 @@ public class Informants implements Serializable {
     }
 
     public void setReligion(String religion) {
-        String oldReligion = this.religion;
         this.religion = religion;
-        changeSupport.firePropertyChange("religion", oldReligion, religion);
     }
 
     public String getOther1() {
@@ -328,9 +286,7 @@ public class Informants implements Serializable {
     }
 
     public void setOther1(String other1) {
-        String oldOther1 = this.other1;
         this.other1 = other1;
-        changeSupport.firePropertyChange("other1", oldOther1, other1);
     }
 
     public String getOther2() {
@@ -338,9 +294,7 @@ public class Informants implements Serializable {
     }
 
     public void setOther2(String other2) {
-        String oldOther2 = this.other2;
         this.other2 = other2;
-        changeSupport.firePropertyChange("other2", oldOther2, other2);
     }
 
     public String getOther3() {
@@ -348,9 +302,7 @@ public class Informants implements Serializable {
     }
 
     public void setOther3(String other3) {
-        String oldOther3 = this.other3;
         this.other3 = other3;
-        changeSupport.firePropertyChange("other3", oldOther3, other3);
     }
 
     public String getOther4() {
@@ -358,9 +310,7 @@ public class Informants implements Serializable {
     }
 
     public void setOther4(String other4) {
-        String oldOther4 = this.other4;
         this.other4 = other4;
-        changeSupport.firePropertyChange("other4", oldOther4, other4);
     }
 
     public String getOther5() {
@@ -368,9 +318,7 @@ public class Informants implements Serializable {
     }
 
     public void setOther5(String other5) {
-        String oldOther5 = this.other5;
         this.other5 = other5;
-        changeSupport.firePropertyChange("other5", oldOther5, other5);
     }
 
     public String getOther6() {
@@ -378,9 +326,7 @@ public class Informants implements Serializable {
     }
 
     public void setOther6(String other6) {
-        String oldOther6 = this.other6;
         this.other6 = other6;
-        changeSupport.firePropertyChange("other6", oldOther6, other6);
     }
 
     public String getOther7() {
@@ -388,9 +334,7 @@ public class Informants implements Serializable {
     }
 
     public void setOther7(String other7) {
-        String oldOther7 = this.other7;
         this.other7 = other7;
-        changeSupport.firePropertyChange("other7", oldOther7, other7);
     }
 
     public String getOther8() {
@@ -398,9 +342,7 @@ public class Informants implements Serializable {
     }
 
     public void setOther8(String other8) {
-        String oldOther8 = this.other8;
         this.other8 = other8;
-        changeSupport.firePropertyChange("other8", oldOther8, other8);
     }
 
     public String getOther9() {
@@ -408,9 +350,7 @@ public class Informants implements Serializable {
     }
 
     public void setOther9(String other9) {
-        String oldOther9 = this.other9;
         this.other9 = other9;
-        changeSupport.firePropertyChange("other9", oldOther9, other9);
     }
 
     @XmlTransient
@@ -454,14 +394,6 @@ public class Informants implements Serializable {
     @Override
     public String toString() {
         return nickname;
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

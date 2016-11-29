@@ -5,8 +5,6 @@
  */
 package colloquium;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -25,7 +23,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -55,9 +52,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Interviews.findByTheme8", query = "SELECT i FROM Interviews i WHERE i.theme8 = :theme8")
     , @NamedQuery(name = "Interviews.findByTheme9", query = "SELECT i FROM Interviews i WHERE i.theme9 = :theme9")})
 public class Interviews implements Serializable {
-
-    @Transient
-    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -118,9 +112,7 @@ public class Interviews implements Serializable {
     }
 
     public void setId(Integer id) {
-        Integer oldId = this.id;
         this.id = id;
-        changeSupport.firePropertyChange("id", oldId, id);
     }
 
     public String getTitle() {
@@ -128,9 +120,7 @@ public class Interviews implements Serializable {
     }
 
     public void setTitle(String title) {
-        String oldTitle = this.title;
         this.title = title;
-        changeSupport.firePropertyChange("title", oldTitle, title);
     }
 
     public String getInterviewer() {
@@ -138,9 +128,7 @@ public class Interviews implements Serializable {
     }
 
     public void setInterviewer(String interviewer) {
-        String oldInterviewer = this.interviewer;
         this.interviewer = interviewer;
-        changeSupport.firePropertyChange("interviewer", oldInterviewer, interviewer);
     }
 
     public String getLocation() {
@@ -148,9 +136,7 @@ public class Interviews implements Serializable {
     }
 
     public void setLocation(String location) {
-        String oldLocation = this.location;
         this.location = location;
-        changeSupport.firePropertyChange("location", oldLocation, location);
     }
 
     public Date getInterviewdate() {
@@ -158,9 +144,7 @@ public class Interviews implements Serializable {
     }
 
     public void setInterviewdate(Date interviewdate) {
-        Date oldInterviewdate = this.interviewdate;
         this.interviewdate = interviewdate;
-        changeSupport.firePropertyChange("interviewdate", oldInterviewdate, interviewdate);
     }
 
     public String getSummary() {
@@ -168,9 +152,7 @@ public class Interviews implements Serializable {
     }
 
     public void setSummary(String summary) {
-        String oldSummary = this.summary;
         this.summary = summary;
-        changeSupport.firePropertyChange("summary", oldSummary, summary);
     }
 
     public String getTheme1() {
@@ -178,9 +160,7 @@ public class Interviews implements Serializable {
     }
 
     public void setTheme1(String theme1) {
-        String oldTheme1 = this.theme1;
         this.theme1 = theme1;
-        changeSupport.firePropertyChange("theme1", oldTheme1, theme1);
     }
 
     public String getTheme2() {
@@ -188,9 +168,7 @@ public class Interviews implements Serializable {
     }
 
     public void setTheme2(String theme2) {
-        String oldTheme2 = this.theme2;
         this.theme2 = theme2;
-        changeSupport.firePropertyChange("theme2", oldTheme2, theme2);
     }
 
     public String getTheme3() {
@@ -198,9 +176,7 @@ public class Interviews implements Serializable {
     }
 
     public void setTheme3(String theme3) {
-        String oldTheme3 = this.theme3;
         this.theme3 = theme3;
-        changeSupport.firePropertyChange("theme3", oldTheme3, theme3);
     }
 
     public String getTheme4() {
@@ -208,9 +184,7 @@ public class Interviews implements Serializable {
     }
 
     public void setTheme4(String theme4) {
-        String oldTheme4 = this.theme4;
         this.theme4 = theme4;
-        changeSupport.firePropertyChange("theme4", oldTheme4, theme4);
     }
 
     public String getTheme5() {
@@ -218,9 +192,7 @@ public class Interviews implements Serializable {
     }
 
     public void setTheme5(String theme5) {
-        String oldTheme5 = this.theme5;
         this.theme5 = theme5;
-        changeSupport.firePropertyChange("theme5", oldTheme5, theme5);
     }
 
     public String getTheme6() {
@@ -228,9 +200,7 @@ public class Interviews implements Serializable {
     }
 
     public void setTheme6(String theme6) {
-        String oldTheme6 = this.theme6;
         this.theme6 = theme6;
-        changeSupport.firePropertyChange("theme6", oldTheme6, theme6);
     }
 
     public String getTheme7() {
@@ -238,9 +208,7 @@ public class Interviews implements Serializable {
     }
 
     public void setTheme7(String theme7) {
-        String oldTheme7 = this.theme7;
         this.theme7 = theme7;
-        changeSupport.firePropertyChange("theme7", oldTheme7, theme7);
     }
 
     public String getTheme8() {
@@ -248,9 +216,7 @@ public class Interviews implements Serializable {
     }
 
     public void setTheme8(String theme8) {
-        String oldTheme8 = this.theme8;
         this.theme8 = theme8;
-        changeSupport.firePropertyChange("theme8", oldTheme8, theme8);
     }
 
     public String getTheme9() {
@@ -258,9 +224,7 @@ public class Interviews implements Serializable {
     }
 
     public void setTheme9(String theme9) {
-        String oldTheme9 = this.theme9;
         this.theme9 = theme9;
-        changeSupport.firePropertyChange("theme9", oldTheme9, theme9);
     }
 
     public Informants getInformant() {
@@ -268,9 +232,7 @@ public class Interviews implements Serializable {
     }
 
     public void setInformant(Informants informant) {
-        Informants oldInformant = this.informant;
         this.informant = informant;
-        changeSupport.firePropertyChange("informant", oldInformant, informant);
     }
 
     @XmlTransient
@@ -305,14 +267,6 @@ public class Interviews implements Serializable {
     @Override
     public String toString() {
         return title;
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

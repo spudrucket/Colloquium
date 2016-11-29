@@ -203,7 +203,7 @@ public class AddInterview extends javax.swing.JFrame {
 
     private java.sql.Date getSqlDate(String startDate) throws Exception {
         java.sql.Date sqlStartDate = null;
-        if (startDate != null) {
+        if (startDate != null && !startDate.isEmpty()) {
             SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
             java.util.Date date = sdf.parse(startDate);
             sqlStartDate = new Date(date.getTime());

@@ -5,8 +5,6 @@
  */
 package colloquium;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -34,9 +31,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Tags.findByTagdefinition", query = "SELECT t FROM Tags t WHERE t.tagdefinition = :tagdefinition")
     , @NamedQuery(name = "Tags.findByTagexplanation", query = "SELECT t FROM Tags t WHERE t.tagexplanation = :tagexplanation")})
 public class Tags implements Serializable {
-
-    @Transient
-    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -63,9 +57,7 @@ public class Tags implements Serializable {
     }
 
     public void setId(Integer id) {
-        Integer oldId = this.id;
         this.id = id;
-        changeSupport.firePropertyChange("id", oldId, id);
     }
 
     public String getTagname() {
@@ -73,9 +65,7 @@ public class Tags implements Serializable {
     }
 
     public void setTagname(String tagname) {
-        String oldTagname = this.tagname;
         this.tagname = tagname;
-        changeSupport.firePropertyChange("tagname", oldTagname, tagname);
     }
 
     public String getTagdefinition() {
@@ -83,9 +73,7 @@ public class Tags implements Serializable {
     }
 
     public void setTagdefinition(String tagdefinition) {
-        String oldTagdefinition = this.tagdefinition;
         this.tagdefinition = tagdefinition;
-        changeSupport.firePropertyChange("tagdefinition", oldTagdefinition, tagdefinition);
     }
 
     public String getTagexplanation() {
@@ -93,9 +81,7 @@ public class Tags implements Serializable {
     }
 
     public void setTagexplanation(String tagexplanation) {
-        String oldTagexplanation = this.tagexplanation;
         this.tagexplanation = tagexplanation;
-        changeSupport.firePropertyChange("tagexplanation", oldTagexplanation, tagexplanation);
     }
 
     @Override
@@ -121,14 +107,6 @@ public class Tags implements Serializable {
     @Override
     public String toString() {
         return tagname;
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.removePropertyChangeListener(listener);
     }
     
 }
