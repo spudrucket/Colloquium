@@ -1,0 +1,6 @@
+{
+  "name": "Colloquium",
+  "tagline": "An open source qualitative ethnographic interview coding tool.",
+  "body": "Colloquium QDA is a tool for custom coding and analyzing qualitative ethnographic interviews. To run, make sure you first have Java 8 or later installed.\r\n\r\nCurrent features:\r\nAdd informants\r\nAdd interviews and translations\r\nCreate custom codes/tags\r\nCode interviews\r\nSearch using basic Boolean operators\r\nExport, Backup and Restore database\r\n\r\nColloquium QDA is an open source cross-platform Java Swing app utilizing an embedded Java DB with Lucene integrated search.\r\n\r\nDownload from SourceForge.net: [HERE](https://sourceforge.net/projects/colloquium-qda/).",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
