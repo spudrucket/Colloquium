@@ -68,8 +68,6 @@ Interviews selectedInterview;
         transLabel = new javax.swing.JLabel();
         addParagraphButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         textTextArea.setColumns(20);
         textTextArea.setLineWrap(true);
         textTextArea.setRows(5);

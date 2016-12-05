@@ -137,8 +137,9 @@ public class ShowInterviews extends javax.swing.JFrame {
         Interviews selectedInterview = null;
         if (jTable1.isRowSelected(jTable1.getSelectedRow())) {
             for (Interviews i : interviewsList) {
-                if (i.getId() == jTable1.getValueAt(jTable1.getSelectedRow(), idColumn)) {
+                if (i.getId().equals(jTable1.getValueAt(jTable1.getSelectedRow(), idColumn))) {
                 selectedInterview = i;
+                break;
                 }
             }
         }

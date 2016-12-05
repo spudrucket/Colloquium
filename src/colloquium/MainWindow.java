@@ -6,19 +6,25 @@
 package colloquium;
 
 import com.sun.glass.events.KeyEvent;
+import java.awt.Cursor;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.concurrent.Task;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -38,6 +44,8 @@ public class MainWindow extends javax.swing.JFrame {
     Interviews currentInterview;
     List<Paragraphs> paragraphsList; 
     
+    private Task task;
+    
 
     /**
      * Creates new form MainWindow
@@ -55,6 +63,11 @@ public class MainWindow extends javax.swing.JFrame {
         resultsTable.removeColumn(idColumn);
         
         populateTree();
+        try {
+            copyBlankDatabase();
+        } catch (IOException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -79,6 +92,9 @@ public class MainWindow extends javax.swing.JFrame {
         resultsTablePopupMenu = new javax.swing.JPopupMenu();
         editParagraphPopupMenuItem = new javax.swing.JMenuItem();
         deleteAllTagsPopupMenuItem = new javax.swing.JMenuItem();
+        openFileChooser = new javax.swing.JFileChooser();
+        saveFileChooser = new javax.swing.JFileChooser();
+        jProgressBar1 = new javax.swing.JProgressBar();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -88,6 +104,7 @@ public class MainWindow extends javax.swing.JFrame {
         interviewsButton = new javax.swing.JButton();
         tagsButton = new javax.swing.JButton();
         queryButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jSeparator6 = new javax.swing.JToolBar.Separator();
         showTransCheckBox = new javax.swing.JCheckBox();
         searchTextField = new javax.swing.JTextField();
@@ -109,6 +126,14 @@ public class MainWindow extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         refreshMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        backupMenuItem = new javax.swing.JMenuItem();
+        restoreMenuItem = new javax.swing.JMenuItem();
+        jSeparator7 = new javax.swing.JPopupMenu.Separator();
+        importTagsMenuItem = new javax.swing.JMenuItem();
+        exportTagsMenuItem = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
+        exportMenuItem = new javax.swing.JMenuItem();
+        importMenuItem = new javax.swing.JMenuItem();
 
         addTagPopupMenuItem.setText("Add Tag");
         addTagPopupMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -159,6 +184,8 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         resultsTablePopupMenu.add(deleteAllTagsPopupMenuItem);
+
+        saveFileChooser.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Colloquium");
@@ -262,6 +289,7 @@ public class MainWindow extends javax.swing.JFrame {
         jToolBar1.add(tagsButton);
 
         queryButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/colloquium/search.png"))); // NOI18N
+        queryButton.setToolTipText("Query");
         queryButton.setFocusable(false);
         queryButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         queryButton.setMaximumSize(new java.awt.Dimension(50, 50));
@@ -273,6 +301,18 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(queryButton);
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/colloquium/refresh.png"))); // NOI18N
+        jButton1.setToolTipText("Refresh");
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton1);
 
         jSeparator6.setOpaque(true);
         jSeparator6.setSeparatorSize(new java.awt.Dimension(775, 0));
@@ -415,6 +455,58 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
+
+        backupMenuItem.setText("Backup Project");
+        backupMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backupMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu2.add(backupMenuItem);
+
+        restoreMenuItem.setText("Restore from Backup");
+        restoreMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                restoreMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu2.add(restoreMenuItem);
+        jMenu2.add(jSeparator7);
+
+        importTagsMenuItem.setText("Import Tag List");
+        importTagsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                importTagsMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu2.add(importTagsMenuItem);
+
+        exportTagsMenuItem.setText("Export Tags List");
+        exportTagsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportTagsMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu2.add(exportTagsMenuItem);
+        jMenu2.add(jSeparator5);
+
+        exportMenuItem.setText("Export Tables");
+        exportMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu2.add(exportMenuItem);
+
+        importMenuItem.setText("Import Tables");
+        importMenuItem.setActionCommand("Import Tables");
+        importMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                importMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu2.add(importMenuItem);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -448,6 +540,23 @@ public class MainWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void copyBlankDatabase() throws IOException {
+        
+       File etc = new File("etc");
+       if (!etc.exists() && !etc.isDirectory()) {
+           etc.mkdir();
+       }        
+        File blankDb = new File("etc" + File.separator + "colloquiumdb");
+        if (!blankDb.exists()) {
+            ExportFile ef = new ExportFile();
+           try {
+               ef.backupBlankDb(etc);
+           } catch (SQLException ex) {
+               Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+           }
+        }
+    }   
+    
     private LinkedList getSelectedParagraphs() {
         EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
         LinkedList<Paragraphs> paragraphsList = new LinkedList();
@@ -463,7 +572,6 @@ public class MainWindow extends javax.swing.JFrame {
     private void addParagraphTags() {
         List<Tags> newTagsList;
         if (resultsTable.isColumnSelected(resultsTable.getSelectedColumn())) {
-            EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
             DefaultTableModel model = (DefaultTableModel) resultsTable.getModel();
             newTagsList = jList1.getSelectedValuesList();                                    
             LinkedList<Paragraphs> selectedParagraphs = getSelectedParagraphs();
@@ -521,7 +629,25 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
+        ImportFile imp = new ImportFile();
+        int result = JOptionPane.showConfirmDialog(this,"Backup existing project first? \nAll current data will be lost.", "New Project",JOptionPane.YES_NO_CANCEL_OPTION);
+                switch(result) {
+                    case 0 :
+                        backupDb();
+                        imp.createNewDb();
+                        this.setVisible(false);
+                        MainWindow mw1 = new MainWindow();
+                        mw1.setVisible(true);
+                        break;
+                    case 1 :                        
+                        imp.createNewDb();
+                        this.setVisible(false);
+                        MainWindow mw2 = new MainWindow();
+                        mw2.setVisible(true);
+                        break;
+                    case 2 :                        
+                        break;
+                }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void addInformantMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInformantMenuItemActionPerformed
@@ -694,10 +820,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
         else {
             JOptionPane.showMessageDialog(null,"No paragraph selected.");
-        }
-        
-        
-        
+        }                    
     }//GEN-LAST:event_editParagraphPopupMenuItemActionPerformed
 
     private void deleteAllTagsPopupMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAllTagsPopupMenuItemActionPerformed
@@ -767,6 +890,245 @@ public class MainWindow extends javax.swing.JFrame {
     private void searchTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchTextFieldFocusGained
         searchTextField.selectAll();
     }//GEN-LAST:event_searchTextFieldFocusGained
+
+    private void importTagsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importTagsMenuItemActionPerformed
+        int result = JOptionPane.showConfirmDialog(this,"Export existing tags first? \nAll current tags will be lost.", "Export Tags",JOptionPane.YES_NO_CANCEL_OPTION);
+                switch(result) {
+                    case 0 :
+                        exportTags();
+                        importTags();
+                        this.setVisible(false);
+                        MainWindow mw1 = new MainWindow();
+                        mw1.setVisible(true);
+                        break;
+                    case 1 :
+                        importTags();
+                        this.setVisible(false);
+                        MainWindow mw2 = new MainWindow();
+                        mw2.setVisible(true);
+                        break;
+                    case 2 :                        
+                        break;
+                }
+    }//GEN-LAST:event_importTagsMenuItemActionPerformed
+
+    private void importTags() {
+        openFileChooser.setFileFilter(new FileNameExtensionFilter("txt file","txt"));
+        int returnVal = openFileChooser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            File file = openFileChooser.getSelectedFile();
+            ImportFile importFile = new ImportFile();
+            try {
+                importFile.importTags(file);
+            } catch (IOException ex) {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            setCursor(null);
+        }
+    }
+    
+    private void exportTags() {
+        saveFileChooser.setSelectedFile(new File("tags.txt"));
+        saveFileChooser.setFileFilter(new FileNameExtensionFilter("txt file","txt"));
+        int returnVal = saveFileChooser.showSaveDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            File file = saveFileChooser.getSelectedFile();
+            if (file.exists()) {
+                int result = JOptionPane.showConfirmDialog(this,"Overwrite existing file?","Warning",JOptionPane.YES_NO_CANCEL_OPTION);
+                switch(result) {
+                    case 0 :
+                        ExportFile exportFile = new ExportFile();
+                        try {
+                            exportFile.exportTags(file);
+                        } catch (IOException ex) {
+                            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        break;
+                    case 1 :
+                        break;
+                    case 2 :
+                        break;
+                }
+            }
+            else {
+                ExportFile exportFile = new ExportFile();
+                try {
+                    exportFile.exportTags(file);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            setCursor(null);
+        }
+    }
+    
+    private void exportTagsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportTagsMenuItemActionPerformed
+        exportTags();
+    }//GEN-LAST:event_exportTagsMenuItemActionPerformed
+
+    private void exportMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportMenuItemActionPerformed
+        exportDb();
+    }//GEN-LAST:event_exportMenuItemActionPerformed
+
+    private void exportDb() {
+        saveFileChooser.setSelectedFile(new File("ColloquiumExport.txt"));
+        saveFileChooser.setFileFilter(new FileNameExtensionFilter("txt file","txt"));
+        int returnVal = saveFileChooser.showSaveDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            File file = saveFileChooser.getSelectedFile();
+            if (file.exists()) {
+                int result = JOptionPane.showConfirmDialog(this,"Overwrite existing file?","Warning",JOptionPane.YES_NO_CANCEL_OPTION);
+                switch(result) {
+                    case 0 :
+                        ExportFile exportFile = new ExportFile();
+                        try {
+                            exportFile.exportDatabase(file);
+                        } catch (IOException ex) {
+                            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        break;
+                    case 1 :
+                        break;
+                    case 2 :
+                        break;
+                }
+            }
+            else {
+                ExportFile exportFile = new ExportFile();
+                try {
+                    exportFile.exportDatabase(file);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            setCursor(null);
+        }
+    }
+    
+    private void importDb() {
+        openFileChooser.setFileFilter(new FileNameExtensionFilter("txt file","txt"));
+        int returnVal = openFileChooser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            File file = openFileChooser.getSelectedFile();
+            ImportFile importFile = new ImportFile();
+            try {
+                importFile.importBackup(file);
+            } catch (IOException ex) {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            setCursor(null);
+        }
+    }
+    
+    private void importMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importMenuItemActionPerformed
+        int result = JOptionPane.showConfirmDialog(this,"Backup existing info first? \nAll current info will be lost.", "Import Tables",JOptionPane.YES_NO_CANCEL_OPTION);
+                switch(result) {
+                    case 0 :
+                        exportDb();
+                        importDb();
+                        this.setVisible(false);
+                        MainWindow mw1 = new MainWindow();
+                        mw1.setVisible(true);
+                        break;
+                    case 1 :
+                        importDb();
+                        this.setVisible(false);
+                        MainWindow mw2 = new MainWindow();
+                        mw2.setVisible(true);
+                        
+                        break;
+                    case 2 :                        
+                        break;
+                }
+        
+    }//GEN-LAST:event_importMenuItemActionPerformed
+
+    private void backupMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backupMenuItemActionPerformed
+        backupDb();
+    }//GEN-LAST:event_backupMenuItemActionPerformed
+
+    private void backupDb() {
+        saveFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int returnVal = saveFileChooser.showSaveDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            File file = saveFileChooser.getSelectedFile();
+            File tempDb = new File(file.getPath() + File.separator + "colloquiumdb" + File.separator);
+            if (tempDb.exists()) {
+                JOptionPane.showMessageDialog(null,"Please select a different folder");
+                backupDb();
+            }
+            else {
+                ExportFile exportFile = new ExportFile();
+
+                try {
+                    exportFile.backupDb(file);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }               
+            }
+            setCursor(null);
+        }
+    }
+    
+    private void restoreDb() throws SQLException, ClassNotFoundException {
+        openFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int returnVal = openFileChooser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            File file = openFileChooser.getSelectedFile();
+            ImportFile importFile = new ImportFile();            
+            importFile.restoreDb(file);            
+            setCursor(null);
+        }
+    }
+    
+    private void restoreMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restoreMenuItemActionPerformed
+        int result = JOptionPane.showConfirmDialog(this,"Backup existing info first? \nAll current info will be lost.", "Restore Database",JOptionPane.YES_NO_CANCEL_OPTION);
+                switch(result) {
+                    case 0 :
+                        backupDb();
+                        {
+                            try {
+                                restoreDb();
+                            } catch (SQLException ex) {
+                                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (ClassNotFoundException ex) {
+                                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        this.setVisible(false);
+                        MainWindow mw1 = new MainWindow();
+                        mw1.setVisible(true);
+                        break;
+                    case 1 :
+                        {
+                            try {
+                                restoreDb();
+                            } catch (SQLException ex) {
+                                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (ClassNotFoundException ex) {
+                                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        this.setVisible(false);
+                        MainWindow mw2 = new MainWindow();
+                        mw2.setVisible(true);
+                        break;
+                    case 2 :                        
+                        break;
+                }
+    }//GEN-LAST:event_restoreMenuItemActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.setVisible(false);
+        MainWindow mw = new MainWindow();
+        mw.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public final void populateTree() {
         try {
@@ -851,6 +1213,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem addInterviewMenuItem;
     private javax.swing.JMenuItem addTagMenuItem;
     private javax.swing.JMenuItem addTagPopupMenuItem;
+    private javax.swing.JMenuItem backupMenuItem;
     private javax.swing.JMenuItem createTagPopupMenuItem;
     private javax.swing.JMenuItem deleteAllTagsPopupMenuItem;
     private javax.swing.JMenuItem deletePopupMenuItem;
@@ -860,14 +1223,20 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem editParagraphsMenuItem;
     private javax.swing.JMenuItem editTagPopupMenuItem;
     private javax.swing.JMenuItem editTagsMenuItem;
+    private javax.swing.JMenuItem exportMenuItem;
+    private javax.swing.JMenuItem exportTagsMenuItem;
+    private javax.swing.JMenuItem importMenuItem;
+    private javax.swing.JMenuItem importTagsMenuItem;
     private javax.swing.JButton informantsButton;
     private javax.swing.JButton interviewsButton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JList<Tags> jList1;
     private javax.swing.JPopupMenu jList1PopupMenu;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -875,13 +1244,18 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JToolBar.Separator jSeparator6;
+    private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTree jTree1;
+    private javax.swing.JFileChooser openFileChooser;
     private javax.swing.JButton queryButton;
     private javax.swing.JMenuItem refreshMenuItem;
+    private javax.swing.JMenuItem restoreMenuItem;
     private javax.swing.JTable resultsTable;
     private javax.swing.JPopupMenu resultsTablePopupMenu;
+    private javax.swing.JFileChooser saveFileChooser;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchTextField;
     private javax.swing.JCheckBox showTransCheckBox;

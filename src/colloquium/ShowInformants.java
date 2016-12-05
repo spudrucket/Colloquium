@@ -180,8 +180,9 @@ public class ShowInformants extends javax.swing.JFrame {
         Informants selectedInformant = null;
         if (jTable1.isRowSelected(jTable1.getSelectedRow())) {
             for (Informants i : informantsList) {
-                if (i.getId() == jTable1.getValueAt(jTable1.getSelectedRow(), idColumn)) {
+                if (i.getId().equals(jTable1.getValueAt(jTable1.getSelectedRow(), idColumn))) {
                 selectedInformant = i;
+                break;
                 }
             }
         }
@@ -222,6 +223,10 @@ public class ShowInformants extends javax.swing.JFrame {
                 } catch (NonexistentEntityException ex) {
                     Logger.getLogger(ShowInformants.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
+            this.setVisible(false);
+            ShowInformants si = new ShowInformants();
+            si.setVisible(true);
             }
         }  
     }//GEN-LAST:event_deleteInformantButtonActionPerformed

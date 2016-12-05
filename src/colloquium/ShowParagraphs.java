@@ -6,6 +6,7 @@
 package colloquium;
 
 import colloquium.exceptions.NonexistentEntityException;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
@@ -124,8 +125,9 @@ public class ShowParagraphs extends javax.swing.JFrame {
         Paragraphs selectedParagraph = null;
         if (jTable1.isRowSelected(jTable1.getSelectedRow())) {
             for (Paragraphs p : paragraphsList) {
-                if (p.getId() == jTable1.getValueAt(jTable1.getSelectedRow(), idColumn)) {
+                if (p.getId().equals(jTable1.getValueAt(jTable1.getSelectedRow(), idColumn))) {
                 selectedParagraph = p;
+                break;
                 }
             }
         }
@@ -133,6 +135,25 @@ public class ShowParagraphs extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Please first select a paragraph.");
         }
         return selectedParagraph;
+    }
+    
+    private LinkedList<Paragraphs> getSelectedParagraphs() {
+        LinkedList<Paragraphs> selectedParagraphs = new LinkedList();
+        if (jTable1.isRowSelected(jTable1.getSelectedRow())){
+            int[] paragraphsArray = jTable1.getSelectedRows();
+            for (int i = 0; i < paragraphsArray.length; i++) {
+                for (Paragraphs p : paragraphsList) {
+                    if (jTable1.getValueAt(paragraphsArray[i], idColumn) == p.getId()) {
+                        selectedParagraphs.add(p);
+                        break;
+                    }
+                }
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null,"Please first select a Paragraph.");
+        }
+        return selectedParagraphs;
     }
     
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
@@ -150,13 +171,20 @@ public class ShowParagraphs extends javax.swing.JFrame {
             int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this Paragraph?");
             if (confirm == 0) {
                 EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
-                ParagraphsJpaController pjc = new ParagraphsJpaController(emf);                
-                try {
-                    pjc.destroy(getSelectedParagraph().getId());
-                } catch (NonexistentEntityException ex) {
-                    Logger.getLogger(ShowParagraphs.class.getName()).log(Level.SEVERE, null, ex);
-                }                                                
+                LinkedList<Paragraphs> selectedParagraphs = getSelectedParagraphs();
+                for (Paragraphs p : selectedParagraphs) {
+                    ParagraphsJpaController pjc = new ParagraphsJpaController(emf);                
+                    try {
+                        pjc.destroy(p.getId());
+                    } catch (NonexistentEntityException ex) {
+                        Logger.getLogger(ShowParagraphs.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }                                                                
             }
+            
+            this.setVisible(false);
+            ShowParagraphs sp = new ShowParagraphs();
+            sp.setVisible(true);
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
 

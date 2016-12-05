@@ -5,8 +5,8 @@
  */
 package colloquium;
 
-import static colloquium.ShowInformants.idColumn;
 import colloquium.exceptions.NonexistentEntityException;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
@@ -123,12 +123,14 @@ public class ShowTags extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private Tags getSelectedTag () {
+    private Tags getSelectedTag() {
+               
         Tags selectedTag = null;
         if (jTable1.isRowSelected(jTable1.getSelectedRow())) {
-            for (Tags i : tagsList) {
-                if (i.getId() == jTable1.getValueAt(jTable1.getSelectedRow(), idColumn)) {
-                selectedTag = i;
+            for (Tags t : tagsList) {
+                if (t.getId().equals(jTable1.getValueAt(jTable1.getSelectedRow(), idColumn))) {
+                    selectedTag = t;
+                    break;
                 }
             }
         }
@@ -136,6 +138,25 @@ public class ShowTags extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Please first select a tag.");
         }
         return selectedTag;
+    }
+    
+    private LinkedList<Tags> getSelectedTags() {
+        LinkedList<Tags> selectedTags = new LinkedList();
+        if (jTable1.getSelectedRows().length > 0) {
+            int[] tagsArray = jTable1.getSelectedRows();
+            for (int i = 0; i < tagsArray.length; i++) {
+                for (Tags t : tagsList) {
+                    if (jTable1.getValueAt(tagsArray[i], idColumn) == t.getId()) {
+                        selectedTags.add(t);
+                        break;
+                    }
+                }
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null,"Please first select a tag.");
+        }
+        return selectedTags;
     }
     
     private void addNewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewButtonActionPerformed
@@ -153,16 +174,20 @@ public class ShowTags extends javax.swing.JFrame {
     }//GEN-LAST:event_updateTagButtonActionPerformed
 
     private void deleteTagButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteTagButtonActionPerformed
-        if (getSelectedTag() != null) {
-            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this Tag?");
+        if (getSelectedTags().size() > 0) {
+            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this Tag(s)?");
             if (confirm == 0) {
+                LinkedList<Tags> selectedTags = getSelectedTags();
                 EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
-                TagsJpaController tjc = new TagsJpaController(emf);
-                try {
-                    tjc.destroy(getSelectedTag().getId());
-                } catch (NonexistentEntityException ex) {
-                    Logger.getLogger(ShowTags.class.getName()).log(Level.SEVERE, null, ex);
-                }
+
+                for (Tags t : selectedTags) {
+                        TagsJpaController tjc = new TagsJpaController(emf);
+                    try {
+                        tjc.destroy(t.getId());
+                    } catch (NonexistentEntityException ex) {
+                        Logger.getLogger(ShowTags.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }                               
             }
         }
         
