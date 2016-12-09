@@ -35,9 +35,8 @@ import org.apache.lucene.store.RAMDirectory;
  * @author Mark_K
  */
 public class LocalSearch {
-//    List<Paragraphs> paragraphsList;
-//    String searchString;
-    static int MAX_RESULTS = 100;
+
+    static int MAX_RESULTS = Integer.MAX_VALUE;
      
     
     public LocalSearch() { 
@@ -114,11 +113,11 @@ public class LocalSearch {
         IndexSearcher searcher = new IndexSearcher(reader);
         TopDocs docs = searcher.search(q, MAX_RESULTS);
         ScoreDoc[] hits = docs.scoreDocs;
-        LinkedList<String> idList = new LinkedList();
+        LinkedList<Integer> idList = new LinkedList();
         for (int i = 0; i < hits.length; ++i) {
             int docId = hits[i].doc;
             Document d = searcher.doc(docId);
-            idList.add(d.get("id"));
+            idList.add(Integer.parseInt(d.get("id")));
         }
         return idList;                   
     }

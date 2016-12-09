@@ -48,124 +48,156 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="selectInformantLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="selectInformantComboBox" min="-2" pref="243" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="surnameLabel" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
-                              <Component id="firstNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="nickNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="genderLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="selectInformantLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="selectInformantComboBox" min="-2" pref="243" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="surnameTextField" alignment="0" max="32767" attributes="0"/>
-                              <Component id="nickNameTextField" alignment="0" max="32767" attributes="0"/>
-                              <Component id="genderComboBox" alignment="0" max="32767" attributes="0"/>
-                              <Component id="firstNameTextField" alignment="0" min="-2" pref="218" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="marriageLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="marriageComboBox" min="-2" pref="218" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="surnameLabel" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
+                                      <Component id="firstNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="nickNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="genderLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="surnameTextField" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="nickNameTextField" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="genderComboBox" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="firstNameTextField" alignment="0" min="-2" pref="218" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="marriageLabel" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="marriageComboBox" min="-2" pref="218" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                              <Component id="clanLabel" alignment="1" max="32767" attributes="0"/>
+                                              <Component id="tribeLabel" alignment="1" min="-2" pref="55" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="clanTextField" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="tribeTextField" alignment="0" min="-2" pref="218" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="numberOfChildrenLabel" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="clanLabel" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="tribeLabel" alignment="1" min="-2" pref="55" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="clanTextField" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="tribeTextField" alignment="0" min="-2" pref="218" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="numberOfChildrenLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="secondaryLangLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="other2Label" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="secondaryLangTextField" alignment="0" min="-2" pref="216" max="-2" attributes="0"/>
-                              <Component id="other2TextField" alignment="0" min="-2" pref="216" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="economicLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="professionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="educationLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="religionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="other1Label" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="other3Label" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="economicTextField" alignment="0" min="-2" pref="216" max="-2" attributes="0"/>
-                              <Component id="professionTextField" alignment="1" min="-2" pref="216" max="-2" attributes="0"/>
-                              <Component id="educationTextField" alignment="1" min="-2" pref="216" max="-2" attributes="0"/>
-                              <Component id="religionTextField" alignment="1" min="-2" pref="216" max="-2" attributes="0"/>
-                              <Component id="other1TextField" alignment="1" min="-2" pref="216" max="-2" attributes="0"/>
-                              <Component id="other3TextField" alignment="1" min="-2" pref="216" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="primaryLangLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="primaryLangTextField" min="-2" pref="219" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="ageLabel" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                          <Component id="birthPlaceLabel" alignment="0" min="-2" pref="69" max="-2" attributes="0"/>
-                                          <Component id="residenceLabel" alignment="1" min="-2" pref="69" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                                          <Component id="primaryLangLabel" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="primaryLangTextField" min="-2" pref="219" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="birthPlaceTextField" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
-                                              <Component id="residenceTextField" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
+                                              <Component id="ageLabel" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
+                                              <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                                  <Component id="birthPlaceLabel" alignment="0" min="-2" pref="69" max="-2" attributes="0"/>
+                                                  <Component id="residenceLabel" alignment="1" min="-2" pref="69" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                      <Component id="birthPlaceTextField" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
+                                                      <Component id="residenceTextField" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                                  <Component id="ageSpinner" min="-2" pref="217" max="-2" attributes="0"/>
+                                              </Group>
                                           </Group>
                                       </Group>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
+                                  <Component id="numberOfChildrenSpinner" min="-2" pref="218" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="secondaryLangLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="other2Label" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="secondaryLangTextField" alignment="0" min="-2" pref="216" max="-2" attributes="0"/>
+                                              <Component id="other2TextField" alignment="0" min="-2" pref="216" max="-2" attributes="0"/>
+                                              <Component id="other4TextField" alignment="0" min="-2" pref="216" max="-2" attributes="0"/>
+                                              <Component id="other6TextField" alignment="0" min="-2" pref="216" max="-2" attributes="0"/>
+                                              <Component id="other8TextField" alignment="0" min="-2" pref="216" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <Component id="other3Label5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="other3Label1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="other3Label3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="separate" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="1" attributes="0">
-                                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                          <Component id="ageSpinner" min="-2" pref="217" max="-2" attributes="0"/>
+                                          <Component id="other3Label6" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="other9TextField" min="-2" pref="216" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="other5TextField" alignment="1" min="-2" pref="216" max="-2" attributes="0"/>
+                                      <Component id="other7TextField" alignment="1" min="-2" pref="216" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="economicLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="professionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="educationLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="religionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="other1Label" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="other3Label" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="economicTextField" alignment="0" min="-2" pref="216" max="-2" attributes="0"/>
+                                              <Component id="professionTextField" alignment="1" min="-2" pref="216" max="-2" attributes="0"/>
+                                              <Component id="educationTextField" alignment="1" min="-2" pref="216" max="-2" attributes="0"/>
+                                              <Component id="religionTextField" alignment="1" min="-2" pref="216" max="-2" attributes="0"/>
+                                              <Component id="other1TextField" alignment="1" min="-2" pref="216" max="-2" attributes="0"/>
+                                              <Component id="other3TextField" alignment="1" min="-2" pref="216" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="other3Label2" min="-2" max="-2" attributes="0"/>
+                                              <Component id="other3Label4" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
-                          <Component id="numberOfChildrenSpinner" min="-2" pref="218" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="updateInformantButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="cancelButton" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="updateInformantButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="cancelButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -277,7 +309,30 @@
                   <Component id="other3Label" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="other3TextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="24" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="other3Label1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="other4TextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="other3Label2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="other5TextField" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                      <Component id="other6TextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="other3Label4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="other7TextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="other3Label3" alignment="1" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="other3Label5" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="other8TextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="other3Label6" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="other9TextField" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="23" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="updateInformantButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -499,6 +554,48 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Economic Status:"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="other3Label1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Other 4:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="other4TextField">
+    </Component>
+    <Component class="javax.swing.JLabel" name="other3Label2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Other 5:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="other5TextField">
+    </Component>
+    <Component class="javax.swing.JLabel" name="other3Label3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Other 6:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="other6TextField">
+    </Component>
+    <Component class="javax.swing.JLabel" name="other3Label4">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Other 7:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="other7TextField">
+    </Component>
+    <Component class="javax.swing.JLabel" name="other3Label5">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Other 8:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="other8TextField">
+    </Component>
+    <Component class="javax.swing.JLabel" name="other3Label6">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Other 9:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="other9TextField">
     </Component>
   </SubComponents>
 </Form>

@@ -73,6 +73,18 @@ public class AddInformant extends javax.swing.JFrame {
         other3TextField = new javax.swing.JTextField();
         cancelButton = new javax.swing.JButton();
         instructionsLabel = new javax.swing.JLabel();
+        other3Label1 = new javax.swing.JLabel();
+        other4TextField = new javax.swing.JTextField();
+        other3Label2 = new javax.swing.JLabel();
+        other5TextField = new javax.swing.JTextField();
+        other3Label3 = new javax.swing.JLabel();
+        other6TextField = new javax.swing.JTextField();
+        other3Label4 = new javax.swing.JLabel();
+        other7TextField = new javax.swing.JTextField();
+        other3Label5 = new javax.swing.JLabel();
+        other8TextField = new javax.swing.JTextField();
+        other3Label6 = new javax.swing.JLabel();
+        other9TextField = new javax.swing.JTextField();
 
         setTitle("Add New Informant");
         setPreferredSize(new java.awt.Dimension(800, 600));
@@ -97,7 +109,7 @@ public class AddInformant extends javax.swing.JFrame {
 
         genderLabel.setText("Gender:");
 
-        genderComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
+        genderComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Male", "Female" }));
         genderComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 genderComboBoxActionPerformed(evt);
@@ -120,7 +132,7 @@ public class AddInformant extends javax.swing.JFrame {
 
         marriageLabel.setText("Marital Status:");
 
-        marriageComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Single", "Married", "Divorced" }));
+        marriageComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Single", "Married", "Divorced" }));
         marriageComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 marriageComboBoxActionPerformed(evt);
@@ -160,6 +172,18 @@ public class AddInformant extends javax.swing.JFrame {
         });
 
         instructionsLabel.setText("*Nick Name is a required field and must be unique.");
+
+        other3Label1.setText("Other 4:");
+
+        other3Label2.setText("Other 5:");
+
+        other3Label3.setText("Other 6:");
+
+        other3Label4.setText("Other 7:");
+
+        other3Label5.setText("Other 8:");
+
+        other3Label6.setText("Other 9:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -223,29 +247,59 @@ public class AddInformant extends javax.swing.JFrame {
                                         .addComponent(numberOfChildrenLabel)
                                         .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(secondaryLangLabel)
-                                    .addComponent(other2Label))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(secondaryLangTextField)
-                                    .addComponent(other2TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(other3Label1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(other4TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(secondaryLangLabel)
+                                            .addComponent(other2Label))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(secondaryLangTextField)
+                                            .addComponent(other2TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(other3Label3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(other6TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(other3Label5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(other8TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(economicLabel)
-                                    .addComponent(professionLabel)
-                                    .addComponent(educationLabel)
-                                    .addComponent(religionLabel)
-                                    .addComponent(other1Label)
-                                    .addComponent(other3Label))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(religionTextField)
-                                    .addComponent(educationTextField)
-                                    .addComponent(professionTextField)
-                                    .addComponent(economicTextField)
-                                    .addComponent(other1TextField)
-                                    .addComponent(other3TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(economicLabel)
+                                            .addComponent(professionLabel)
+                                            .addComponent(educationLabel)
+                                            .addComponent(religionLabel)
+                                            .addComponent(other1Label)
+                                            .addComponent(other3Label))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(religionTextField)
+                                            .addComponent(educationTextField)
+                                            .addComponent(professionTextField)
+                                            .addComponent(economicTextField)
+                                            .addComponent(other1TextField)
+                                            .addComponent(other3TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(other3Label6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(other9TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(other3Label2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(other5TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(other3Label4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(other7TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -340,7 +394,26 @@ public class AddInformant extends javax.swing.JFrame {
                     .addComponent(other2TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(other3Label)
                     .addComponent(other3TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(other3Label1)
+                    .addComponent(other4TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(other3Label2)
+                    .addComponent(other5TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(other6TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(other3Label4)
+                        .addComponent(other7TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(other3Label3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(other3Label5)
+                    .addComponent(other8TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(other3Label6)
+                    .addComponent(other9TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addInformantButton)
                     .addComponent(cancelButton))
@@ -386,6 +459,12 @@ public class AddInformant extends javax.swing.JFrame {
         newInformant.setOther1(other1TextField.getText());
         newInformant.setOther2(other2TextField.getText());
         newInformant.setOther3(other3TextField.getText());
+        newInformant.setOther4(other4TextField.getText());
+        newInformant.setOther5(other5TextField.getText());
+        newInformant.setOther6(other6TextField.getText());
+        newInformant.setOther7(other7TextField.getText());
+        newInformant.setOther8(other8TextField.getText());
+        newInformant.setOther9(other9TextField.getText());
              
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
         InformantsJpaController ijc = new InformantsJpaController(emf);
@@ -467,7 +546,19 @@ public class AddInformant extends javax.swing.JFrame {
     private javax.swing.JLabel other2Label;
     private javax.swing.JTextField other2TextField;
     private javax.swing.JLabel other3Label;
+    private javax.swing.JLabel other3Label1;
+    private javax.swing.JLabel other3Label2;
+    private javax.swing.JLabel other3Label3;
+    private javax.swing.JLabel other3Label4;
+    private javax.swing.JLabel other3Label5;
+    private javax.swing.JLabel other3Label6;
     private javax.swing.JTextField other3TextField;
+    private javax.swing.JTextField other4TextField;
+    private javax.swing.JTextField other5TextField;
+    private javax.swing.JTextField other6TextField;
+    private javax.swing.JTextField other7TextField;
+    private javax.swing.JTextField other8TextField;
+    private javax.swing.JTextField other9TextField;
     private javax.swing.JLabel primaryLangLabel;
     private javax.swing.JTextField primaryLangTextField;
     private javax.swing.JLabel professionLabel;

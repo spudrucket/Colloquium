@@ -5,15 +5,19 @@
  */
 package colloquium;
 
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -25,12 +29,35 @@ import org.apache.lucene.queryparser.classic.ParseException;
 public class SearchWindow extends javax.swing.JFrame {
     
     List<Paragraphs> paragraphsList;
+    SortedListModel tagOrModel;
+    SortedListModel tagAndModel;
+    SortedListModel tagNotModel;
+    List<String> tagOrSelectedTags;
+    List<String> tagAndSelectedTags;
+    List<String> tagNotSelectedTags;
     
     /**
      * Creates new form SearchWindow
      */
     public SearchWindow() {
         initComponents();
+        popAdvancedSearch();
+        
+        searchTable.setDefaultRenderer(String.class, new LineWrapCellRenderer());
+        
+        EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
+        Query query = entityManager.createNamedQuery("Paragraphs.findAll");
+        this.paragraphsList = query.getResultList();
+    }
+    
+    public SearchWindow(Font font) {
+        initComponents();
+        tagOrModel = new SortedListModel();
+        tagAndModel = new SortedListModel();
+        tagNotModel = new SortedListModel();
+        popAdvancedSearch();
+        tagQueryTextField.setEnabled(false);
+        searchTable.setFont(font);
         searchTable.setDefaultRenderer(String.class, new LineWrapCellRenderer());
         
         EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
@@ -47,15 +74,997 @@ public class SearchWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        advancedSearchFrame = new javax.swing.JFrame();
+        jTabbedPane = new javax.swing.JTabbedPane();
+        informantsPanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        genderList = new javax.swing.JList<>();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        marriageList = new javax.swing.JList<>();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        ageList = new javax.swing.JList<>();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        birthplaceList = new javax.swing.JList<>();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        residenceList = new javax.swing.JList<>();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        primaryLangList = new javax.swing.JList<>();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        secondLangList = new javax.swing.JList<>();
+        jLabel7 = new javax.swing.JLabel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        numChildrenList = new javax.swing.JList<>();
+        jLabel8 = new javax.swing.JLabel();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        educationList = new javax.swing.JList<>();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        professionList = new javax.swing.JList<>();
+        jLabel10 = new javax.swing.JLabel();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        economicStatusList = new javax.swing.JList<>();
+        jLabel11 = new javax.swing.JLabel();
+        jScrollPane13 = new javax.swing.JScrollPane();
+        religionList = new javax.swing.JList<>();
+        jLabel12 = new javax.swing.JLabel();
+        jScrollPane14 = new javax.swing.JScrollPane();
+        clanList = new javax.swing.JList<>();
+        jLabel13 = new javax.swing.JLabel();
+        jScrollPane15 = new javax.swing.JScrollPane();
+        tribeList = new javax.swing.JList<>();
+        jLabel14 = new javax.swing.JLabel();
+        jScrollPane16 = new javax.swing.JScrollPane();
+        other1List = new javax.swing.JList<>();
+        jLabel15 = new javax.swing.JLabel();
+        jScrollPane17 = new javax.swing.JScrollPane();
+        other2List = new javax.swing.JList<>();
+        jLabel16 = new javax.swing.JLabel();
+        jScrollPane18 = new javax.swing.JScrollPane();
+        other3List = new javax.swing.JList<>();
+        jLabel17 = new javax.swing.JLabel();
+        jScrollPane19 = new javax.swing.JScrollPane();
+        other4List = new javax.swing.JList<>();
+        jLabel18 = new javax.swing.JLabel();
+        jScrollPane20 = new javax.swing.JScrollPane();
+        other5List = new javax.swing.JList<>();
+        jLabel19 = new javax.swing.JLabel();
+        jScrollPane21 = new javax.swing.JScrollPane();
+        other6List = new javax.swing.JList<>();
+        jLabel20 = new javax.swing.JLabel();
+        jScrollPane22 = new javax.swing.JScrollPane();
+        other7List = new javax.swing.JList<>();
+        jLabel21 = new javax.swing.JLabel();
+        jScrollPane23 = new javax.swing.JScrollPane();
+        other8List = new javax.swing.JList<>();
+        jLabel22 = new javax.swing.JLabel();
+        jScrollPane24 = new javax.swing.JScrollPane();
+        other9List = new javax.swing.JList<>();
+        jLabel23 = new javax.swing.JLabel();
+        interviewsPanel = new javax.swing.JPanel();
+        jScrollPane25 = new javax.swing.JScrollPane();
+        titleList = new javax.swing.JList<>();
+        jScrollPane26 = new javax.swing.JScrollPane();
+        interviewerList = new javax.swing.JList<>();
+        jScrollPane27 = new javax.swing.JScrollPane();
+        locationList = new javax.swing.JList<>();
+        jScrollPane28 = new javax.swing.JScrollPane();
+        dateList = new javax.swing.JList<>();
+        jScrollPane29 = new javax.swing.JScrollPane();
+        theme1List = new javax.swing.JList<>();
+        jScrollPane30 = new javax.swing.JScrollPane();
+        theme2List = new javax.swing.JList<>();
+        jScrollPane31 = new javax.swing.JScrollPane();
+        theme3List = new javax.swing.JList<>();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jScrollPane32 = new javax.swing.JScrollPane();
+        theme4List = new javax.swing.JList<>();
+        jScrollPane33 = new javax.swing.JScrollPane();
+        theme5List = new javax.swing.JList<>();
+        jScrollPane34 = new javax.swing.JScrollPane();
+        theme6List = new javax.swing.JList<>();
+        jScrollPane35 = new javax.swing.JScrollPane();
+        theme7List = new javax.swing.JList<>();
+        jScrollPane36 = new javax.swing.JScrollPane();
+        theme8List = new javax.swing.JList<>();
+        jScrollPane37 = new javax.swing.JScrollPane();
+        theme9List = new javax.swing.JList<>();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
+        jLabel36 = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        tagsPanel = new javax.swing.JPanel();
+        jScrollPane38 = new javax.swing.JScrollPane();
+        tagOrList = new javax.swing.JList<>();
+        jScrollPane39 = new javax.swing.JScrollPane();
+        tagAndList = new javax.swing.JList<>();
+        jScrollPane40 = new javax.swing.JScrollPane();
+        tagNotList = new javax.swing.JList<>();
+        jLabel40 = new javax.swing.JLabel();
+        jLabel41 = new javax.swing.JLabel();
+        jLabel42 = new javax.swing.JLabel();
+        clearSelectionButtion = new javax.swing.JButton();
+        tagQueryTextField = new javax.swing.JTextField();
+        editQueryButton = new javax.swing.JButton();
+        submitAdvancedSearchButton = new javax.swing.JButton();
+        jLabel31 = new javax.swing.JLabel();
+        informantsLabel = new javax.swing.JLabel();
+        jLabel38 = new javax.swing.JLabel();
+        interviewsLabel = new javax.swing.JLabel();
+        jLabel39 = new javax.swing.JLabel();
+        paragraphsLabel = new javax.swing.JLabel();
         searchTextField = new javax.swing.JTextField();
-        searchLabel = new javax.swing.JLabel();
         searchButton = new javax.swing.JButton();
         instructionsLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         searchTable = new javax.swing.JTable();
+        advancedSearchButton = new javax.swing.JButton();
+
+        advancedSearchFrame.setTitle("Advanced Search");
+        advancedSearchFrame.setMaximumSize(new java.awt.Dimension(1314, 730));
+        advancedSearchFrame.setMinimumSize(new java.awt.Dimension(1314, 730));
+        advancedSearchFrame.setPreferredSize(new java.awt.Dimension(1314, 730));
+        advancedSearchFrame.setSize(new java.awt.Dimension(1354, 730));
+
+        jTabbedPane.setName(""); // NOI18N
+
+        informantsPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        genderList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "None", "All", "Male", "Female" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        genderList.setMaximumSize(new java.awt.Dimension(92, 144));
+        genderList.setMinimumSize(new java.awt.Dimension(92, 144));
+        genderList.setPreferredSize(new java.awt.Dimension(92, 144));
+        genderList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                genderListValueChanged(evt);
+            }
+        });
+        jScrollPane2.setViewportView(genderList);
+
+        jLabel1.setText("Gender");
+
+        jLabel2.setText("Marital Status");
+
+        marriageList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "None", "All", "Single", "Married", "Divorced" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        marriageList.setMaximumSize(new java.awt.Dimension(92, 144));
+        marriageList.setMinimumSize(new java.awt.Dimension(92, 144));
+        marriageList.setPreferredSize(new java.awt.Dimension(92, 144));
+        marriageList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                marriageListValueChanged(evt);
+            }
+        });
+        jScrollPane3.setViewportView(marriageList);
+
+        ageList.setMaximumSize(new java.awt.Dimension(92, 144));
+        ageList.setMinimumSize(new java.awt.Dimension(92, 144));
+        ageList.setPreferredSize(new java.awt.Dimension(92, 144));
+        ageList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                ageListValueChanged(evt);
+            }
+        });
+        jScrollPane4.setViewportView(ageList);
+
+        birthplaceList.setMinimumSize(null);
+        birthplaceList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                birthplaceListValueChanged(evt);
+            }
+        });
+        jScrollPane5.setViewportView(birthplaceList);
+
+        jLabel3.setText("Age");
+
+        jLabel4.setText("P.O.B.");
+
+        jScrollPane6.setMinimumSize(null);
+
+        residenceList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                residenceListValueChanged(evt);
+            }
+        });
+        jScrollPane6.setViewportView(residenceList);
+
+        jLabel5.setText("Residence");
+
+        primaryLangList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                primaryLangListValueChanged(evt);
+            }
+        });
+        jScrollPane7.setViewportView(primaryLangList);
+
+        jLabel6.setText("1st Lang");
+
+        secondLangList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                secondLangListValueChanged(evt);
+            }
+        });
+        jScrollPane8.setViewportView(secondLangList);
+
+        jLabel7.setText("2nd Lang");
+
+        numChildrenList.setMaximumSize(new java.awt.Dimension(92, 144));
+        numChildrenList.setMinimumSize(new java.awt.Dimension(92, 144));
+        numChildrenList.setPreferredSize(new java.awt.Dimension(92, 144));
+        numChildrenList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                numChildrenListValueChanged(evt);
+            }
+        });
+        jScrollPane9.setViewportView(numChildrenList);
+
+        jLabel8.setText("Num of Children");
+
+        jScrollPane10.setPreferredSize(new java.awt.Dimension(92, 144));
+
+        educationList.setMaximumSize(new java.awt.Dimension(92, 144));
+        educationList.setMinimumSize(new java.awt.Dimension(92, 144));
+        educationList.setPreferredSize(new java.awt.Dimension(92, 144));
+        educationList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                educationListValueChanged(evt);
+            }
+        });
+        jScrollPane10.setViewportView(educationList);
+
+        jLabel9.setText("Education");
+
+        professionList.setMaximumSize(new java.awt.Dimension(92, 144));
+        professionList.setMinimumSize(new java.awt.Dimension(92, 144));
+        professionList.setPreferredSize(new java.awt.Dimension(92, 144));
+        professionList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                professionListValueChanged(evt);
+            }
+        });
+        jScrollPane11.setViewportView(professionList);
+
+        jLabel10.setText("Profession");
+
+        economicStatusList.setMaximumSize(new java.awt.Dimension(92, 144));
+        economicStatusList.setMinimumSize(new java.awt.Dimension(92, 144));
+        economicStatusList.setPreferredSize(new java.awt.Dimension(92, 144));
+        economicStatusList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                economicStatusListValueChanged(evt);
+            }
+        });
+        jScrollPane12.setViewportView(economicStatusList);
+
+        jLabel11.setText("Economic Status");
+
+        religionList.setMaximumSize(new java.awt.Dimension(92, 144));
+        religionList.setMinimumSize(new java.awt.Dimension(92, 144));
+        religionList.setPreferredSize(new java.awt.Dimension(92, 144));
+        religionList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                religionListValueChanged(evt);
+            }
+        });
+        jScrollPane13.setViewportView(religionList);
+
+        jLabel12.setText("Religion");
+
+        clanList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                clanListValueChanged(evt);
+            }
+        });
+        jScrollPane14.setViewportView(clanList);
+
+        jLabel13.setText("Clan");
+
+        tribeList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                tribeListValueChanged(evt);
+            }
+        });
+        jScrollPane15.setViewportView(tribeList);
+
+        jLabel14.setText("Tribe");
+
+        other1List.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                other1ListValueChanged(evt);
+            }
+        });
+        jScrollPane16.setViewportView(other1List);
+
+        jLabel15.setText("Other 1");
+
+        other2List.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                other2ListValueChanged(evt);
+            }
+        });
+        jScrollPane17.setViewportView(other2List);
+
+        jLabel16.setText("Other 2");
+
+        other3List.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                other3ListValueChanged(evt);
+            }
+        });
+        jScrollPane18.setViewportView(other3List);
+
+        jLabel17.setText("Other 3");
+
+        other4List.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                other4ListValueChanged(evt);
+            }
+        });
+        jScrollPane19.setViewportView(other4List);
+
+        jLabel18.setText("Other 4");
+
+        other5List.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                other5ListValueChanged(evt);
+            }
+        });
+        jScrollPane20.setViewportView(other5List);
+
+        jLabel19.setText("Other 5");
+
+        other6List.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                other6ListValueChanged(evt);
+            }
+        });
+        jScrollPane21.setViewportView(other6List);
+
+        jLabel20.setText("Other 6");
+
+        other7List.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                other7ListValueChanged(evt);
+            }
+        });
+        jScrollPane22.setViewportView(other7List);
+
+        jLabel21.setText("Other 7");
+
+        other8List.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                other8ListValueChanged(evt);
+            }
+        });
+        jScrollPane23.setViewportView(other8List);
+
+        jLabel22.setText("Other 8");
+
+        other9List.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                other9ListValueChanged(evt);
+            }
+        });
+        jScrollPane24.setViewportView(other9List);
+
+        jLabel23.setText("Other 9");
+
+        javax.swing.GroupLayout informantsPanelLayout = new javax.swing.GroupLayout(informantsPanel);
+        informantsPanel.setLayout(informantsPanelLayout);
+        informantsPanelLayout.setHorizontalGroup(
+            informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(informantsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(informantsPanelLayout.createSequentialGroup()
+                        .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(informantsPanelLayout.createSequentialGroup()
+                                .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(informantsPanelLayout.createSequentialGroup()
+                                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(informantsPanelLayout.createSequentialGroup()
+                                        .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel6)
+                                            .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel7)
+                                            .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))))
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(informantsPanelLayout.createSequentialGroup()
+                                .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel9))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel10))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(informantsPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addGap(131, 131, 131)
+                                .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(informantsPanelLayout.createSequentialGroup()
+                                        .addComponent(jLabel14)
+                                        .addGap(126, 126, 126)
+                                        .addComponent(jLabel15))
+                                    .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel12)
+                            .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
+                            .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(informantsPanelLayout.createSequentialGroup()
+                        .addGap(73, 73, 73)
+                        .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel17))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel18)
+                            .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel19)
+                            .addComponent(jScrollPane20, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel20)
+                            .addComponent(jScrollPane21, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel21)
+                            .addComponent(jScrollPane22, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel22)
+                            .addComponent(jScrollPane23, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel23)
+                            .addComponent(jScrollPane24, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
+        );
+
+        informantsPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane10, jScrollPane11, jScrollPane12, jScrollPane13, jScrollPane2, jScrollPane3, jScrollPane4, jScrollPane9});
+
+        informantsPanelLayout.setVerticalGroup(
+            informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(informantsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(informantsPanelLayout.createSequentialGroup()
+                        .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel2))
+                            .addComponent(jLabel1)
+                            .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel8)
+                                .addComponent(jLabel9)
+                                .addComponent(jLabel10)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane3)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(informantsPanelLayout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(jLabel11)
+                    .addGroup(informantsPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addGap(9, 9, 9)
+                        .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel13))
+                        .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel16)))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane16)
+                        .addComponent(jScrollPane17)
+                        .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel18)
+                    .addComponent(jLabel19)
+                    .addComponent(jLabel20)
+                    .addComponent(jLabel21)
+                    .addComponent(jLabel22)
+                    .addComponent(jLabel23))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(informantsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane24)
+                    .addComponent(jScrollPane23)
+                    .addComponent(jScrollPane22)
+                    .addComponent(jScrollPane21)
+                    .addComponent(jScrollPane20)
+                    .addComponent(jScrollPane18)
+                    .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(195, 195, 195))
+        );
+
+        informantsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jScrollPane10, jScrollPane11, jScrollPane12, jScrollPane13, jScrollPane2, jScrollPane3, jScrollPane4, jScrollPane9});
+
+        jTabbedPane.addTab("Informants", informantsPanel);
+
+        interviewsPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        interviewsPanel.setPreferredSize(new java.awt.Dimension(1262, 733));
+
+        titleList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                titleListValueChanged(evt);
+            }
+        });
+        jScrollPane25.setViewportView(titleList);
+
+        interviewerList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                interviewerListValueChanged(evt);
+            }
+        });
+        jScrollPane26.setViewportView(interviewerList);
+
+        locationList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                locationListValueChanged(evt);
+            }
+        });
+        jScrollPane27.setViewportView(locationList);
+
+        dateList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                dateListValueChanged(evt);
+            }
+        });
+        jScrollPane28.setViewportView(dateList);
+
+        theme1List.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                theme1ListValueChanged(evt);
+            }
+        });
+        jScrollPane29.setViewportView(theme1List);
+
+        theme2List.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                theme2ListValueChanged(evt);
+            }
+        });
+        jScrollPane30.setViewportView(theme2List);
+
+        theme3List.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                theme3ListValueChanged(evt);
+            }
+        });
+        jScrollPane31.setViewportView(theme3List);
+
+        jLabel24.setText("Theme 3");
+
+        jLabel25.setText("Theme 2");
+
+        jLabel26.setText("Theme 1");
+
+        jLabel27.setText("Date");
+
+        jLabel28.setText("Location");
+
+        jLabel29.setText("Interviewer");
+
+        jLabel30.setText("Title");
+
+        theme4List.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                theme4ListValueChanged(evt);
+            }
+        });
+        jScrollPane32.setViewportView(theme4List);
+
+        theme5List.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                theme5ListValueChanged(evt);
+            }
+        });
+        jScrollPane33.setViewportView(theme5List);
+
+        theme6List.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                theme6ListValueChanged(evt);
+            }
+        });
+        jScrollPane34.setViewportView(theme6List);
+
+        theme7List.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                theme7ListValueChanged(evt);
+            }
+        });
+        jScrollPane35.setViewportView(theme7List);
+
+        theme8List.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                theme8ListValueChanged(evt);
+            }
+        });
+        jScrollPane36.setViewportView(theme8List);
+
+        theme9List.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                theme9ListValueChanged(evt);
+            }
+        });
+        jScrollPane37.setViewportView(theme9List);
+
+        jLabel32.setText("Theme 9");
+
+        jLabel33.setText("Theme 8");
+
+        jLabel34.setText("Theme 7");
+
+        jLabel35.setText("Theme 6");
+
+        jLabel36.setText("Theme 5");
+
+        jLabel37.setText("Theme 4");
+
+        javax.swing.GroupLayout interviewsPanelLayout = new javax.swing.GroupLayout(interviewsPanel);
+        interviewsPanel.setLayout(interviewsPanelLayout);
+        interviewsPanelLayout.setHorizontalGroup(
+            interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(interviewsPanelLayout.createSequentialGroup()
+                .addGroup(interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(interviewsPanelLayout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addGroup(interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane25, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel30))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel29)
+                            .addComponent(jScrollPane26, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel28)
+                            .addComponent(jScrollPane27, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel27)
+                            .addComponent(jScrollPane28, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel26)
+                            .addComponent(jScrollPane29, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel25)
+                            .addComponent(jScrollPane30, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel24)
+                            .addComponent(jScrollPane31, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(interviewsPanelLayout.createSequentialGroup()
+                        .addGap(157, 157, 157)
+                        .addGroup(interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane32, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel37))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel36)
+                            .addComponent(jScrollPane33, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel35)
+                            .addComponent(jScrollPane34, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel34)
+                            .addComponent(jScrollPane35, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel33)
+                            .addComponent(jScrollPane36, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel32)
+                            .addComponent(jScrollPane37, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(93, Short.MAX_VALUE))
+        );
+        interviewsPanelLayout.setVerticalGroup(
+            interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(interviewsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel30)
+                    .addComponent(jLabel29)
+                    .addComponent(jLabel28)
+                    .addComponent(jLabel27)
+                    .addComponent(jLabel26)
+                    .addComponent(jLabel25)
+                    .addComponent(jLabel24))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane31)
+                    .addComponent(jScrollPane30)
+                    .addComponent(jScrollPane29)
+                    .addComponent(jScrollPane28)
+                    .addComponent(jScrollPane25, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane26)
+                    .addComponent(jScrollPane27))
+                .addGap(9, 9, 9)
+                .addGroup(interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel37)
+                    .addComponent(jLabel36)
+                    .addComponent(jLabel35)
+                    .addComponent(jLabel34)
+                    .addComponent(jLabel33)
+                    .addComponent(jLabel32))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(interviewsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane37)
+                    .addComponent(jScrollPane36)
+                    .addComponent(jScrollPane35)
+                    .addComponent(jScrollPane32, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane34, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane33, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        jTabbedPane.addTab("Interviews", interviewsPanel);
+
+        tagsPanel.setMaximumSize(new java.awt.Dimension(1285, 562));
+        tagsPanel.setPreferredSize(new java.awt.Dimension(1262, 733));
+
+        tagOrList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tagOrListMouseClicked(evt);
+            }
+        });
+        tagOrList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                tagOrListValueChanged(evt);
+            }
+        });
+        jScrollPane38.setViewportView(tagOrList);
+
+        tagAndList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tagAndListMouseClicked(evt);
+            }
+        });
+        tagAndList.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tagAndListPropertyChange(evt);
+            }
+        });
+        jScrollPane39.setViewportView(tagAndList);
+
+        tagNotList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tagNotListMouseClicked(evt);
+            }
+        });
+        tagNotList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                tagNotListValueChanged(evt);
+            }
+        });
+        jScrollPane40.setViewportView(tagNotList);
+
+        jLabel40.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel40.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel40.setText("OR");
+
+        jLabel41.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel41.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel41.setText("AND");
+
+        jLabel42.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel42.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel42.setText("NOT");
+
+        clearSelectionButtion.setText("Reset");
+        clearSelectionButtion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearSelectionButtionActionPerformed(evt);
+            }
+        });
+
+        editQueryButton.setText("Toggle Edit");
+        editQueryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editQueryButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout tagsPanelLayout = new javax.swing.GroupLayout(tagsPanel);
+        tagsPanel.setLayout(tagsPanelLayout);
+        tagsPanelLayout.setHorizontalGroup(
+            tagsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tagsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(tagsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tagsPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(editQueryButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(clearSelectionButtion))
+                    .addComponent(tagQueryTextField)
+                    .addGroup(tagsPanelLayout.createSequentialGroup()
+                        .addGroup(tagsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel40, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane38, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE))
+                        .addGap(101, 101, 101)
+                        .addGroup(tagsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane39))
+                        .addGap(114, 114, 114)
+                        .addGroup(tagsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane40)
+                            .addComponent(jLabel42, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 249, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        tagsPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane38, jScrollPane39, jScrollPane40});
+
+        tagsPanelLayout.setVerticalGroup(
+            tagsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tagsPanelLayout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addGroup(tagsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel40)
+                    .addComponent(jLabel41)
+                    .addComponent(jLabel42))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(tagsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane39)
+                    .addComponent(jScrollPane38)
+                    .addComponent(jScrollPane40, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(tagQueryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGroup(tagsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clearSelectionButtion)
+                    .addComponent(editQueryButton))
+                .addContainerGap())
+        );
+
+        jTabbedPane.addTab("Tags", tagsPanel);
+
+        submitAdvancedSearchButton.setText("Show Paragrahs");
+        submitAdvancedSearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitAdvancedSearchButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel31.setText("Informants = ");
+
+        informantsLabel.setText("0");
+
+        jLabel38.setText("Interviews = ");
+
+        interviewsLabel.setText("0");
+
+        jLabel39.setText("Paragraphs = ");
+
+        paragraphsLabel.setText("0");
+
+        javax.swing.GroupLayout advancedSearchFrameLayout = new javax.swing.GroupLayout(advancedSearchFrame.getContentPane());
+        advancedSearchFrame.getContentPane().setLayout(advancedSearchFrameLayout);
+        advancedSearchFrameLayout.setHorizontalGroup(
+            advancedSearchFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(advancedSearchFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(advancedSearchFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(advancedSearchFrameLayout.createSequentialGroup()
+                        .addComponent(jLabel31)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(informantsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(61, 61, 61)
+                        .addComponent(jLabel38)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(interviewsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(jLabel39)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(paragraphsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(632, 632, 632)
+                        .addComponent(submitAdvancedSearchButton))
+                    .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        advancedSearchFrameLayout.setVerticalGroup(
+            advancedSearchFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(advancedSearchFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(advancedSearchFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(submitAdvancedSearchButton)
+                    .addComponent(jLabel31)
+                    .addComponent(informantsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel38)
+                    .addComponent(interviewsLabel)
+                    .addComponent(jLabel39)
+                    .addComponent(paragraphsLabel))
+                .addContainerGap(82, Short.MAX_VALUE))
+        );
+
+        jTabbedPane.getAccessibleContext().setAccessibleName("Informants");
 
         setTitle("Search");
 
+        searchTextField.setText("Search all tags");
         searchTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 searchTextFieldFocusGained(evt);
@@ -66,8 +1075,6 @@ public class SearchWindow extends javax.swing.JFrame {
                 searchTextFieldKeyPressed(evt);
             }
         });
-
-        searchLabel.setText("Search Tags");
 
         searchButton.setText("Search");
         searchButton.addActionListener(new java.awt.event.ActionListener() {
@@ -112,6 +1119,14 @@ public class SearchWindow extends javax.swing.JFrame {
             searchTable.getColumnModel().getColumn(4).setMaxWidth(200);
         }
 
+        advancedSearchButton.setText("Advanced");
+        advancedSearchButton.setToolTipText("Advanced Search Options");
+        advancedSearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                advancedSearchButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -119,11 +1134,11 @@ public class SearchWindow extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1327, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 872, Short.MAX_VALUE)
-                        .addComponent(searchLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(advancedSearchButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(instructionsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(searchTextField))
@@ -137,8 +1152,8 @@ public class SearchWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchLabel)
-                    .addComponent(searchButton))
+                    .addComponent(searchButton)
+                    .addComponent(advancedSearchButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(instructionsLabel)
                 .addGap(18, 18, 18)
@@ -154,7 +1169,7 @@ public class SearchWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_searchTextFieldFocusGained
 
     private void searchTags() {
-        LinkedList<String> idList = new LinkedList();
+        LinkedList<Integer> idList = new LinkedList();
         LocalSearch ls = new LocalSearch();
         try {            
             idList = ls.searchTags(paragraphsList, searchTextField.getText());
@@ -181,17 +1196,1515 @@ public class SearchWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_searchTextFieldKeyPressed
 
-    private LinkedList<Paragraphs> getParagraphs (LinkedList<String> idList) {
+    private void advancedSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_advancedSearchButtonActionPerformed
+        advancedSearchFrame.setVisible(true);
+    }//GEN-LAST:event_advancedSearchButtonActionPerformed
+
+    private void submitAdvancedSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitAdvancedSearchButtonActionPerformed
+        LinkedList paragraphId = advancedSearch();
+        popTable(paragraphId);
+        if (paragraphId.size() > 0) {
+            advancedSearchFrame.setVisible(false);
+        }
+        else {
+            JOptionPane.showMessageDialog(null,"No results found.");
+        }
+        
+    }//GEN-LAST:event_submitAdvancedSearchButtonActionPerformed
+
+    private void genderListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_genderListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_genderListValueChanged
+
+    private void ageListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ageListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_ageListValueChanged
+
+    private void marriageListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_marriageListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_marriageListValueChanged
+
+    private void numChildrenListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_numChildrenListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_numChildrenListValueChanged
+
+    private void educationListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_educationListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_educationListValueChanged
+
+    private void professionListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_professionListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_professionListValueChanged
+
+    private void economicStatusListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_economicStatusListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_economicStatusListValueChanged
+
+    private void religionListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_religionListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_religionListValueChanged
+
+    private void birthplaceListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_birthplaceListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_birthplaceListValueChanged
+
+    private void residenceListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_residenceListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_residenceListValueChanged
+
+    private void primaryLangListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_primaryLangListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_primaryLangListValueChanged
+
+    private void secondLangListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_secondLangListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_secondLangListValueChanged
+
+    private void clanListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_clanListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_clanListValueChanged
+
+    private void tribeListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_tribeListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_tribeListValueChanged
+
+    private void other1ListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_other1ListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_other1ListValueChanged
+
+    private void other2ListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_other2ListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_other2ListValueChanged
+
+    private void other3ListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_other3ListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_other3ListValueChanged
+
+    private void other4ListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_other4ListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_other4ListValueChanged
+
+    private void other5ListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_other5ListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_other5ListValueChanged
+
+    private void other6ListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_other6ListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_other6ListValueChanged
+
+    private void other7ListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_other7ListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_other7ListValueChanged
+
+    private void other8ListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_other8ListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_other8ListValueChanged
+
+    private void other9ListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_other9ListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_other9ListValueChanged
+
+    private void titleListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_titleListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_titleListValueChanged
+
+    private void interviewerListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_interviewerListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_interviewerListValueChanged
+
+    private void locationListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_locationListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_locationListValueChanged
+
+    private void dateListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_dateListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_dateListValueChanged
+
+    private void theme1ListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_theme1ListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_theme1ListValueChanged
+
+    private void theme2ListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_theme2ListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_theme2ListValueChanged
+
+    private void theme3ListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_theme3ListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_theme3ListValueChanged
+
+    private void theme4ListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_theme4ListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_theme4ListValueChanged
+
+    private void theme5ListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_theme5ListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_theme5ListValueChanged
+
+    private void theme6ListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_theme6ListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_theme6ListValueChanged
+
+    private void theme7ListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_theme7ListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_theme7ListValueChanged
+
+    private void theme8ListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_theme8ListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_theme8ListValueChanged
+
+    private void theme9ListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_theme9ListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_theme9ListValueChanged
+
+    private void tagOrListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_tagOrListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_tagOrListValueChanged
+
+    private void tagAndListPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tagAndListPropertyChange
+        advancedSearch();
+    }//GEN-LAST:event_tagAndListPropertyChange
+
+    private void tagNotListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_tagNotListValueChanged
+        advancedSearch();
+    }//GEN-LAST:event_tagNotListValueChanged
+
+    private void tagOrListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tagOrListMouseClicked
+        List<String> selectedTags = tagOrList.getSelectedValuesList();
+        for (String s : selectedTags) {
+            tagAndModel.removeElement(s);
+            tagNotModel.removeElement(s);
+        }
+        if (tagOrSelectedTags != null && !tagOrSelectedTags.isEmpty()) {
+            tagOrSelectedTags.removeAll(selectedTags);
+            for (String s : tagOrSelectedTags) {
+                tagAndModel.add(s);
+                tagNotModel.add(s);
+            }
+        }
+        tagOrSelectedTags = selectedTags;
+        
+        if (tagAndSelectedTags != null && !tagAndSelectedTags.isEmpty()) {
+            String[] tagArray = new String[tagAndModel.getSize()];
+            for (int i = 0; i < tagArray.length; i++) {
+                tagArray[i] = tagAndModel.getElementAt(i).toString();
+            }
+            LinkedList<Integer> selectedIndecies = new LinkedList();
+            for (String s : tagAndSelectedTags) {
+                for (int i = 0; i < tagArray.length; i++) {
+                    if ( s.equals(tagArray[i])) {
+                        selectedIndecies.add(i);
+                        break;                    
+                    }
+                }
+            }
+            int[] intArray = new int[selectedIndecies.size()];
+            for (int i = 0; i < selectedIndecies.size(); i++) {
+                intArray[i] = selectedIndecies.get(i);
+            }
+            tagAndList.setSelectedIndices(intArray);
+        }
+        if (tagNotSelectedTags != null && !tagNotSelectedTags.isEmpty()) {
+            String[] tagArray = new String[tagNotModel.getSize()];
+            for (int i = 0; i < tagArray.length; i++) {
+                tagArray[i] = tagNotModel.getElementAt(i).toString();
+            }
+            LinkedList<Integer> selectedIndecies = new LinkedList();
+            for (String s : tagNotSelectedTags) {
+                for (int i = 0; i < tagArray.length; i++) {
+                    if ( s.equals(tagArray[i])) {
+                        selectedIndecies.add(i);
+                        break;                    
+                    }
+                }
+            }
+            int[] intArray = new int[selectedIndecies.size()];
+            for (int i = 0; i < selectedIndecies.size(); i++) {
+                intArray[i] = selectedIndecies.get(i);
+            }
+            tagNotList.setSelectedIndices(intArray);
+        }
+    }//GEN-LAST:event_tagOrListMouseClicked
+
+    private void tagAndListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tagAndListMouseClicked
+        List<String> selectedTags = tagAndList.getSelectedValuesList();
+        for (String s : selectedTags) {
+            tagOrModel.removeElement(s);
+            tagNotModel.removeElement(s);
+        }
+        if (tagAndSelectedTags != null && !tagAndSelectedTags.isEmpty()) {
+            tagAndSelectedTags.removeAll(selectedTags);
+            for (String s : tagAndSelectedTags) {
+                tagOrModel.add(s);
+                tagNotModel.add(s);
+            }
+        }
+        tagAndSelectedTags = selectedTags;
+        
+         if (tagOrSelectedTags != null && !tagOrSelectedTags.isEmpty()) {
+            String[] tagArray = new String[tagOrModel.getSize()];
+            for (int i = 0; i < tagArray.length; i++) {
+                tagArray[i] = tagOrModel.getElementAt(i).toString();
+            }
+            LinkedList<Integer> selectedIndecies = new LinkedList();
+            for (String s : tagOrSelectedTags) {
+                for (int i = 0; i < tagArray.length; i++) {
+                    if ( s.equals(tagArray[i])) {
+                        selectedIndecies.add(i);
+                        break;                    
+                    }
+                }
+            }
+            int[] intArray = new int[selectedIndecies.size()];
+            for (int i = 0; i < selectedIndecies.size(); i++) {
+                intArray[i] = selectedIndecies.get(i);
+            }
+            tagOrList.setSelectedIndices(intArray);
+        }
+        if (tagNotSelectedTags != null && !tagNotSelectedTags.isEmpty()) {
+            String[] tagArray = new String[tagNotModel.getSize()];
+            for (int i = 0; i < tagArray.length; i++) {
+                tagArray[i] = tagNotModel.getElementAt(i).toString();
+            }
+            LinkedList<Integer> selectedIndecies = new LinkedList();
+            for (String s : tagNotSelectedTags) {
+                for (int i = 0; i < tagArray.length; i++) {
+                    if ( s.equals(tagArray[i])) {
+                        selectedIndecies.add(i);
+                        break;                    
+                    }
+                }
+            }
+            int[] intArray = new int[selectedIndecies.size()];
+            for (int i = 0; i < selectedIndecies.size(); i++) {
+                intArray[i] = selectedIndecies.get(i);
+            }
+            tagNotList.setSelectedIndices(intArray);
+        }
+    }//GEN-LAST:event_tagAndListMouseClicked
+
+    private void tagNotListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tagNotListMouseClicked
+        List<String> selectedTags = tagNotList.getSelectedValuesList();
+        for (String s : selectedTags) {
+            tagAndModel.removeElement(s);
+            tagOrModel.removeElement(s);
+        }
+        if (tagNotSelectedTags != null && !tagNotSelectedTags.isEmpty()) {
+            tagNotSelectedTags.removeAll(selectedTags);
+            for (String s : tagNotSelectedTags) {
+                tagAndModel.add(s);
+                tagOrModel.add(s);
+            }
+        }
+        tagNotSelectedTags = selectedTags;
+        
+         if (tagAndSelectedTags != null && !tagAndSelectedTags.isEmpty()) {
+            String[] tagArray = new String[tagAndModel.getSize()];
+            for (int i = 0; i < tagArray.length; i++) {
+                tagArray[i] = tagAndModel.getElementAt(i).toString();
+            }
+            LinkedList<Integer> selectedIndecies = new LinkedList();
+            for (String s : tagAndSelectedTags) {
+                for (int i = 0; i < tagArray.length; i++) {
+                    if ( s.equals(tagArray[i])) {
+                        selectedIndecies.add(i);
+                        break;                    
+                    }
+                }
+            }
+            int[] intArray = new int[selectedIndecies.size()];
+            for (int i = 0; i < selectedIndecies.size(); i++) {
+                intArray[i] = selectedIndecies.get(i);
+            }
+            tagAndList.setSelectedIndices(intArray);
+        }
+        if (tagOrSelectedTags != null && !tagOrSelectedTags.isEmpty()) {
+            String[] tagArray = new String[tagOrModel.getSize()];
+            for (int i = 0; i < tagArray.length; i++) {
+                tagArray[i] = tagOrModel.getElementAt(i).toString();
+            }
+            LinkedList<Integer> selectedIndecies = new LinkedList();
+            for (String s : tagOrSelectedTags) {
+                for (int i = 0; i < tagArray.length; i++) {
+                    if ( s.equals(tagArray[i])) {
+                        selectedIndecies.add(i);
+                        break;                    
+                    }
+                }
+            }
+            int[] intArray = new int[selectedIndecies.size()];
+            for (int i = 0; i < selectedIndecies.size(); i++) {
+                intArray[i] = selectedIndecies.get(i);
+            }
+            tagOrList.setSelectedIndices(intArray);
+        }
+    }//GEN-LAST:event_tagNotListMouseClicked
+
+    private void clearSelectionButtionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearSelectionButtionActionPerformed
+        try {
+            tagAndList.clearSelection();
+            tagOrList.clearSelection();
+            tagNotList.clearSelection();
+            tagAndSelectedTags.clear();
+            tagOrSelectedTags.clear();
+            tagNotSelectedTags.clear();
+        } catch (NullPointerException npe) {
+        }       
+    }//GEN-LAST:event_clearSelectionButtionActionPerformed
+
+    private void editQueryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editQueryButtonActionPerformed
+        if (tagQueryTextField.isEnabled()) {
+            tagQueryTextField.setEnabled(false);
+        }
+        else if (!tagQueryTextField.isEnabled()) {
+            tagQueryTextField.setEnabled(true);
+        }
+    }//GEN-LAST:event_editQueryButtonActionPerformed
+
+    private LinkedList advancedSearch() {
+        List<String> gender = genderList.getSelectedValuesList();
+        List<String> age = ageList.getSelectedValuesList();
+        List<String> marriage = marriageList.getSelectedValuesList();
+        List<String> children = numChildrenList.getSelectedValuesList();
+        List<String> education = educationList.getSelectedValuesList();
+        List<String> profession = professionList.getSelectedValuesList();
+        List<String> economic = economicStatusList.getSelectedValuesList();
+        List<String> religion = religionList.getSelectedValuesList();
+        List<String> birthplace = birthplaceList.getSelectedValuesList();
+        List<String> residence = residenceList.getSelectedValuesList();
+        List<String> primLang = primaryLangList.getSelectedValuesList();
+        List<String> secondLang = secondLangList.getSelectedValuesList();
+        List<String> clan = clanList.getSelectedValuesList();
+        List<String> tribe = tribeList.getSelectedValuesList();
+        List<String> other1 = other1List.getSelectedValuesList();
+        List<String> other2 = other2List.getSelectedValuesList();
+        List<String> other3 = other3List.getSelectedValuesList();
+        List<String> other4 = other4List.getSelectedValuesList();
+        List<String> other5 = other5List.getSelectedValuesList();
+        List<String> other6 = other6List.getSelectedValuesList();
+        List<String> other7 = other7List.getSelectedValuesList();
+        List<String> other8 = other8List.getSelectedValuesList();
+        List<String> other9 = other9List.getSelectedValuesList();
+        List<String> title = titleList.getSelectedValuesList();
+        List<String> interviewer = interviewerList.getSelectedValuesList();
+        List<String> location = locationList.getSelectedValuesList();
+        List<String> date = dateList.getSelectedValuesList();
+        List<String> theme1 = theme1List.getSelectedValuesList();
+        List<String> theme2 = theme2List.getSelectedValuesList();
+        List<String> theme3 = theme3List.getSelectedValuesList();
+        List<String> theme4 = theme4List.getSelectedValuesList();
+        List<String> theme5 = theme5List.getSelectedValuesList();
+        List<String> theme6 = theme6List.getSelectedValuesList();
+        List<String> theme7 = theme7List.getSelectedValuesList();
+        List<String> theme8 = theme8List.getSelectedValuesList();
+        List<String> theme9 = theme9List.getSelectedValuesList();
+        
+        EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
+        StringBuilder sb = new StringBuilder();
+        int count = 0;
+        sb.append("SELECT i.id FROM Informants i WHERE ");
+        if (gender.size() > 0 && gender.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.gender ");
+            count++;
+            if (gender.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (gender.size() == 1) {
+                    sb.append("= '" + gender.get(0) + "'))");
+                }
+                else {
+                    Iterator i = gender.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.gender ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (age.size() > 0 && age.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.age ");
+            count++;
+            if (age.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (age.size() == 1) {
+                    sb.append("= " + age.get(0) + "))");
+                }
+                else {
+                    Iterator i = age.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= " + i.next() + ")");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.age ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (marriage.size() > 0 && marriage.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.marriage ");
+            count++;
+            if (marriage.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (marriage.size() == 1) {
+                    sb.append("= '" + marriage.get(0) + "'))");
+                }
+                else {
+                    Iterator i = marriage.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.marriage ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (children.size() > 0 && children.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.numberofchildren ");
+            count++;
+            if (children.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (children.size() == 1) {
+                    sb.append("= " + children.get(0) + "))");
+                }
+                else {
+                    Iterator i = children.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= " + i.next() + ")");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.numberofchildren ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (education.size() > 0 && education.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.education ");
+            count++;
+            if (education.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (education.size() == 1) {
+                    sb.append("= '" + education.get(0) + "'))");
+                }
+                else {
+                    Iterator i = education.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.education ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (profession.size() > 0 && profession.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.profession ");
+            count++;
+            if (profession.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (profession.size() == 1) {
+                    sb.append("= '" + profession.get(0) + "'))");
+                }
+                else {
+                    Iterator i = profession.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.profession ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (economic.size() > 0 && economic.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.economic ");
+            count++;
+            if (economic.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (economic.size() == 1) {
+                    sb.append("= '" + economic.get(0) + "'))");
+                }
+                else {
+                    Iterator i = economic.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.economic ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (religion.size() > 0 && religion.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.religion ");
+            count++;
+            if (religion.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (religion.size() == 1) {
+                    sb.append("= '" + religion.get(0) + "'))");
+                }
+                else {
+                    Iterator i = religion.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.religion ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (birthplace.size() > 0 && birthplace.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.birthplace ");
+            count++;
+            if (birthplace.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (birthplace.size() == 1) {
+                    sb.append("= '" + birthplace.get(0) + "'))");
+                }
+                else {
+                    Iterator i = birthplace.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.birthplace ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (residence.size() > 0 && residence.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.residence ");
+            count++;
+            if (residence.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (residence.size() == 1) {
+                    sb.append("= '" + residence.get(0) + "'))");
+                }
+                else {
+                    Iterator i = residence.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.residence ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (primLang.size() > 0 && primLang.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.primarylang ");
+            count++;
+            if (primLang.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (primLang.size() == 1) {
+                    sb.append("= '" + primLang.get(0) + "'))");
+                }
+                else {
+                    Iterator i = primLang.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.primarylang ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (secondLang.size() > 0 && secondLang.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.secondarylang ");
+            count++;
+            if (secondLang.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (secondLang.size() == 1) {
+                    sb.append("= '" + secondLang.get(0) + "'))");
+                }
+                else {
+                    Iterator i = secondLang.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.secondarylang ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (clan.size() > 0 && clan.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.clan ");
+            count++;
+            if (clan.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (clan.size() == 1) {
+                    sb.append("= '" + clan.get(0) + "'))");
+                }
+                else {
+                    Iterator i = clan.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.clan ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (tribe.size() > 0 && tribe.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.tribe ");
+            count++;
+            if (tribe.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (tribe.size() == 1) {
+                    sb.append("= '" + tribe.get(0) + "'))");
+                }
+                else {
+                    Iterator i = tribe.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.tribe ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (other1.size() > 0 && other1.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.other1 ");
+            count++;
+            if (other1.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (other1.size() == 1) {
+                    sb.append("= '" + other1.get(0) + "'))");
+                }
+                else {
+                    Iterator i = other1.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.other1 ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (other2.size() > 0 && other2.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.other2 ");
+            count++;
+            if (other2.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (other2.size() == 1) {
+                    sb.append("= '" + other2.get(0) + "'))");
+                }
+                else {
+                    Iterator i = other2.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.other2 ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (other3.size() > 0 && other3.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.other3 ");
+            count++;
+            if (other3.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (other3.size() == 1) {
+                    sb.append("= '" + other3.get(0) + "'))");
+                }
+                else {
+                    Iterator i = other3.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.other3 ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (other4.size() > 0 && other4.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.other4 ");
+            count++;
+            if (other4.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (other4.size() == 1) {
+                    sb.append("= '" + other4.get(0) + "'))");
+                }
+                else {
+                    Iterator i = other4.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.other4 ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (other5.size() > 0 && other5.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.other5 ");
+            count++;
+            if (other5.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (other5.size() == 1) {
+                    sb.append("= '" + other5.get(0) + "'))");
+                }
+                else {
+                    Iterator i = other5.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.other5 ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (other6.size() > 0 && other6.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.other6 ");
+            count++;
+            if (other6.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (other6.size() == 1) {
+                    sb.append("= '" + other6.get(0) + "'))");
+                }
+                else {
+                    Iterator i = other6.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.other6 ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (other7.size() > 0 && other7.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.other7 ");
+            count++;
+            if (other7.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (other7.size() == 1) {
+                    sb.append("= '" + other7.get(0) + "'))");
+                }
+                else {
+                    Iterator i = other7.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.other7 ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (other8.size() > 0 && other8.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.other8 ");
+            count++;
+            if (other8.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (other8.size() == 1) {
+                    sb.append("= '" + other8.get(0) + "'))");
+                }
+                else {
+                    Iterator i = other8.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.other8 ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (other9.size() > 0 && other9.get(0) != "None") {
+            if (count > 0) {
+                sb.append(" AND ");
+            }
+            sb.append("((i.other9 ");
+            count++;
+            if (other9.get(0) == "All") {
+                sb.append("IS NOT NULL))");
+            }
+            else {
+                if (other9.size() == 1) {
+                    sb.append("= '" + other9.get(0) + "'))");
+                }
+                else {
+                    Iterator i = other9.iterator();
+                    while (i.hasNext()) {
+                        sb.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb.append(" OR (i.other9 ");
+                        }
+                        else {
+                            sb.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        LinkedList informant = new LinkedList();
+        if (count > 0) {
+            Query query1 = entityManager.createQuery(sb.toString());        
+            informant.addAll(query1.getResultList());
+        }
+        
+        StringBuilder sb2 = new StringBuilder();
+        int count2 = 0;
+        sb2.append("SELECT i.id FROM Interviews i WHERE ");
+        if (informant.size() > 0) {
+            if (count2 > 0) {
+                sb2.append(" AND ");
+            }
+            sb2.append("((i.informant.id ");
+            count2++;
+            if (informant.get(0) == "All") {
+                sb2.append("IS NOT NULL))");
+            }
+            else {
+                if (informant.size() == 1) {
+                    sb2.append("= " + informant.get(0) + "))");
+                }
+                else {
+                    Iterator i = informant.iterator();
+                    while (i.hasNext()) {
+                        sb2.append("= " + i.next() + ")");
+                        if (i.hasNext()) {
+                            sb2.append(" OR (i.informant.id ");
+                        }
+                        else {
+                            sb2.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (title.size() > 0 && title.get(0) != "None") {
+            if (count2 > 0) {
+                sb2.append(" AND ");
+            }
+            sb2.append("((i.title ");
+            count2++;
+            if (title.get(0) == "All") {
+                sb2.append("IS NOT NULL))");
+            }
+            else {
+                if (title.size() == 1) {
+                    sb2.append("= '" + title.get(0) + "'))");
+                }
+                else {
+                    Iterator i = title.iterator();
+                    while (i.hasNext()) {
+                        sb2.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb2.append(" OR (i.title ");
+                        }
+                        else {
+                            sb2.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (interviewer.size() > 0 && interviewer.get(0) != "None") {
+            if (count2 > 0) {
+                sb2.append(" AND ");
+            }
+            sb2.append("((i.interviewer ");
+            count2++;
+            if (interviewer.get(0) == "All") {
+                sb2.append("IS NOT NULL))");
+            }
+            else {
+                if (interviewer.size() == 1) {
+                    sb2.append("= '" + interviewer.get(0) + "'))");
+                }
+                else {
+                    Iterator i = interviewer.iterator();
+                    while (i.hasNext()) {
+                        sb2.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb2.append(" OR (i.interviewer ");
+                        }
+                        else {
+                            sb2.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (location.size() > 0 && location.get(0) != "None") {
+            if (count2 > 0) {
+                sb2.append(" AND ");
+            }
+            sb2.append("((i.location ");
+            count2++;
+            if (location.get(0) == "All") {
+                sb2.append("IS NOT NULL))");
+            }
+            else {
+                if (location.size() == 1) {
+                    sb2.append("= '" + location.get(0) + "'))");
+                }
+                else {
+                    Iterator i = location.iterator();
+                    while (i.hasNext()) {
+                        sb2.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb2.append(" OR (i.location ");
+                        }
+                        else {
+                            sb2.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+//SEARCH BY INTERVIEW DATE!!!!
+        if (theme1.size() > 0 && theme1.get(0) != "None") {
+            if (count2 > 0) {
+                sb2.append(" AND ");
+            }
+            sb2.append("((i.theme1 ");
+            count2++;
+            if (theme1.get(0) == "All") {
+                sb2.append("IS NOT NULL))");
+            }
+            else {
+                if (theme1.size() == 1) {
+                    sb2.append("= '" + theme1.get(0) + "'))");
+                }
+                else {
+                    Iterator i = theme1.iterator();
+                    while (i.hasNext()) {
+                        sb2.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb2.append(" OR (i.theme1 ");
+                        }
+                        else {
+                            sb2.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (theme2.size() > 0 && theme2.get(0) != "None") {
+            if (count2 > 0) {
+                sb2.append(" AND ");
+            }
+            sb2.append("((i.theme2 ");
+            count2++;
+            if (theme2.get(0) == "All") {
+                sb2.append("IS NOT NULL))");
+            }
+            else {
+                if (theme2.size() == 1) {
+                    sb2.append("= '" + theme2.get(0) + "'))");
+                }
+                else {
+                    Iterator i = theme2.iterator();
+                    while (i.hasNext()) {
+                        sb2.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb2.append(" OR (i.theme2 ");
+                        }
+                        else {
+                            sb2.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (theme3.size() > 0 && theme3.get(0) != "None") {
+            if (count2 > 0) {
+                sb2.append(" AND ");
+            }
+            sb2.append("((i.theme3 ");
+            count2++;
+            if (theme3.get(0) == "All") {
+                sb2.append("IS NOT NULL))");
+            }
+            else {
+                if (theme3.size() == 1) {
+                    sb2.append("= '" + theme3.get(0) + "'))");
+                }
+                else {
+                    Iterator i = theme3.iterator();
+                    while (i.hasNext()) {
+                        sb2.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb2.append(" OR (i.theme3 ");
+                        }
+                        else {
+                            sb2.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (theme4.size() > 0 && theme4.get(0) != "None") {
+            if (count2 > 0) {
+                sb2.append(" AND ");
+            }
+            sb2.append("((i.theme4 ");
+            count2++;
+            if (theme4.get(0) == "All") {
+                sb2.append("IS NOT NULL))");
+            }
+            else {
+                if (theme4.size() == 1) {
+                    sb2.append("= '" + theme4.get(0) + "'))");
+                }
+                else {
+                    Iterator i = theme4.iterator();
+                    while (i.hasNext()) {
+                        sb2.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb2.append(" OR (i.theme4 ");
+                        }
+                        else {
+                            sb2.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (theme5.size() > 0 && theme5.get(0) != "None") {
+            if (count2 > 0) {
+                sb2.append(" AND ");
+            }
+            sb2.append("((i.theme5 ");
+            count2++;
+            if (theme5.get(0) == "All") {
+                sb2.append("IS NOT NULL))");
+            }
+            else {
+                if (theme5.size() == 1) {
+                    sb2.append("= '" + theme5.get(0) + "'))");
+                }
+                else {
+                    Iterator i = theme5.iterator();
+                    while (i.hasNext()) {
+                        sb2.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb2.append(" OR (i.theme5 ");
+                        }
+                        else {
+                            sb2.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (theme6.size() > 0 && theme6.get(0) != "None") {
+            if (count2 > 0) {
+                sb2.append(" AND ");
+            }
+            sb2.append("((i.theme6 ");
+            count2++;
+            if (theme6.get(0) == "All") {
+                sb2.append("IS NOT NULL))");
+            }
+            else {
+                if (theme6.size() == 1) {
+                    sb2.append("= '" + theme6.get(0) + "'))");
+                }
+                else {
+                    Iterator i = theme6.iterator();
+                    while (i.hasNext()) {
+                        sb2.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb2.append(" OR (i.theme6 ");
+                        }
+                        else {
+                            sb2.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (theme7.size() > 0 && theme7.get(0) != "None") {
+            if (count2 > 0) {
+                sb2.append(" AND ");
+            }
+            sb2.append("((i.theme7 ");
+            count2++;
+            if (theme7.get(0) == "All") {
+                sb2.append("IS NOT NULL))");
+            }
+            else {
+                if (theme7.size() == 1) {
+                    sb2.append("= '" + theme7.get(0) + "'))");
+                }
+                else {
+                    Iterator i = theme7.iterator();
+                    while (i.hasNext()) {
+                        sb2.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb2.append(" OR (i.theme7 ");
+                        }
+                        else {
+                            sb2.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (theme8.size() > 0 && theme8.get(0) != "None") {
+            if (count2 > 0) {
+                sb2.append(" AND ");
+            }
+            sb2.append("((i.theme8 ");
+            count2++;
+            if (theme8.get(0) == "All") {
+                sb2.append("IS NOT NULL))");
+            }
+            else {
+                if (theme8.size() == 1) {
+                    sb2.append("= '" + theme8.get(0) + "'))");
+                }
+                else {
+                    Iterator i = theme8.iterator();
+                    while (i.hasNext()) {
+                        sb2.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb2.append(" OR (i.theme8 ");
+                        }
+                        else {
+                            sb2.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        if (theme9.size() > 0 && theme9.get(0) != "None") {
+            if (count2 > 0) {
+                sb2.append(" AND ");
+            }
+            sb2.append("((i.theme9 ");
+            count2++;
+            if (theme9.get(0) == "All") {
+                sb2.append("IS NOT NULL))");
+            }
+            else {
+                if (theme9.size() == 1) {
+                    sb2.append("= '" + theme9.get(0) + "'))");
+                }
+                else {
+                    Iterator i = theme9.iterator();
+                    while (i.hasNext()) {
+                        sb2.append("= '" + i.next() + "')");
+                        if (i.hasNext()) {
+                            sb2.append(" OR (i.theme9 ");
+                        }
+                        else {
+                            sb2.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
+        LinkedList<Integer> interviews = new LinkedList();
+        if (count2 > 0) {
+            Query query2 = entityManager.createQuery(sb2.toString());        
+            interviews.addAll(query2.getResultList()); 
+        }
+        
+        LinkedList<Paragraphs> paragraphs = new LinkedList();
+        if (interviews.size() > 0) {
+            StringBuilder sb3 = new StringBuilder();
+            sb3.append("SELECT p FROM Paragraphs p WHERE ");
+            Iterator i = interviews.iterator();
+            while (i.hasNext()) {
+                sb3.append("p.interviewnumber.id = " + i.next());
+                if (i.hasNext()) {
+                    sb3.append(" OR ");
+                }
+            }
+            Query query3 = entityManager.createQuery(sb3.toString());        
+            paragraphs.addAll(query3.getResultList());
+        }
+        
+        StringBuilder sb4 = new StringBuilder();
+        List<String> orList = tagOrList.getSelectedValuesList();
+        List<String> andList = tagAndList.getSelectedValuesList();
+        List<String> notList = tagNotList.getSelectedValuesList();
+        
+        if (orList != null && !orList.isEmpty()) {            
+            if (orList.size() == 1) {
+                sb4.append("\"" + orList.get(0) + "\"");
+            }
+            else {
+                Iterator i = orList.iterator();
+                sb4.append("(");
+                while (i.hasNext()) {
+                    sb4.append("\"" + i.next() + "\"");
+                    if (i.hasNext()) {
+                        sb4.append(" OR ");
+                    }
+                    else {
+                        sb4.append(")");
+                    }
+                }                    
+            }
+        }
+        if (andList != null && !andList.isEmpty()) {            
+            if (andList.size() == 1) {
+                sb4.append(" AND \"" + andList.get(0) + "\"");
+            }
+            else {
+                Iterator i = andList.iterator();
+                sb4.append(" AND (");
+                while (i.hasNext()) {
+                    sb4.append("\"" + i.next() + "\"");
+                    if (i.hasNext()) {
+                        sb4.append(" OR ");
+                    }
+                    else {
+                        sb4.append(")");
+                    }
+                }                    
+            }
+        }
+        if (notList != null && !notList.isEmpty()) {            
+            if (notList.size() == 1) {
+                sb4.append(" NOT \"" + notList.get(0) + "\"");
+            }
+            else {
+                Iterator i = notList.iterator();
+                sb4.append(" NOT (");
+                while (i.hasNext()) {
+                    sb4.append("\"" + i.next() + "\"");
+                    if (i.hasNext()) {
+                        sb4.append(" OR ");
+                    }
+                    else {
+                        sb4.append(")");
+                    }
+                }                    
+            }
+        }
+        if (!tagQueryTextField.isEnabled()) {
+            tagQueryTextField.setText(sb4.toString());
+        }
+        
+        informantsLabel.setText(Integer.toString(informant.size()));
+        interviewsLabel.setText(Integer.toString(interviews.size()));
+        paragraphsLabel.setText(Integer.toString(paragraphs.size()));
+
+        
+        LocalSearch lc = new LocalSearch();
+        LinkedList<Integer> paragraphId = new LinkedList();
+        if (!paragraphs.isEmpty() && !tagQueryTextField.getText().isEmpty()) {
+            try {
+                paragraphId = lc.searchTags(paragraphs, tagQueryTextField.getText());
+            } catch (IOException ex) {
+                Logger.getLogger(SearchWindow.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(SearchWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            paragraphsLabel.setText(Integer.toString(paragraphId.size()));
+            return paragraphId;
+        }
+        else {            
+            for (Paragraphs p : paragraphs) {
+                paragraphId.add(p.getId());
+            }
+            return paragraphId;
+        }        
+    }
+    
+    private LinkedList<Paragraphs> getParagraphs (LinkedList<Integer> idList) {
         LinkedList<Paragraphs> paragraphsList = new LinkedList();
         EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
-        for (String s : idList) {
-            Query query = entityManager.createNamedQuery("Paragraphs.findById").setParameter("id", Integer.parseInt(s));
+        for (int i : idList) {
+            Query query = entityManager.createNamedQuery("Paragraphs.findById").setParameter("id", i);
             paragraphsList.addAll(query.getResultList());
         }
         return paragraphsList;
     }
     
-    private void popTable(LinkedList<String> idList) {
+    private void popTable(LinkedList<Integer> idList) {
         DefaultTableModel model = (DefaultTableModel) searchTable.getModel();
         model.setRowCount(0);
         LinkedList<Paragraphs> paragraphsList = getParagraphs(idList);
@@ -205,6 +2718,373 @@ public class SearchWindow extends javax.swing.JFrame {
             Object[] row = {data0, data1, data2, data3, data4};
             model.addRow(row);
         } 
+    }
+    
+    private void popAdvancedSearch() {
+        TreeSet<String> informAge = new TreeSet(); 
+        TreeSet<String> informNumChildren = new TreeSet();
+        TreeSet<String> informEducation = new TreeSet();
+        TreeSet<String> informProfession = new TreeSet();
+        TreeSet<String> informEconomic = new TreeSet();
+        TreeSet<String> informReligion = new TreeSet();
+        TreeSet<String> informPlaceOfBirth = new TreeSet();
+        TreeSet<String> informResidence = new TreeSet();
+        TreeSet<String> informPrimLang = new TreeSet();
+        TreeSet<String> informSecondLang = new TreeSet();
+        TreeSet<String> informClan = new TreeSet();
+        TreeSet<String> informTribe = new TreeSet();
+        TreeSet<String> informOther1 = new TreeSet();
+        TreeSet<String> informOther2 = new TreeSet();
+        TreeSet<String> informOther3 = new TreeSet();
+        TreeSet<String> informOther4 = new TreeSet();
+        TreeSet<String> informOther5 = new TreeSet();
+        TreeSet<String> informOther6 = new TreeSet();
+        TreeSet<String> informOther7 = new TreeSet();
+        TreeSet<String> informOther8 = new TreeSet();
+        TreeSet<String> informOther9 = new TreeSet();
+        TreeSet<String> intTitle = new TreeSet();
+        TreeSet<String> intInterviewer = new TreeSet();
+        TreeSet<String> intLocation = new TreeSet();
+        TreeSet<String> intDate = new TreeSet();
+        TreeSet<String> intTheme1 = new TreeSet();
+        TreeSet<String> intTheme2 = new TreeSet();
+        TreeSet<String> intTheme3 = new TreeSet();
+        TreeSet<String> intTheme4 = new TreeSet();
+        TreeSet<String> intTheme5 = new TreeSet();
+        TreeSet<String> intTheme6 = new TreeSet();
+        TreeSet<String> intTheme7 = new TreeSet();
+        TreeSet<String> intTheme8 = new TreeSet();
+        TreeSet<String> intTheme9 = new TreeSet();
+        
+        EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
+        Query query = entityManager.createNamedQuery("Informants.findAll");
+        List<Informants> informants = query.getResultList();
+        for (Informants i : informants) {
+            informAge.add(i.getAge().toString());
+            informNumChildren.add(i.getNumberofchildren().toString());
+            informEducation.add(i.getEducation());
+            informProfession.add(i.getProfession());
+            informEconomic.add(i.getEconomic());
+            informReligion.add(i.getReligion());
+            informPlaceOfBirth.add(i.getBirthplace());
+            informResidence.add(i.getResidence());
+            informPrimLang.add(i.getPrimarylang());
+            informSecondLang.add(i.getSecondarylang());
+            informClan.add(i.getClan());
+            informTribe.add(i.getTribe());
+            informOther1.add(i.getOther1());
+            informOther2.add(i.getOther2());
+            informOther3.add(i.getOther3());
+            informOther4.add(i.getOther4());
+            informOther5.add(i.getOther5());
+            informOther6.add(i.getOther6());
+            informOther7.add(i.getOther7());
+            informOther8.add(i.getOther8());
+            informOther9.add(i.getOther9());
+        }
+        DefaultListModel ageModel = new DefaultListModel();
+        ageModel.addElement("None");
+        ageModel.addElement("All");
+        for (String s : informAge) {
+            ageModel.addElement(s);
+        }
+        ageList.setModel(ageModel);
+        
+        DefaultListModel childrenModel = new DefaultListModel();
+        childrenModel.addElement("None");
+        childrenModel.addElement("All");
+        for (String s : informNumChildren) {
+            childrenModel.addElement(s);
+        }
+        numChildrenList.setModel(childrenModel);
+        
+        DefaultListModel educationModel = new DefaultListModel();
+        educationModel.addElement("None");
+        educationModel.addElement("All");
+        for (String s : informEducation) {
+            educationModel.addElement(s);
+        }
+        educationList.setModel(educationModel);
+        
+        DefaultListModel professionModel = new DefaultListModel();
+        professionModel.addElement("None");
+        professionModel.addElement("All");
+        for (String s : informProfession) {
+            professionModel.addElement(s);
+        }
+        professionList.setModel(professionModel);
+        
+        DefaultListModel economicModel = new DefaultListModel();
+        economicModel.addElement("None");
+        economicModel.addElement("All");
+        for (String s : informEconomic) {
+            economicModel.addElement(s);
+        }
+        economicStatusList.setModel(economicModel);
+        
+        DefaultListModel religionModel = new DefaultListModel();
+        religionModel.addElement("None");
+        religionModel.addElement("All");
+        for (String s : informReligion) {
+            religionModel.addElement(s);
+        }
+        religionList.setModel(religionModel);
+        
+        DefaultListModel birthplaceModel = new DefaultListModel();
+        birthplaceModel.addElement("None");
+        birthplaceModel.addElement("All");
+        for (String s : informPlaceOfBirth) {
+            birthplaceModel.addElement(s);
+        }
+        birthplaceList.setModel(birthplaceModel);
+
+        DefaultListModel residenceModel = new DefaultListModel();
+        residenceModel.addElement("None");
+        residenceModel.addElement("All");
+        for (String s : informResidence) {
+            residenceModel.addElement(s);
+        }
+        residenceList.setModel(residenceModel);
+
+        DefaultListModel primLangModel = new DefaultListModel();
+        primLangModel.addElement("None");
+        primLangModel.addElement("All");
+        for (String s : informPrimLang) {
+            primLangModel.addElement(s);
+        }
+        primaryLangList.setModel(primLangModel);
+        
+        DefaultListModel secondLangModel = new DefaultListModel();
+        secondLangModel.addElement("None");
+        secondLangModel.addElement("All");
+        for (String s : informSecondLang) {
+            secondLangModel.addElement(s);
+        }
+        secondLangList.setModel(secondLangModel);
+
+        DefaultListModel clanModel = new DefaultListModel();
+        clanModel.addElement("None");
+        clanModel.addElement("All");
+        for (String s : informClan) {
+            clanModel.addElement(s);
+        }
+        clanList.setModel(clanModel);
+
+        DefaultListModel tribeModel = new DefaultListModel();
+        tribeModel.addElement("None");
+        tribeModel.addElement("All");
+        for (String s : informTribe) {
+            tribeModel.addElement(s);
+        }
+        tribeList.setModel(tribeModel);
+        
+        DefaultListModel other1Model = new DefaultListModel();
+        other1Model.addElement("None");
+        other1Model.addElement("All");
+        for (String s : informOther1) {
+            other1Model.addElement(s);
+        }
+        other1List.setModel(other1Model);
+
+        DefaultListModel other2Model = new DefaultListModel();
+        other2Model.addElement("None");
+        other2Model.addElement("All");
+        for (String s : informOther2) {
+            other2Model.addElement(s);
+        }
+        other2List.setModel(other2Model);
+        
+        DefaultListModel other3Model = new DefaultListModel();
+        other3Model.addElement("None");
+        other3Model.addElement("All");
+        for (String s : informOther3) {
+            other3Model.addElement(s);
+        }
+        other3List.setModel(other3Model);
+        
+        DefaultListModel other4Model = new DefaultListModel();
+        other4Model.addElement("None");
+        other4Model.addElement("All");
+        for (String s : informOther4) {
+            other4Model.addElement(s);
+        }
+        other4List.setModel(other4Model);
+        
+        DefaultListModel other5Model = new DefaultListModel();
+        other5Model.addElement("None");
+        other5Model.addElement("All");
+        for (String s : informOther5) {
+            other5Model.addElement(s);
+        }
+        other5List.setModel(other5Model);
+        
+        DefaultListModel other6Model = new DefaultListModel();
+        other6Model.addElement("None");
+        other6Model.addElement("All");
+        for (String s : informOther6) {
+            other6Model.addElement(s);
+        }
+        other6List.setModel(other6Model);
+        
+        DefaultListModel other7Model = new DefaultListModel();
+        other7Model.addElement("None");
+        other7Model.addElement("All");
+        for (String s : informOther7) {
+            other7Model.addElement(s);
+        }
+        other7List.setModel(other7Model);
+        
+        DefaultListModel other8Model = new DefaultListModel();
+        other8Model.addElement("None");
+        other8Model.addElement("All");
+        for (String s : informOther8) {
+            other8Model.addElement(s);
+        }
+        other8List.setModel(other8Model);
+        
+        DefaultListModel other9Model = new DefaultListModel();
+        other9Model.addElement("None");
+        other9Model.addElement("All");
+        for (String s : informOther9) {
+            other9Model.addElement(s);
+        }
+        other9List.setModel(other9Model);
+        
+        Query query2 = entityManager.createNamedQuery("Interviews.findAll");
+        List<Interviews> interviews = query2.getResultList();
+        for (Interviews i : interviews) {
+            intTitle.add(i.getTitle());
+            intInterviewer.add(i.getInterviewer());
+            intLocation.add(i.getLocation());
+            if (i.getInterviewdate() != null) {
+                intDate.add(i.getInterviewdate().toString());
+            }
+            intTheme1.add(i.getTheme1());
+            intTheme2.add(i.getTheme2());
+            intTheme3.add(i.getTheme3());
+            intTheme4.add(i.getTheme4());
+            intTheme5.add(i.getTheme5());
+            intTheme6.add(i.getTheme6());
+            intTheme7.add(i.getTheme7());
+            intTheme8.add(i.getTheme8());
+            intTheme9.add(i.getTheme9());
+        }
+        
+        DefaultListModel titleModel = new DefaultListModel();
+        titleModel.addElement("None");
+        titleModel.addElement("All");
+        for (String s : intTitle) {
+            titleModel.addElement(s);
+        }
+        titleList.setModel(titleModel);
+        
+        DefaultListModel interviewerModel = new DefaultListModel();
+        interviewerModel.addElement("None");
+        interviewerModel.addElement("All");
+        for (String s : intInterviewer) {
+            interviewerModel.addElement(s);
+        }
+        interviewerList.setModel(interviewerModel);
+        
+        DefaultListModel locationModel = new DefaultListModel();
+        locationModel.addElement("None");
+        locationModel.addElement("All");
+        for (String s : intLocation) {
+            locationModel.addElement(s);
+        }
+        locationList.setModel(locationModel);
+
+        DefaultListModel dateModel = new DefaultListModel();
+        dateModel.addElement("None");
+        dateModel.addElement("All");
+        for (String s : intDate) {
+            dateModel.addElement(s);
+        }
+        dateList.setModel(dateModel);
+
+        DefaultListModel theme1Model = new DefaultListModel();
+        theme1Model.addElement("None");
+        theme1Model.addElement("All");
+        for (String s : intTheme1) {
+            theme1Model.addElement(s);
+        }
+        theme1List.setModel(theme1Model);
+        
+        DefaultListModel theme2Model = new DefaultListModel();
+        theme2Model.addElement("None");
+        theme2Model.addElement("All");
+        for (String s : intTheme2) {
+            theme2Model.addElement(s);
+        }
+        theme2List.setModel(theme2Model);
+        
+        DefaultListModel theme3Model = new DefaultListModel();
+        theme3Model.addElement("None");
+        theme3Model.addElement("All");
+        for (String s : intTheme3) {
+            theme3Model.addElement(s);
+        }
+        theme3List.setModel(theme3Model);
+        
+        DefaultListModel theme4Model = new DefaultListModel();
+        theme4Model.addElement("None");
+        theme4Model.addElement("All");
+        for (String s : intTheme4) {
+            theme4Model.addElement(s);
+        }
+        theme4List.setModel(theme4Model);
+        
+        DefaultListModel theme5Model = new DefaultListModel();
+        theme5Model.addElement("None");
+        theme5Model.addElement("All");
+        for (String s : intTheme5) {
+            theme5Model.addElement(s);
+        }
+        theme5List.setModel(theme5Model);
+        
+        DefaultListModel theme6Model = new DefaultListModel();
+        theme6Model.addElement("None");
+        theme6Model.addElement("All");
+        for (String s : intTheme6) {
+            theme6Model.addElement(s);
+        }
+        theme6List.setModel(theme6Model);
+        
+        DefaultListModel theme7Model = new DefaultListModel();
+        theme7Model.addElement("None");
+        theme7Model.addElement("All");
+        for (String s : intTheme7) {
+            theme7Model.addElement(s);
+        }
+        theme7List.setModel(theme7Model);
+        
+        DefaultListModel theme8Model = new DefaultListModel();
+        theme8Model.addElement("None");
+        theme8Model.addElement("All");
+        for (String s : intTheme8) {
+            theme8Model.addElement(s);
+        }
+        theme8List.setModel(theme8Model);
+        
+        DefaultListModel theme9Model = new DefaultListModel();
+        theme9Model.addElement("None");
+        theme9Model.addElement("All");
+        for (String s : intTheme9) {
+            theme9Model.addElement(s);
+        }
+        theme9List.setModel(theme9Model);
+        
+        Query query3 = entityManager.createQuery("SELECT t.tagname FROM Tags t");
+        List<String> tagsList = query3.getResultList();        
+        
+        for (String s : tagsList) {
+            tagOrModel.add(s);
+            tagAndModel.add(s);
+            tagNotModel.add(s);
+        }
+        tagOrList.setModel(tagOrModel);
+        tagAndList.setModel(tagAndModel);
+        tagNotList.setModel(tagNotModel);        
     }
     
     /**
@@ -243,11 +3123,145 @@ public class SearchWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton advancedSearchButton;
+    private javax.swing.JFrame advancedSearchFrame;
+    private javax.swing.JList<String> ageList;
+    private javax.swing.JList<String> birthplaceList;
+    private javax.swing.JList<String> clanList;
+    private javax.swing.JButton clearSelectionButtion;
+    private javax.swing.JList<String> dateList;
+    private javax.swing.JList<String> economicStatusList;
+    private javax.swing.JButton editQueryButton;
+    private javax.swing.JList<String> educationList;
+    private javax.swing.JList<String> genderList;
+    private javax.swing.JLabel informantsLabel;
+    private javax.swing.JPanel informantsPanel;
     private javax.swing.JLabel instructionsLabel;
+    private javax.swing.JList<String> interviewerList;
+    private javax.swing.JLabel interviewsLabel;
+    private javax.swing.JPanel interviewsPanel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane13;
+    private javax.swing.JScrollPane jScrollPane14;
+    private javax.swing.JScrollPane jScrollPane15;
+    private javax.swing.JScrollPane jScrollPane16;
+    private javax.swing.JScrollPane jScrollPane17;
+    private javax.swing.JScrollPane jScrollPane18;
+    private javax.swing.JScrollPane jScrollPane19;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane20;
+    private javax.swing.JScrollPane jScrollPane21;
+    private javax.swing.JScrollPane jScrollPane22;
+    private javax.swing.JScrollPane jScrollPane23;
+    private javax.swing.JScrollPane jScrollPane24;
+    private javax.swing.JScrollPane jScrollPane25;
+    private javax.swing.JScrollPane jScrollPane26;
+    private javax.swing.JScrollPane jScrollPane27;
+    private javax.swing.JScrollPane jScrollPane28;
+    private javax.swing.JScrollPane jScrollPane29;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane30;
+    private javax.swing.JScrollPane jScrollPane31;
+    private javax.swing.JScrollPane jScrollPane32;
+    private javax.swing.JScrollPane jScrollPane33;
+    private javax.swing.JScrollPane jScrollPane34;
+    private javax.swing.JScrollPane jScrollPane35;
+    private javax.swing.JScrollPane jScrollPane36;
+    private javax.swing.JScrollPane jScrollPane37;
+    private javax.swing.JScrollPane jScrollPane38;
+    private javax.swing.JScrollPane jScrollPane39;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane40;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JTabbedPane jTabbedPane;
+    private javax.swing.JList<String> locationList;
+    private javax.swing.JList<String> marriageList;
+    private javax.swing.JList<String> numChildrenList;
+    private javax.swing.JList<String> other1List;
+    private javax.swing.JList<String> other2List;
+    private javax.swing.JList<String> other3List;
+    private javax.swing.JList<String> other4List;
+    private javax.swing.JList<String> other5List;
+    private javax.swing.JList<String> other6List;
+    private javax.swing.JList<String> other7List;
+    private javax.swing.JList<String> other8List;
+    private javax.swing.JList<String> other9List;
+    private javax.swing.JLabel paragraphsLabel;
+    private javax.swing.JList<String> primaryLangList;
+    private javax.swing.JList<String> professionList;
+    private javax.swing.JList<String> religionList;
+    private javax.swing.JList<String> residenceList;
     private javax.swing.JButton searchButton;
-    private javax.swing.JLabel searchLabel;
     private javax.swing.JTable searchTable;
     private javax.swing.JTextField searchTextField;
+    private javax.swing.JList<String> secondLangList;
+    private javax.swing.JButton submitAdvancedSearchButton;
+    private javax.swing.JList<String> tagAndList;
+    private javax.swing.JList<String> tagNotList;
+    private javax.swing.JList<String> tagOrList;
+    private javax.swing.JTextField tagQueryTextField;
+    private javax.swing.JPanel tagsPanel;
+    private javax.swing.JList<String> theme1List;
+    private javax.swing.JList<String> theme2List;
+    private javax.swing.JList<String> theme3List;
+    private javax.swing.JList<String> theme4List;
+    private javax.swing.JList<String> theme5List;
+    private javax.swing.JList<String> theme6List;
+    private javax.swing.JList<String> theme7List;
+    private javax.swing.JList<String> theme8List;
+    private javax.swing.JList<String> theme9List;
+    private javax.swing.JList<String> titleList;
+    private javax.swing.JList<String> tribeList;
     // End of variables declaration//GEN-END:variables
+
+    
 }

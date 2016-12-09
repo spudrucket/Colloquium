@@ -5,8 +5,10 @@
  */
 package colloquium;
 
-import com.sun.glass.events.KeyEvent;
+
 import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +25,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -43,6 +46,7 @@ public class MainWindow extends javax.swing.JFrame {
     TableColumn tagsColumn;
     Interviews currentInterview;
     List<Paragraphs> paragraphsList; 
+    Font tableFont;
     
     private Task task;
     
@@ -51,7 +55,12 @@ public class MainWindow extends javax.swing.JFrame {
      * Creates new form MainWindow
      */
     public MainWindow() {
+        
         initComponents();
+        popjList1();
+        popFontSizeComboBox();
+        fontSizeComboBox.setSelectedItem(12);
+        fontChooserComboBox.setSelectedItem("Arial");
         jList1.setComponentPopupMenu(jList1PopupMenu);
         resultsTable.setComponentPopupMenu(resultsTablePopupMenu);
         resultsTable.setDefaultRenderer(String.class, new LineWrapCellRenderer());
@@ -78,7 +87,6 @@ public class MainWindow extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         ColloquiumPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
         tagsQuery = java.beans.Beans.isDesignTime() ? null : ColloquiumPUEntityManager.createQuery("SELECT t FROM Tags t");
@@ -105,15 +113,16 @@ public class MainWindow extends javax.swing.JFrame {
         tagsButton = new javax.swing.JButton();
         queryButton = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jSeparator6 = new javax.swing.JToolBar.Separator();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
         showTransCheckBox = new javax.swing.JCheckBox();
         searchTextField = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        fontSizeComboBox = new javax.swing.JComboBox<>();
+        fontChooserComboBox = new com.xenoage.util.gui.FontChooserComboBox();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        fileMenu = new javax.swing.JMenu();
+        newProjectMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         addInformantMenuItem = new javax.swing.JMenuItem();
         addInterviewMenuItem = new javax.swing.JMenuItem();
@@ -125,7 +134,7 @@ public class MainWindow extends javax.swing.JFrame {
         editTagsMenuItem = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         refreshMenuItem = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        editMenu = new javax.swing.JMenu();
         backupMenuItem = new javax.swing.JMenuItem();
         restoreMenuItem = new javax.swing.JMenuItem();
         jSeparator7 = new javax.swing.JPopupMenu.Separator();
@@ -189,6 +198,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Colloquium");
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         jTree1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
@@ -239,15 +249,17 @@ public class MainWindow extends javax.swing.JFrame {
             resultsTable.getColumnModel().getColumn(3).setMaxWidth(200);
         }
 
-        jToolBar1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jToolBar1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
         jToolBar1.setMaximumSize(new java.awt.Dimension(32769, 50));
         jToolBar1.setMinimumSize(new java.awt.Dimension(800, 50));
+        jToolBar1.setOpaque(false);
         jToolBar1.setPreferredSize(new java.awt.Dimension(1284, 50));
 
         informantsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/colloquium/person-icon.png"))); // NOI18N
         informantsButton.setToolTipText("Informants");
+        informantsButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         informantsButton.setFocusable(false);
         informantsButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         informantsButton.setMaximumSize(new java.awt.Dimension(50, 50));
@@ -262,6 +274,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         interviewsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/colloquium/text_bubble.png"))); // NOI18N
         interviewsButton.setToolTipText("Interviews");
+        interviewsButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         interviewsButton.setFocusable(false);
         interviewsButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         interviewsButton.setMaximumSize(new java.awt.Dimension(50, 50));
@@ -276,6 +289,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         tagsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/colloquium/tag.png"))); // NOI18N
         tagsButton.setToolTipText("Tags");
+        tagsButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         tagsButton.setFocusable(false);
         tagsButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tagsButton.setMaximumSize(new java.awt.Dimension(50, 50));
@@ -290,6 +304,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         queryButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/colloquium/search.png"))); // NOI18N
         queryButton.setToolTipText("Query");
+        queryButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         queryButton.setFocusable(false);
         queryButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         queryButton.setMaximumSize(new java.awt.Dimension(50, 50));
@@ -304,6 +319,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/colloquium/refresh.png"))); // NOI18N
         jButton1.setToolTipText("Refresh");
+        jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -314,13 +330,18 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton1);
 
-        jSeparator6.setOpaque(true);
-        jSeparator6.setSeparatorSize(new java.awt.Dimension(775, 0));
-        jToolBar1.add(jSeparator6);
+        jList1.setInheritsPopupMenu(true);
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(jList1);
 
         showTransCheckBox.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         showTransCheckBox.setSelected(true);
         showTransCheckBox.setText("Translation");
+        showTransCheckBox.setToolTipText("Show/Hide Translation");
         showTransCheckBox.setFocusable(false);
         showTransCheckBox.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         showTransCheckBox.setOpaque(false);
@@ -330,7 +351,6 @@ public class MainWindow extends javax.swing.JFrame {
                 showTransCheckBoxActionPerformed(evt);
             }
         });
-        jToolBar1.add(showTransCheckBox);
 
         searchTextField.setText("Search in this interview");
         searchTextField.setMaximumSize(new java.awt.Dimension(200, 22));
@@ -345,10 +365,10 @@ public class MainWindow extends javax.swing.JFrame {
                 searchTextFieldKeyPressed(evt);
             }
         });
-        jToolBar1.add(searchTextField);
 
         searchButton.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         searchButton.setText("Search");
+        searchButton.setToolTipText("Search this interview");
         searchButton.setFocusable(false);
         searchButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         searchButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -357,31 +377,31 @@ public class MainWindow extends javax.swing.JFrame {
                 searchButtonActionPerformed(evt);
             }
         });
-        jToolBar1.add(searchButton);
 
-        jList1.setInheritsPopupMenu(true);
-
-        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tagsList, jList1);
-        bindingGroup.addBinding(jListBinding);
-
-        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jList1MouseClicked(evt);
-            }
-        });
-        jScrollPane4.setViewportView(jList1);
-
-        jMenu1.setText("File");
-
-        jMenuItem1.setText("New Project");
-        jMenuItem1.setToolTipText("");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        fontSizeComboBox.setEditable(true);
+        fontSizeComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                fontSizeComboBoxActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
-        jMenu1.add(jSeparator1);
+
+        fontChooserComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fontChooserComboBoxActionPerformed(evt);
+            }
+        });
+
+        fileMenu.setText("File");
+
+        newProjectMenuItem.setText("New Project");
+        newProjectMenuItem.setToolTipText("");
+        newProjectMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newProjectMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(newProjectMenuItem);
+        fileMenu.add(jSeparator1);
 
         addInformantMenuItem.setText("New Informant");
         addInformantMenuItem.setActionCommand("Add Informants");
@@ -390,7 +410,7 @@ public class MainWindow extends javax.swing.JFrame {
                 addInformantMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(addInformantMenuItem);
+        fileMenu.add(addInformantMenuItem);
 
         addInterviewMenuItem.setText("New Interview");
         addInterviewMenuItem.setToolTipText("");
@@ -400,7 +420,7 @@ public class MainWindow extends javax.swing.JFrame {
                 addInterviewMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(addInterviewMenuItem);
+        fileMenu.add(addInterviewMenuItem);
 
         addTagMenuItem.setText("New Tag");
         addTagMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -408,8 +428,8 @@ public class MainWindow extends javax.swing.JFrame {
                 addTagMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(addTagMenuItem);
-        jMenu1.add(jSeparator2);
+        fileMenu.add(addTagMenuItem);
+        fileMenu.add(jSeparator2);
 
         editInformantsMenuItem.setText("Edit Informants");
         editInformantsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -417,7 +437,7 @@ public class MainWindow extends javax.swing.JFrame {
                 editInformantsMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(editInformantsMenuItem);
+        fileMenu.add(editInformantsMenuItem);
 
         editInterviewsMenuItem.setText("Edit Interviews");
         editInterviewsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -425,7 +445,7 @@ public class MainWindow extends javax.swing.JFrame {
                 editInterviewsMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(editInterviewsMenuItem);
+        fileMenu.add(editInterviewsMenuItem);
 
         editParagraphsMenuItem.setText("Edit Paragraphs");
         editParagraphsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -433,7 +453,7 @@ public class MainWindow extends javax.swing.JFrame {
                 editParagraphsMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(editParagraphsMenuItem);
+        fileMenu.add(editParagraphsMenuItem);
 
         editTagsMenuItem.setText("Edit Tags");
         editTagsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -441,8 +461,8 @@ public class MainWindow extends javax.swing.JFrame {
                 editTagsMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(editTagsMenuItem);
-        jMenu1.add(jSeparator3);
+        fileMenu.add(editTagsMenuItem);
+        fileMenu.add(jSeparator3);
 
         refreshMenuItem.setText("Refresh");
         refreshMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -450,11 +470,11 @@ public class MainWindow extends javax.swing.JFrame {
                 refreshMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(refreshMenuItem);
+        fileMenu.add(refreshMenuItem);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(fileMenu);
 
-        jMenu2.setText("Edit");
+        editMenu.setText("Edit");
 
         backupMenuItem.setText("Backup Project");
         backupMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -462,7 +482,7 @@ public class MainWindow extends javax.swing.JFrame {
                 backupMenuItemActionPerformed(evt);
             }
         });
-        jMenu2.add(backupMenuItem);
+        editMenu.add(backupMenuItem);
 
         restoreMenuItem.setText("Restore from Backup");
         restoreMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -470,8 +490,8 @@ public class MainWindow extends javax.swing.JFrame {
                 restoreMenuItemActionPerformed(evt);
             }
         });
-        jMenu2.add(restoreMenuItem);
-        jMenu2.add(jSeparator7);
+        editMenu.add(restoreMenuItem);
+        editMenu.add(jSeparator7);
 
         importTagsMenuItem.setText("Import Tag List");
         importTagsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -479,7 +499,7 @@ public class MainWindow extends javax.swing.JFrame {
                 importTagsMenuItemActionPerformed(evt);
             }
         });
-        jMenu2.add(importTagsMenuItem);
+        editMenu.add(importTagsMenuItem);
 
         exportTagsMenuItem.setText("Export Tags List");
         exportTagsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -487,8 +507,8 @@ public class MainWindow extends javax.swing.JFrame {
                 exportTagsMenuItemActionPerformed(evt);
             }
         });
-        jMenu2.add(exportTagsMenuItem);
-        jMenu2.add(jSeparator5);
+        editMenu.add(exportTagsMenuItem);
+        editMenu.add(jSeparator5);
 
         exportMenuItem.setText("Export Tables");
         exportMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -496,7 +516,7 @@ public class MainWindow extends javax.swing.JFrame {
                 exportMenuItemActionPerformed(evt);
             }
         });
-        jMenu2.add(exportMenuItem);
+        editMenu.add(exportMenuItem);
 
         importMenuItem.setText("Import Tables");
         importMenuItem.setActionCommand("Import Tables");
@@ -505,9 +525,9 @@ public class MainWindow extends javax.swing.JFrame {
                 importMenuItemActionPerformed(evt);
             }
         });
-        jMenu2.add(importMenuItem);
+        editMenu.add(importMenuItem);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(editMenu);
 
         setJMenuBar(jMenuBar1);
 
@@ -518,24 +538,50 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1012, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 1326, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(fontChooserComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(fontSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(showTransCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(searchButton)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(searchButton)
+                                .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGap(6, 6, 6)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(showTransCheckBox))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fontChooserComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fontSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
                     .addComponent(jScrollPane2)
                     .addComponent(jScrollPane4))
                 .addContainerGap())
         );
-
-        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -557,6 +603,24 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }   
     
+    private void popFontSizeComboBox() {
+        int[] fontSizes = {8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72};
+        for (int i : fontSizes) {
+            fontSizeComboBox.addItem(i);
+        }
+    }
+    
+    private void popjList1() {
+        EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
+        Query query = entityManager.createQuery("SELECT t.tagname FROM Tags t");
+        List<String> tagnames = query.getResultList();
+        SortedListModel jList1Model = new SortedListModel();
+        for (String s : tagnames) {
+            jList1Model.add(s);
+        }
+        jList1.setModel(jList1Model);
+    }
+    
     private LinkedList getSelectedParagraphs() {
         EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
         LinkedList<Paragraphs> paragraphsList = new LinkedList();
@@ -570,7 +634,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     private void addParagraphTags() {
-        List<Tags> newTagsList;
+        List<String> newTagsList;
         if (resultsTable.isColumnSelected(resultsTable.getSelectedColumn())) {
             DefaultTableModel model = (DefaultTableModel) resultsTable.getModel();
             newTagsList = jList1.getSelectedValuesList();                                    
@@ -586,8 +650,8 @@ public class MainWindow extends javax.swing.JFrame {
                    String[] oldTagsArray = oldTagsString.split(" *, *");                        
                    newTags.addAll(Arrays.asList(oldTagsArray));
                 }                     
-                for (Tags t : newTagsList) {
-                    newTags.add(t.toString());
+                for (String s : newTagsList) {
+                    newTags.add(s);
                 }
                 StringBuilder sb = new StringBuilder();
                 for (String s : newTags) {
@@ -612,6 +676,7 @@ public class MainWindow extends javax.swing.JFrame {
     
     private void popTable(Interviews interview) {
         DefaultTableModel model = (DefaultTableModel) resultsTable.getModel();
+        
         model.setRowCount(0);
         
         EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
@@ -628,7 +693,7 @@ public class MainWindow extends javax.swing.JFrame {
         } 
     }
     
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void newProjectMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newProjectMenuItemActionPerformed
         ImportFile imp = new ImportFile();
         int result = JOptionPane.showConfirmDialog(this,"Backup existing project first? \nAll current data will be lost.", "New Project",JOptionPane.YES_NO_CANCEL_OPTION);
                 switch(result) {
@@ -648,7 +713,7 @@ public class MainWindow extends javax.swing.JFrame {
                     case 2 :                        
                         break;
                 }
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_newProjectMenuItemActionPerformed
 
     private void addInformantMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInformantMenuItemActionPerformed
         AddInformant ainfo = new AddInformant();
@@ -701,16 +766,6 @@ public class MainWindow extends javax.swing.JFrame {
         }         
     }//GEN-LAST:event_jTree1ValueChanged
 
-    private void showTransCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showTransCheckBoxActionPerformed
-        if (showTransCheckBox.isSelected()) {
-            resultsTable.addColumn(transColumn);
-            resultsTable.moveColumn(2, 1);
-        }
-        else {
-            resultsTable.removeColumn(transColumn);
-        }
-    }//GEN-LAST:event_showTransCheckBoxActionPerformed
-
     private void interviewsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interviewsButtonActionPerformed
         ShowInterviews sint = new ShowInterviews();
         sint.setVisible(true);
@@ -741,7 +796,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_editParagraphsMenuItemActionPerformed
 
     private void deletePopupMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletePopupMenuItemActionPerformed
-        List<Tags> newTagsList;
+        List<String> newTagsList;
         if (resultsTable.isColumnSelected(resultsTable.getSelectedColumn())) {
             EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
             DefaultTableModel model = (DefaultTableModel) resultsTable.getModel();
@@ -758,8 +813,8 @@ public class MainWindow extends javax.swing.JFrame {
                    String[] oldTagsArray = oldTagsString.split(" *, *");                        
                    newTags.addAll(Arrays.asList(oldTagsArray));
                 }                     
-                for (Tags t : newTagsList) {
-                    newTags.remove(t.toString());
+                for (String s : newTagsList) {
+                    newTags.remove(s);
                 }
                 StringBuilder sb = new StringBuilder();
                 for (String s : newTags) {
@@ -802,7 +857,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_resultsTableMouseClicked
 
     private void queryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryButtonActionPerformed
-        SearchWindow sw = new SearchWindow();
+        SearchWindow sw = new SearchWindow(tableFont);
         sw.setVisible(true);
     }//GEN-LAST:event_queryButtonActionPerformed
 
@@ -877,20 +932,6 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
     
-    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        search();
-    }//GEN-LAST:event_searchButtonActionPerformed
-
-    private void searchTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTextFieldKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            search();
-        }
-    }//GEN-LAST:event_searchTextFieldKeyPressed
-
-    private void searchTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchTextFieldFocusGained
-        searchTextField.selectAll();
-    }//GEN-LAST:event_searchTextFieldFocusGained
-
     private void importTagsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importTagsMenuItemActionPerformed
         int result = JOptionPane.showConfirmDialog(this,"Export existing tags first? \nAll current tags will be lost.", "Export Tags",JOptionPane.YES_NO_CANCEL_OPTION);
                 switch(result) {
@@ -1130,6 +1171,42 @@ public class MainWindow extends javax.swing.JFrame {
         mw.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void fontChooserComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fontChooserComboBoxActionPerformed
+        Font selectedFont = new Font(fontChooserComboBox.getSelectedFontName(), Font.PLAIN, (int) fontSizeComboBox.getSelectedItem());
+        tableFont = selectedFont;
+        resultsTable.setFont(tableFont);
+    }//GEN-LAST:event_fontChooserComboBoxActionPerformed
+
+    private void fontSizeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fontSizeComboBoxActionPerformed
+        Font selectedFont = new Font(fontChooserComboBox.getSelectedFontName(), Font.PLAIN, (int) fontSizeComboBox.getSelectedItem());
+        tableFont = selectedFont;
+        resultsTable.setFont(tableFont);
+    }//GEN-LAST:event_fontSizeComboBoxActionPerformed
+
+    private void showTransCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showTransCheckBoxActionPerformed
+        if (showTransCheckBox.isSelected()) {
+            resultsTable.addColumn(transColumn);
+            resultsTable.moveColumn(2, 1);
+        }
+        else {
+            resultsTable.removeColumn(transColumn);
+        }
+    }//GEN-LAST:event_showTransCheckBoxActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        search();
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void searchTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTextFieldKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            search();
+        }
+    }//GEN-LAST:event_searchTextFieldKeyPressed
+
+    private void searchTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchTextFieldFocusGained
+        searchTextField.selectAll();
+    }//GEN-LAST:event_searchTextFieldFocusGained
+
     public final void populateTree() {
         try {
             LinkedList list = new LinkedList();
@@ -1219,23 +1296,24 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem deletePopupMenuItem;
     private javax.swing.JMenuItem editInformantsMenuItem;
     private javax.swing.JMenuItem editInterviewsMenuItem;
+    private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem editParagraphPopupMenuItem;
     private javax.swing.JMenuItem editParagraphsMenuItem;
     private javax.swing.JMenuItem editTagPopupMenuItem;
     private javax.swing.JMenuItem editTagsMenuItem;
     private javax.swing.JMenuItem exportMenuItem;
     private javax.swing.JMenuItem exportTagsMenuItem;
+    private javax.swing.JMenu fileMenu;
+    private com.xenoage.util.gui.FontChooserComboBox fontChooserComboBox;
+    private javax.swing.JComboBox<Integer> fontSizeComboBox;
     private javax.swing.JMenuItem importMenuItem;
     private javax.swing.JMenuItem importTagsMenuItem;
     private javax.swing.JButton informantsButton;
     private javax.swing.JButton interviewsButton;
     private javax.swing.JButton jButton1;
-    private javax.swing.JList<Tags> jList1;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JPopupMenu jList1PopupMenu;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1245,10 +1323,10 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
-    private javax.swing.JToolBar.Separator jSeparator6;
     private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTree jTree1;
+    private javax.swing.JMenuItem newProjectMenuItem;
     private javax.swing.JFileChooser openFileChooser;
     private javax.swing.JButton queryButton;
     private javax.swing.JMenuItem refreshMenuItem;
@@ -1262,6 +1340,5 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton tagsButton;
     private java.util.List<colloquium.Tags> tagsList;
     private javax.persistence.Query tagsQuery;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

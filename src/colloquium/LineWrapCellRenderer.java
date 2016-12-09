@@ -11,17 +11,18 @@ import javax.swing.JTextArea;
 import javax.swing.table.TableCellRenderer;
 
 /**
- *
+ * https://stackoverflow.com/questions/33937074/jtable-cell-wrapping/38932843#38932843
  * @author Mark_K
  */
 public class LineWrapCellRenderer extends JTextArea implements TableCellRenderer {
-    
+        
     @Override
         public Component getTableCellRendererComponent(JTable table, Object value, 
                 boolean isSelected, boolean hasFocus, int row, int column) {
             this.setText((String)value);
             this.setWrapStyleWord(true);
             this.setLineWrap(true);
+            this.setFont(table.getFont());                        
             
             if (isSelected) {
                 setForeground(table.getSelectionForeground());
