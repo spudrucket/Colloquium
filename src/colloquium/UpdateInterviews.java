@@ -19,6 +19,8 @@ import javax.persistence.Persistence;
  */
 public class UpdateInterviews extends javax.swing.JFrame {
 
+    MainWindow mainwindow;
+    
     /**
      * Creates new form UpdateInterviews
      */
@@ -26,7 +28,8 @@ public class UpdateInterviews extends javax.swing.JFrame {
         initComponents();
     }
     
-    public UpdateInterviews(Interviews selectedInterview) {
+    public UpdateInterviews(Interviews selectedInterview, MainWindow mw) {
+        this.mainwindow = mw;
         initComponents();
         selectInterviewComboBox.setSelectedItem(selectedInterview);
     }
@@ -119,7 +122,7 @@ public class UpdateInterviews extends javax.swing.JFrame {
         });
 
         dateFormatedTextField.setColumns(1);
-        dateFormatedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat(""))));
+        dateFormatedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("M/d/yyyy"))));
 
         informantLabel.setText("Informant:");
 
@@ -298,6 +301,7 @@ public class UpdateInterviews extends javax.swing.JFrame {
             this.setVisible(false);
             ShowInterviews sint = new ShowInterviews();
             sint.setVisible(true);
+            mainwindow.populateTree();
         }
     }//GEN-LAST:event_updateInterviewButtonActionPerformed
 

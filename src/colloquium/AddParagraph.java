@@ -33,6 +33,7 @@ Interviews selectedInterview;
         textTextArea.getDocument().addDocumentListener(new TextDocumentListener());
         transTextArea.getDocument().addDocumentListener(new TransDocumentListener());
         hasTranslationCheckBox.setSelected(true);
+        wordWrapCheckBox.setSelected(true);
     }
     
     public AddParagraph(Informants informant, Interviews interview, boolean yesno) {
@@ -43,6 +44,7 @@ Interviews selectedInterview;
         transTextArea.getDocument().addDocumentListener(new TransDocumentListener()); 
         transTextArea.setEnabled(yesno);
         hasTranslationCheckBox.setSelected(yesno);
+        wordWrapCheckBox.setSelected(true);
     }
   
     /**
@@ -67,6 +69,7 @@ Interviews selectedInterview;
         textLabel = new javax.swing.JLabel();
         transLabel = new javax.swing.JLabel();
         addParagraphButton = new javax.swing.JButton();
+        wordWrapCheckBox = new javax.swing.JCheckBox();
 
         textTextArea.setColumns(20);
         textTextArea.setLineWrap(true);
@@ -115,39 +118,49 @@ Interviews selectedInterview;
             }
         });
 
+        wordWrapCheckBox.setText("Word Wrap");
+        wordWrapCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                wordWrapCheckBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(191, 191, 191)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(textParagraphNumLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(wordWrapCheckBox)
+                        .addGap(158, 158, 158)
+                        .addComponent(textLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(transLabel)
+                        .addGap(279, 279, 279))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(hasTranslationCheckBox)
-                        .addGap(102, 102, 102)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(transParagraphNumLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addParagraphButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(previewButton))
-                    .addComponent(jScrollPane2))
-                .addGap(17, 17, 17))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(263, 263, 263)
-                .addComponent(textLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(transLabel)
-                .addGap(279, 279, 279))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(191, 191, 191)
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(textParagraphNumLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(hasTranslationCheckBox)
+                                .addGap(102, 102, 102)
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(transParagraphNumLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(addParagraphButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(previewButton))
+                            .addComponent(jScrollPane2))
+                        .addGap(17, 17, 17))))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane1, jScrollPane2});
@@ -158,8 +171,9 @@ Interviews selectedInterview;
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textLabel)
-                    .addComponent(transLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                    .addComponent(transLabel)
+                    .addComponent(wordWrapCheckBox))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPane2)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -182,7 +196,9 @@ Interviews selectedInterview;
         ArrayList textArray = new ArrayList();
         ArrayList transArray = new ArrayList();
         String currentParagraph = "";
-
+        
+        textTextArea.append("\n");
+        
         char[] charsText = textTextArea.getText().toCharArray();
         for (char c : charsText) {
             if (c != '\n') {
@@ -197,6 +213,7 @@ Interviews selectedInterview;
         }
         
         if (hasTranslationCheckBox.isSelected()) {
+            transTextArea.append("\n");
             currentParagraph = "";
             char[] charsTrans = transTextArea.getText().toCharArray();   
             for (char c : charsTrans) {
@@ -238,6 +255,7 @@ Interviews selectedInterview;
         ArrayList transArray = new ArrayList();
         String currentParagraph = "";
 
+        textTextArea.append("\n");
         char[] charsText = textTextArea.getText().toCharArray();   
         for (char c : charsText) {
             if (c != '\n') {
@@ -252,6 +270,7 @@ Interviews selectedInterview;
         }
         
         if (hasTranslationCheckBox.isSelected()) {
+            transTextArea.append("\n");
             currentParagraph = "";
             char[] charsTrans = transTextArea.getText().toCharArray();   
             for (char c : charsTrans) {
@@ -272,6 +291,7 @@ Interviews selectedInterview;
                 newParagraph.setInterviewnumber(selectedInterview);
                 newParagraph.setText(textArray.get(i).toString());
                 newParagraph.setTrans(transArray.get(i).toString());
+                newParagraph.setTags("");
                 EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
                 ParagraphsJpaController pjc = new ParagraphsJpaController(emf);
                 pjc.create(newParagraph);
@@ -288,6 +308,7 @@ Interviews selectedInterview;
                 newParagraph.setInformant(selectedInformant);
                 newParagraph.setInterviewnumber(selectedInterview);
                 newParagraph.setText(textArray.get(i).toString());
+                newParagraph.setTags("");
                 EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
                 ParagraphsJpaController pjc = new ParagraphsJpaController(emf);
                 pjc.create(newParagraph);
@@ -296,11 +317,23 @@ Interviews selectedInterview;
         }                     
     }//GEN-LAST:event_addParagraphButtonActionPerformed
 
+    private void wordWrapCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wordWrapCheckBoxActionPerformed
+        if (wordWrapCheckBox.isSelected()) {
+            textTextArea.setLineWrap(true);
+            transTextArea.setLineWrap(true);
+        }
+        else {
+            textTextArea.setLineWrap(false);
+            transTextArea.setLineWrap(false);
+        }
+    }//GEN-LAST:event_wordWrapCheckBoxActionPerformed
+
     @Override
     public void actionPerformed(ActionEvent e) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    //Counts new line markers
     class TextDocumentListener implements DocumentListener {
         @Override
         public void insertUpdate(DocumentEvent e) {
@@ -413,5 +446,6 @@ Interviews selectedInterview;
     private javax.swing.JLabel transLabel;
     private javax.swing.JLabel transParagraphNumLabel;
     private javax.swing.JTextArea transTextArea;
+    private javax.swing.JCheckBox wordWrapCheckBox;
     // End of variables declaration//GEN-END:variables
 }

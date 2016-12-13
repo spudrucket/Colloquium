@@ -235,19 +235,10 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="exportMenuItem">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Export Tables"/>
+                <Property name="text" type="java.lang.String" value="Export Database"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportMenuItemActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="importMenuItem">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Import Tables"/>
-                <Property name="actionCommand" type="java.lang.String" value="Import Tables"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="importMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

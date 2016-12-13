@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Paragraphs.findAll", query = "SELECT p FROM Paragraphs p")
     , @NamedQuery(name = "Paragraphs.findById", query = "SELECT p FROM Paragraphs p WHERE p.id = :id")
     , @NamedQuery(name = "Paragraphs.findByInformant", query = "SELECT p FROM Paragraphs p WHERE p.informant = :informant")
-    , @NamedQuery(name = "Paragraphs.findByInterviewnumber", query = "SELECT P FROM Paragraphs p WHERE p.interviewnumber = :interviewnumber")
+    , @NamedQuery(name = "Paragraphs.findByInterviewnumber", query = "SELECT p FROM Paragraphs p WHERE p.interviewnumber = :interviewnumber")
     , @NamedQuery(name = "Paragraphs.findByNotes", query = "SELECT p FROM Paragraphs p WHERE p.notes = :notes")
     , @NamedQuery(name = "Paragraphs.findByTags", query = "SELECT p FROM Paragraphs p WHERE p.tags = :tags")})
 public class Paragraphs implements Serializable {

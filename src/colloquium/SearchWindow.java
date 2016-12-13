@@ -8,6 +8,8 @@ package colloquium;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -1544,9 +1546,23 @@ public class SearchWindow extends javax.swing.JFrame {
             tagAndList.clearSelection();
             tagOrList.clearSelection();
             tagNotList.clearSelection();
-            tagAndSelectedTags.clear();
-            tagOrSelectedTags.clear();
-            tagNotSelectedTags.clear();
+            tagQueryTextField.removeAll();
+            if (tagOrSelectedTags != null && !tagOrSelectedTags.isEmpty()) {
+                tagAndModel.addAll(tagOrSelectedTags.toArray());
+                tagNotModel.addAll(tagOrSelectedTags.toArray());
+                tagOrSelectedTags.clear();
+            }
+            if (tagAndSelectedTags != null && !tagAndSelectedTags.isEmpty()) {
+                tagOrModel.addAll(tagAndSelectedTags.toArray());
+                tagNotModel.addAll(tagAndSelectedTags.toArray()); 
+                tagAndSelectedTags.clear();
+            }
+            if (tagNotSelectedTags != null && !tagNotSelectedTags.isEmpty()) {
+                tagOrModel.addAll(tagNotSelectedTags.toArray());
+                tagAndModel.addAll(tagNotSelectedTags.toArray());
+                tagNotSelectedTags.clear();
+            }                                                                                 
+            advancedSearch();
         } catch (NullPointerException npe) {
         }       
     }//GEN-LAST:event_clearSelectionButtionActionPerformed
@@ -2340,7 +2356,33 @@ public class SearchWindow extends javax.swing.JFrame {
                 }
             }
         }
-//SEARCH BY INTERVIEW DATE!!!!
+        if (date != null && date.size() > 0 && date.get(0) != "None") {
+            if (count2 > 0) {
+                sb2.append(" AND ");
+            }
+            sb2.append("((i.interviewdate ");
+            count2++;
+            if (date.get(0) == "All") {
+                sb2.append("IS NOT NULL))");
+            }
+            else {
+                if (date.size() == 1) {
+                    sb2.append("= ('" + date.get(0) + "')))");
+                }
+                else {
+                    Iterator i = date.iterator();
+                    while (i.hasNext()) {
+                        sb2.append("= ('" + i.next() + "'))");
+                        if (i.hasNext()) {
+                            sb2.append(" OR (i.interviewdate ");
+                        }
+                        else {
+                            sb2.append(")");
+                        }
+                    }                    
+                }
+            }
+        }
         if (theme1.size() > 0 && theme1.get(0) != "None") {
             if (count2 > 0) {
                 sb2.append(" AND ");
@@ -2957,7 +2999,16 @@ public class SearchWindow extends javax.swing.JFrame {
             intInterviewer.add(i.getInterviewer());
             intLocation.add(i.getLocation());
             if (i.getInterviewdate() != null) {
-                intDate.add(i.getInterviewdate().toString());
+                java.sql.Date sqlStartDate = null;
+                SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+                java.util.Date date;
+                try {
+                    date = sdf.parse(i.getInterviewdate().toString());
+                    sqlStartDate = new Date(date.getTime());
+                    intDate.add(sqlStartDate.toString());
+                } catch (java.text.ParseException ex) {
+                    Logger.getLogger(ImportFile.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             intTheme1.add(i.getTheme1());
             intTheme2.add(i.getTheme2());

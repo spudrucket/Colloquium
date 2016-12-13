@@ -12,7 +12,7 @@ import javax.swing.table.TableCellRenderer;
 
 /**
  * https://stackoverflow.com/questions/33937074/jtable-cell-wrapping/38932843#38932843
- * @author Mark_K
+ * 
  */
 public class LineWrapCellRenderer extends JTextArea implements TableCellRenderer {
         

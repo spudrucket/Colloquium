@@ -5,10 +5,14 @@
  */
 package colloquium;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,10 +20,17 @@ import javax.persistence.Persistence;
  */
 public class AddTag extends javax.swing.JFrame {
 
+    MainWindow mainwindow;
+    
     /**
      * Creates new form AddTag
      */
     public AddTag() {
+        initComponents();
+    }
+    
+    public AddTag(MainWindow mw) {
+        this.mainwindow = mw;
         initComponents();
     }
 
@@ -111,7 +122,7 @@ public class AddTag extends javax.swing.JFrame {
                     .addComponent(tagLabel))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(definitionLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -130,20 +141,29 @@ public class AddTag extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addTagButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTagButtonActionPerformed
-        Tags newTag = new Tags();
-        newTag.setTagname(tagTextField.getText());
-        newTag.setTagdefinition(definitionTextArea.getText());
-        newTag.setTagexplanation(explanationTextArea.getText());
-        
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
-        TagsJpaController tjc = new TagsJpaController(emf);
-        try {
-            tjc.create(newTag);
-        } catch (Exception ex) {
-            Logger.getLogger(AddTag.class.getName()).log(Level.SEVERE, null, ex);
+        EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
+        Query query = entityManager.createQuery("Select t.tagname FROM Tags t");
+        List<String> tagnamesList = query.getResultList();
+        if (!tagTextField.getText().isEmpty() && !tagnamesList.contains(tagTextField.getText().toLowerCase())) {
+            Tags newTag = new Tags();
+            newTag.setTagname(tagTextField.getText().toLowerCase());
+            newTag.setTagdefinition(definitionTextArea.getText());
+            newTag.setTagexplanation(explanationTextArea.getText());
+
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
+            TagsJpaController tjc = new TagsJpaController(emf);
+            try {
+                tjc.create(newTag);
+            } catch (Exception ex) {
+                Logger.getLogger(AddTag.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            this.setVisible(false);
+            mainwindow.popjList1();
+            }
+        else {
+            JOptionPane.showMessageDialog(null,"Tag already exists or is blank.");
         }
-        
-        this.setVisible(false);
     }//GEN-LAST:event_addTagButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed

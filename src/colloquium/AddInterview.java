@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -22,10 +23,17 @@ import javax.persistence.Query;
  */
 public class AddInterview extends javax.swing.JFrame {
 
+    MainWindow mainwindow;
+    
     /**
      * Creates new form AddInterview
      */
     public AddInterview() {
+        initComponents();
+    }
+    
+    public AddInterview(MainWindow mw) {
+        this.mainwindow = mw;
         initComponents();
     }
 
@@ -87,11 +95,6 @@ public class AddInterview extends javax.swing.JFrame {
 
         dateFormatedTextField.setColumns(1);
         dateFormatedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("M/d/yyyy"))));
-        dateFormatedTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dateFormatedTextFieldActionPerformed(evt);
-            }
-        });
 
         informantLabel.setText("Informant:");
 
@@ -205,16 +208,16 @@ public class AddInterview extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(titleLabel)
                             .addComponent(titleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                        .addGap(0, 1, Short.MAX_VALUE)
                         .addComponent(theme3TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(theme4TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(theme5TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(informantComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(informantLabel))
@@ -274,51 +277,53 @@ public class AddInterview extends javax.swing.JFrame {
     } 
     
     private void addInterviewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInterviewButtonActionPerformed
-        Interviews newInterview = new Interviews();
-        newInterview.setTitle(titleTextField.getText());
-        Informants currentInformant = (Informants)informantComboBox.getSelectedItem();
-        newInterview.setInformant(currentInformant);
-        newInterview.setInterviewer(interviewerTextField.getText());
-        newInterview.setLocation(locationTextField.getText());
-        try {
-            newInterview.setInterviewdate(getSqlDate(dateFormatedTextField.getText()));
-        } catch (Exception ex) {
-            Logger.getLogger(AddInterview.class.getName()).log(Level.SEVERE, null, ex);
+        if (!titleTextField.getText().isEmpty()) {
+            Interviews newInterview = new Interviews();
+            newInterview.setTitle(titleTextField.getText());
+            Informants currentInformant = (Informants)informantComboBox.getSelectedItem();
+            newInterview.setInformant(currentInformant);
+            newInterview.setInterviewer(interviewerTextField.getText());
+            newInterview.setLocation(locationTextField.getText());
+            try {
+                newInterview.setInterviewdate(getSqlDate(dateFormatedTextField.getText()));
+            } catch (Exception ex) {
+                Logger.getLogger(AddInterview.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            newInterview.setTheme1(theme1TextField.getText());
+            newInterview.setTheme2(theme2TextField.getText());
+            newInterview.setTheme3(theme3TextField.getText());
+            newInterview.setTheme4(theme4TextField.getText());
+            newInterview.setTheme5(theme5TextField.getText());
+            newInterview.setTheme6(theme6TextField.getText());
+            newInterview.setTheme7(theme7TextField.getText());
+            newInterview.setTheme8(theme8TextField.getText());
+            newInterview.setTheme9(theme9TextField.getText());
+            newInterview.setSummary(summaryTextArea.getText());
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
+            InterviewsJpaController ijc = new InterviewsJpaController(emf);
+            ijc.create(newInterview);
+
+            EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
+            Query query = entityManager.createNamedQuery("Interviews.findAll");
+            List<Interviews> interviewsList = query.getResultList();
+            Interviews currentInterview = interviewsList.get(interviewsList.size() - 1);
+
+            boolean hasTranslation = hasTranslationCheckBox.isSelected(); 
+
+            AddParagraph ap = new AddParagraph(currentInformant, currentInterview, hasTranslation);
+            ap.setVisible(true);
+
+            this.setVisible(false);
+            mainwindow.populateTree();
         }
-        newInterview.setTheme1(theme1TextField.getText());
-        newInterview.setTheme2(theme2TextField.getText());
-        newInterview.setTheme3(theme3TextField.getText());
-        newInterview.setTheme4(theme4TextField.getText());
-        newInterview.setTheme5(theme5TextField.getText());
-        newInterview.setTheme6(theme6TextField.getText());
-        newInterview.setTheme7(theme7TextField.getText());
-        newInterview.setTheme8(theme8TextField.getText());
-        newInterview.setTheme9(theme9TextField.getText());
-        newInterview.setSummary(summaryTextArea.getText());
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
-        InterviewsJpaController ijc = new InterviewsJpaController(emf);
-        ijc.create(newInterview);
-        
-        EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
-        Query query = entityManager.createNamedQuery("Interviews.findAll");
-        List<Interviews> interviewsList = query.getResultList();
-        Interviews currentInterview = interviewsList.get(interviewsList.size() - 1);
-        
-        boolean hasTranslation = hasTranslationCheckBox.isSelected(); 
-        
-        AddParagraph ap = new AddParagraph(currentInformant, currentInterview, hasTranslation);
-        ap.setVisible(true);
-     
-        this.setVisible(false);
+        else {
+            JOptionPane.showMessageDialog(null,"Interview Title is blank");
+        }
     }//GEN-LAST:event_addInterviewButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         this.setVisible(false);
     }//GEN-LAST:event_cancelButtonActionPerformed
-
-    private void dateFormatedTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateFormatedTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dateFormatedTextFieldActionPerformed
 
     /**
      * @param args the command line arguments

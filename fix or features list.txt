@@ -1,10 +1,9 @@
-add interview themes and Informant others to export and import
-import tags not working?
-advanced search by interview date
-change get connection to entitymanager query in importfile
-change named queries to createquery where appropriate
-fix final paragraph not being added if no return.
-restore from backup always triggers file exists warning because folder exists ???
-update interview Date not working
+*****fix*****
 add informant interview tag updates jtree and jlist without refresh
+advanced search tag tab query errors???
+restore from backup changed informant names???
+
+*****features*****
 add tokenized word frequency count for major languages.
+add note taking for paragraphs
+titlecase before adding value to db

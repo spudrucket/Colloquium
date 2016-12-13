@@ -5,13 +5,15 @@
  */
 package colloquium;
 
-import static colloquium.ShowInformants.idColumn;
 import colloquium.exceptions.IllegalOrphanException;
 import colloquium.exceptions.NonexistentEntityException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,11 +23,17 @@ import javax.swing.JOptionPane;
 public class ShowInterviews extends javax.swing.JFrame {
     
     public static int idColumn = 0;
+    MainWindow mainwindow;
 
     /**
      * Creates new form ShowInterviews
      */
     public ShowInterviews() {
+        initComponents();
+    }
+    
+    public ShowInterviews(MainWindow mw) {
+        this.mainwindow = mw;
         initComponents();
     }
 
@@ -150,14 +158,14 @@ public class ShowInterviews extends javax.swing.JFrame {
     }
     
     private void addNewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewButtonActionPerformed
-        AddInterview addint = new AddInterview();
+        AddInterview addint = new AddInterview(mainwindow);
         addint.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_addNewButtonActionPerformed
 
     private void updateInterviewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateInterviewButtonActionPerformed
         if (getSelectedInterview() != null) {
-            UpdateInterviews uint = new UpdateInterviews(getSelectedInterview());
+            UpdateInterviews uint = new UpdateInterviews(getSelectedInterview(), mainwindow);
             uint.setVisible(true);
             this.setVisible(false);
         }
@@ -165,21 +173,35 @@ public class ShowInterviews extends javax.swing.JFrame {
 
     private void deleteInterviewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteInterviewButtonActionPerformed
         if (getSelectedInterview() != null) {
-            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this Interview?");
+            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this Interview? \n All interview data will be lost.");
             if (confirm == 0) {
+                int interviewId = getSelectedInterview().getId();
+                
+                EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
+                Query query = entityManager.createQuery("SELECT p.id FROM Paragraphs p WHERE p.interviewnumber.id = " + String.valueOf(interviewId));
+                List<Integer> paragraphId = query.getResultList();
                 EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
+                ParagraphsJpaController pjc = new ParagraphsJpaController(emf);
+                for (int i : paragraphId) {
+                    try {
+                        pjc.destroy(i);
+                    } catch (NonexistentEntityException ex) {
+                        Logger.getLogger(ShowInterviews.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }                               
                 InterviewsJpaController ijc = new InterviewsJpaController(emf);
                 try {
-                    ijc.destroy(getSelectedInterview().getId());
+                    ijc.destroy(interviewId);
                 } catch (IllegalOrphanException ex) {
                     Logger.getLogger(ShowInterviews.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (NonexistentEntityException ex) {
                     Logger.getLogger(ShowInterviews.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-            this.setVisible(false);
-            ShowInterviews sint = new ShowInterviews();
-            sint.setVisible(true);
+                this.setVisible(false);
+                ShowInterviews sint = new ShowInterviews();
+                sint.setVisible(true);
+                mainwindow.populateTree();
+            }            
         }
     }//GEN-LAST:event_deleteInterviewButtonActionPerformed
 

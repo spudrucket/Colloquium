@@ -1,6 +1,22 @@
 ----------------------------------------------------------------
-Fri Dec 09 14:25:06 CST 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0158-e542-bd25-000007b15f20 
+Tue Dec 13 14:44:49 CST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0158-f9ee-3b1e-0000083afd78 
+on database directory C:\Users\MarkK\Documents\NetBeansProjects\Colloquium\colloquiumdb with class loader sun.misc.Launcher$AppClassLoader@24d46ca6 
+Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_101/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_101-b13
+user.dir=C:\Users\MarkK\Documents\NetBeansProjects\Colloquium
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Tue Dec 13 14:45:07 CST 2016:
+Shutting down instance a816c00e-0158-f9ee-3b1e-0000083afd78 on database directory C:\Users\MarkK\Documents\NetBeansProjects\Colloquium\colloquiumdb with class loader sun.misc.Launcher$AppClassLoader@24d46ca6 
+----------------------------------------------------------------
+Tue Dec 13 14:45:07 CST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance e0b94027-0158-f9ee-3b1e-0000083afd78 
 on database directory C:\Users\MarkK\Documents\NetBeansProjects\Colloquium\colloquiumdb with class loader sun.misc.Launcher$AppClassLoader@24d46ca6 
 Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_101/db/lib/derby.jar
 java.vendor=Oracle Corporation

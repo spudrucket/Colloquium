@@ -20,11 +20,17 @@ import javax.swing.JOptionPane;
 public class ShowTags extends javax.swing.JFrame {
     
     public static int idColumn = 0;
+    MainWindow mainwindow;
 
     /**
      * Creates new form ShowTags
      */
     public ShowTags() {
+        initComponents();
+    }
+    
+    public ShowTags(MainWindow mw) {
+        this.mainwindow = mw;
         initComponents();
     }
 
@@ -160,14 +166,14 @@ public class ShowTags extends javax.swing.JFrame {
     }
     
     private void addNewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewButtonActionPerformed
-        AddTag addtag = new AddTag();
+        AddTag addtag = new AddTag(mainwindow);
         addtag.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_addNewButtonActionPerformed
 
     private void updateTagButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateTagButtonActionPerformed
         if (getSelectedTag() != null) {
-            UpdateTags ui = new UpdateTags(getSelectedTag());
+            UpdateTags ui = new UpdateTags(getSelectedTag(), mainwindow);
             ui.setVisible(true);
             this.setVisible(false);
         }
@@ -194,6 +200,7 @@ public class ShowTags extends javax.swing.JFrame {
         this.setVisible(false);
         ShowTags st = new ShowTags();
         st.setVisible(true);
+        mainwindow.popjList1();
     }//GEN-LAST:event_deleteTagButtonActionPerformed
 
     /**

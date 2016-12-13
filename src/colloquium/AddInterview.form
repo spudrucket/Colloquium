@@ -149,7 +149,7 @@
               </Group>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="8" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="1" max="32767" attributes="0"/>
                       <Component id="theme3TextField" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="theme4TextField" min="-2" max="-2" attributes="0"/>
@@ -157,7 +157,6 @@
                       <Component id="theme5TextField" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="informantComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="informantLabel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -258,9 +257,6 @@
           <Format format="M/d/yyyy" subtype="-1" type="1"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dateFormatedTextFieldActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="informantLabel">
       <Properties>

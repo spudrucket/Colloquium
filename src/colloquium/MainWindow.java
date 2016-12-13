@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.concurrent.Task;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -48,7 +47,7 @@ public class MainWindow extends javax.swing.JFrame {
     List<Paragraphs> paragraphsList; 
     Font tableFont;
     
-    private Task task;
+
     
 
     /**
@@ -142,7 +141,6 @@ public class MainWindow extends javax.swing.JFrame {
         exportTagsMenuItem = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         exportMenuItem = new javax.swing.JMenuItem();
-        importMenuItem = new javax.swing.JMenuItem();
 
         addTagPopupMenuItem.setText("Add Tag");
         addTagPopupMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -510,22 +508,13 @@ public class MainWindow extends javax.swing.JFrame {
         editMenu.add(exportTagsMenuItem);
         editMenu.add(jSeparator5);
 
-        exportMenuItem.setText("Export Tables");
+        exportMenuItem.setText("Export Database");
         exportMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exportMenuItemActionPerformed(evt);
             }
         });
         editMenu.add(exportMenuItem);
-
-        importMenuItem.setText("Import Tables");
-        importMenuItem.setActionCommand("Import Tables");
-        importMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                importMenuItemActionPerformed(evt);
-            }
-        });
-        editMenu.add(importMenuItem);
 
         jMenuBar1.add(editMenu);
 
@@ -610,7 +599,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
     
-    private void popjList1() {
+    public void popjList1() {
         EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
         Query query = entityManager.createQuery("SELECT t.tagname FROM Tags t");
         List<String> tagnames = query.getResultList();
@@ -716,22 +705,22 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_newProjectMenuItemActionPerformed
 
     private void addInformantMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInformantMenuItemActionPerformed
-        AddInformant ainfo = new AddInformant();
+        AddInformant ainfo = new AddInformant(this);
         ainfo.setVisible(true);
     }//GEN-LAST:event_addInformantMenuItemActionPerformed
 
     private void addInterviewMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInterviewMenuItemActionPerformed
-        AddInterview aint = new AddInterview();
+        AddInterview aint = new AddInterview(this);
         aint.setVisible(true);
     }//GEN-LAST:event_addInterviewMenuItemActionPerformed
 
     private void addTagMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTagMenuItemActionPerformed
-        AddTag atag = new AddTag();
+        AddTag atag = new AddTag(this);
         atag.setVisible(true);
     }//GEN-LAST:event_addTagMenuItemActionPerformed
 
     private void editInformantsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editInformantsMenuItemActionPerformed
-        ShowInformants sinf = new ShowInformants();
+        ShowInformants sinf = new ShowInformants(this);
         sinf.setVisible(true);
     }//GEN-LAST:event_editInformantsMenuItemActionPerformed
 
@@ -742,12 +731,12 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_refreshMenuItemActionPerformed
 
     private void editInterviewsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editInterviewsMenuItemActionPerformed
-        ShowInterviews sint = new ShowInterviews();
+        ShowInterviews sint = new ShowInterviews(this);
         sint.setVisible(true);
     }//GEN-LAST:event_editInterviewsMenuItemActionPerformed
 
     private void editTagsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editTagsMenuItemActionPerformed
-        ShowTags stag = new ShowTags();
+        ShowTags stag = new ShowTags(this);
         stag.setVisible(true);
     }//GEN-LAST:event_editTagsMenuItemActionPerformed
 
@@ -767,17 +756,17 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jTree1ValueChanged
 
     private void interviewsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interviewsButtonActionPerformed
-        ShowInterviews sint = new ShowInterviews();
+        ShowInterviews sint = new ShowInterviews(this);
         sint.setVisible(true);
     }//GEN-LAST:event_interviewsButtonActionPerformed
 
     private void informantsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_informantsButtonActionPerformed
-        ShowInformants sinf = new ShowInformants();
+        ShowInformants sinf = new ShowInformants(this);
         sinf.setVisible(true);
     }//GEN-LAST:event_informantsButtonActionPerformed
 
     private void tagsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tagsButtonActionPerformed
-        ShowTags stag = new ShowTags();
+        ShowTags stag = new ShowTags(this);
         stag.setVisible(true);
     }//GEN-LAST:event_tagsButtonActionPerformed
 
@@ -841,12 +830,12 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_addTagPopupMenuItemActionPerformed
 
     private void createTagPopupMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createTagPopupMenuItemActionPerformed
-        AddTag at = new AddTag();
+        AddTag at = new AddTag(this);
         at.setVisible(true);
     }//GEN-LAST:event_createTagPopupMenuItemActionPerformed
 
     private void editTagPopupMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editTagPopupMenuItemActionPerformed
-        ShowTags st = new ShowTags();
+        ShowTags st = new ShowTags(this);
         st.setVisible(true);
     }//GEN-LAST:event_editTagPopupMenuItemActionPerformed
 
@@ -1049,6 +1038,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
     
+    // not currently implemented because of potential problems with auto ID numbering
     private void importDb() {
         openFileChooser.setFileFilter(new FileNameExtensionFilter("txt file","txt"));
         int returnVal = openFileChooser.showOpenDialog(this);
@@ -1065,29 +1055,6 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
     
-    private void importMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importMenuItemActionPerformed
-        int result = JOptionPane.showConfirmDialog(this,"Backup existing info first? \nAll current info will be lost.", "Import Tables",JOptionPane.YES_NO_CANCEL_OPTION);
-                switch(result) {
-                    case 0 :
-                        exportDb();
-                        importDb();
-                        this.setVisible(false);
-                        MainWindow mw1 = new MainWindow();
-                        mw1.setVisible(true);
-                        break;
-                    case 1 :
-                        importDb();
-                        this.setVisible(false);
-                        MainWindow mw2 = new MainWindow();
-                        mw2.setVisible(true);
-                        
-                        break;
-                    case 2 :                        
-                        break;
-                }
-        
-    }//GEN-LAST:event_importMenuItemActionPerformed
-
     private void backupMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backupMenuItemActionPerformed
         backupDb();
     }//GEN-LAST:event_backupMenuItemActionPerformed
@@ -1306,7 +1273,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenu fileMenu;
     private com.xenoage.util.gui.FontChooserComboBox fontChooserComboBox;
     private javax.swing.JComboBox<Integer> fontSizeComboBox;
-    private javax.swing.JMenuItem importMenuItem;
     private javax.swing.JMenuItem importTagsMenuItem;
     private javax.swing.JButton informantsButton;
     private javax.swing.JButton interviewsButton;

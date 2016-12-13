@@ -30,6 +30,7 @@ public class ExportFile {
     public ExportFile() {
     }
     
+    // export tags to a tab dilineated file
     public void exportTags(File file) throws IOException {
         try {
             FileWriter fw = new FileWriter(file);
@@ -77,6 +78,7 @@ public class ExportFile {
         return tagsList;
     }
     
+    // export whole database to a tab dilineated file
     public void exportDatabase(File file) throws IOException {
         LinkedList<Informants> informantsList = getInformants();
         LinkedList<Interviews> interviewsList = getInterviews();
@@ -186,6 +188,7 @@ public class ExportFile {
         }
     }
     
+    // back up databse to a folder
     public void backupDb(File file) throws SQLException{
         Connection con = null;
         try {
@@ -205,7 +208,8 @@ public class ExportFile {
         File oldFile = new File(file.getPath() + File.separator + "colloquiumdb" + File.separator);
         oldFile.renameTo(newFile);        
     }
-    
+        
+        //creates etc folder and blank db for createnewdb function (new project)
         public void backupBlankDb(File file) throws SQLException{
         Connection con = null;
         try {

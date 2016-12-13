@@ -16,6 +16,8 @@ import javax.persistence.Persistence;
  */
 public class UpdateTags extends javax.swing.JFrame {
 
+    MainWindow mainwindow;
+    
     /**
      * Creates new form UpdateTags
      */
@@ -23,7 +25,8 @@ public class UpdateTags extends javax.swing.JFrame {
         initComponents();
     }
     
-    public UpdateTags(Tags selectedTag) {
+    public UpdateTags(Tags selectedTag, MainWindow mw) {
+        this.mainwindow = mw;
         initComponents();
         selectTagComboBox.setSelectedItem(selectedTag);
     }
@@ -171,6 +174,7 @@ public class UpdateTags extends javax.swing.JFrame {
             this.setVisible(false);
             ShowTags stag = new ShowTags();
             stag.setVisible(true);
+            mainwindow.popjList1();
         }
     }//GEN-LAST:event_updateTagButtonActionPerformed
 

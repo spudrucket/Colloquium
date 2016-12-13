@@ -5,8 +5,12 @@
  */
 package colloquium;
 
+import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,10 +18,17 @@ import javax.persistence.Persistence;
  */
 public class AddInformant extends javax.swing.JFrame {
 
+    MainWindow mainwindow;
+    
     /**
      * Creates new form AddInformant
      */
     public AddInformant() {
+        initComponents();
+    }
+    
+    public AddInformant(MainWindow mw) {
+        this.mainwindow = mw;
         initComponents();
     }
 
@@ -87,34 +98,17 @@ public class AddInformant extends javax.swing.JFrame {
         other9TextField = new javax.swing.JTextField();
 
         setTitle("Add New Informant");
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setPreferredSize(new java.awt.Dimension(700, 670));
 
         firstNameLabel.setText("First Name:");
 
-        firstNameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                firstNameTextFieldActionPerformed(evt);
-            }
-        });
-
         surnameLabel.setText("Last Name:");
 
-        surnameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                surnameTextFieldActionPerformed(evt);
-            }
-        });
-
-        nickNameLabel.setText("Nick Name*:");
+        nickNameLabel.setText("Nickname*:");
 
         genderLabel.setText("Gender:");
 
         genderComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Male", "Female" }));
-        genderComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                genderComboBoxActionPerformed(evt);
-            }
-        });
 
         ageLabel.setText("Age:");
 
@@ -133,11 +127,6 @@ public class AddInformant extends javax.swing.JFrame {
         marriageLabel.setText("Marital Status:");
 
         marriageComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Single", "Married", "Divorced" }));
-        marriageComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                marriageComboBoxActionPerformed(evt);
-            }
-        });
 
         numberOfChildrenLabel.setText("# of Children:");
 
@@ -413,7 +402,7 @@ public class AddInformant extends javax.swing.JFrame {
                     .addComponent(other8TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(other3Label6)
                     .addComponent(other9TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addInformantButton)
                     .addComponent(cancelButton))
@@ -425,57 +414,50 @@ public class AddInformant extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void firstNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_firstNameTextFieldActionPerformed
-
-    private void surnameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_surnameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_surnameTextFieldActionPerformed
-
-    private void genderComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genderComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_genderComboBoxActionPerformed
-
     private void addInformantButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInformantButtonActionPerformed
-        Informants newInformant = new Informants();
-        newInformant.setFirstname(firstNameTextField.getText());
-        newInformant.setSurname(surnameTextField.getText());
-        newInformant.setNickname(nickNameTextField.getText());
-        newInformant.setGender((String) genderComboBox.getSelectedItem());
-        newInformant.setAge((Integer) ageSpinner.getValue());
-        newInformant.setBirthplace(birthPlaceTextField.getText());
-        newInformant.setResidence(residenceTextField.getText());
-        newInformant.setPrimarylang(primaryLangTextField.getText());
-        newInformant.setSecondarylang(secondaryLangTextField.getText());
-        newInformant.setTribe(tribeTextField.getText());
-        newInformant.setClan(clanTextField.getText());
-        newInformant.setMarriage((String) marriageComboBox.getSelectedItem());
-        newInformant.setNumberofchildren((Integer) numberOfChildrenSpinner.getValue());
-        newInformant.setEconomic(economicTextField.getText());
-        newInformant.setProfession(professionTextField.getText());
-        newInformant.setEducation(educationTextField.getText());
-        newInformant.setReligion(religionTextField.getText());
-        newInformant.setOther1(other1TextField.getText());
-        newInformant.setOther2(other2TextField.getText());
-        newInformant.setOther3(other3TextField.getText());
-        newInformant.setOther4(other4TextField.getText());
-        newInformant.setOther5(other5TextField.getText());
-        newInformant.setOther6(other6TextField.getText());
-        newInformant.setOther7(other7TextField.getText());
-        newInformant.setOther8(other8TextField.getText());
-        newInformant.setOther9(other9TextField.getText());
-             
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
-        InformantsJpaController ijc = new InformantsJpaController(emf);
-        ijc.create(newInformant);
-       
-        this.setVisible(false);
-    }//GEN-LAST:event_addInformantButtonActionPerformed
+        EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
+        Query query = entityManager.createQuery("Select i.nickname FROM Informants i");
+        List<String> nicknameList = query.getResultList();
+        if (!nickNameTextField.getText().isEmpty() && !nicknameList.contains(nickNameTextField.getText())) {
+            Informants newInformant = new Informants();
+            newInformant.setFirstname(firstNameTextField.getText());
+            newInformant.setSurname(surnameTextField.getText());
+            newInformant.setNickname(nickNameTextField.getText());
+            newInformant.setGender((String) genderComboBox.getSelectedItem());
+            newInformant.setAge((Integer) ageSpinner.getValue());
+            newInformant.setBirthplace(birthPlaceTextField.getText());
+            newInformant.setResidence(residenceTextField.getText());
+            newInformant.setPrimarylang(primaryLangTextField.getText());
+            newInformant.setSecondarylang(secondaryLangTextField.getText());
+            newInformant.setTribe(tribeTextField.getText());
+            newInformant.setClan(clanTextField.getText());
+            newInformant.setMarriage((String) marriageComboBox.getSelectedItem());
+            newInformant.setNumberofchildren((Integer) numberOfChildrenSpinner.getValue());
+            newInformant.setEconomic(economicTextField.getText().toLowerCase());
+            newInformant.setProfession(professionTextField.getText().toLowerCase());
+            newInformant.setEducation(educationTextField.getText().toLowerCase());
+            newInformant.setReligion(religionTextField.getText().toLowerCase());
+            newInformant.setOther1(other1TextField.getText());
+            newInformant.setOther2(other2TextField.getText());
+            newInformant.setOther3(other3TextField.getText());
+            newInformant.setOther4(other4TextField.getText());
+            newInformant.setOther5(other5TextField.getText());
+            newInformant.setOther6(other6TextField.getText());
+            newInformant.setOther7(other7TextField.getText());
+            newInformant.setOther8(other8TextField.getText());
+            newInformant.setOther9(other9TextField.getText());
 
-    private void marriageComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_marriageComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_marriageComboBoxActionPerformed
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
+            InformantsJpaController ijc = new InformantsJpaController(emf);
+            ijc.create(newInformant);
+
+            this.setVisible(false);
+            mainwindow.populateTree();
+        }
+        else {
+            JOptionPane.showMessageDialog(null,"Informant already exists or Nickname is blank.");
+        }
+    }//GEN-LAST:event_addInformantButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         this.setVisible(false);

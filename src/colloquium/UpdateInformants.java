@@ -15,6 +15,8 @@ import javax.persistence.Persistence;
  * @author Mark_K
  */
 public class UpdateInformants extends javax.swing.JFrame {
+    
+    MainWindow mainwindow;
 
     /**
      * Creates new form UpdateInformants
@@ -23,7 +25,8 @@ public class UpdateInformants extends javax.swing.JFrame {
         initComponents();
     }
 
-    public UpdateInformants(Informants selectedInformant) {
+    public UpdateInformants(Informants selectedInformant, MainWindow mw) {
+        this.mainwindow = mw;
         initComponents();
         selectInformantComboBox.setSelectedItem(selectedInformant);
     }
@@ -113,11 +116,6 @@ public class UpdateInformants extends javax.swing.JFrame {
         tribeLabel.setText("Tribe:");
 
         genderComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
-        genderComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                genderComboBoxActionPerformed(evt);
-            }
-        });
 
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, informantsList, selectInformantComboBox);
         bindingGroup.addBinding(jComboBoxBinding);
@@ -151,12 +149,6 @@ public class UpdateInformants extends javax.swing.JFrame {
 
         marriageLabel.setText("Marital Status:");
 
-        firstNameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                firstNameTextFieldActionPerformed(evt);
-            }
-        });
-
         residenceLabel.setText("Residence:");
 
         updateInformantButton.setText("Update Informant");
@@ -167,11 +159,6 @@ public class UpdateInformants extends javax.swing.JFrame {
         });
 
         marriageComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Single", "Married", "Divorced" }));
-        marriageComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                marriageComboBoxActionPerformed(evt);
-            }
-        });
 
         surnameLabel.setText("Last Name:");
 
@@ -180,12 +167,6 @@ public class UpdateInformants extends javax.swing.JFrame {
         numberOfChildrenLabel.setText("# of Children:");
 
         primaryLangLabel.setText("1st Langage:");
-
-        surnameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                surnameTextFieldActionPerformed(evt);
-            }
-        });
 
         numberOfChildrenSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 30, 1));
 
@@ -439,10 +420,6 @@ public class UpdateInformants extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void genderComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genderComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_genderComboBoxActionPerformed
-
     private void selectInformantComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectInformantComboBoxActionPerformed
         Informants updateInfo = (Informants)selectInformantComboBox.getSelectedItem();
         if (updateInfo != null) {
@@ -480,10 +457,6 @@ public class UpdateInformants extends javax.swing.JFrame {
         ShowInformants si = new ShowInformants();
         si.setVisible(true);
     }//GEN-LAST:event_cancelButtonActionPerformed
-
-    private void firstNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_firstNameTextFieldActionPerformed
 
     private void updateInformantButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateInformantButtonActionPerformed
         Informants updateInfo = (Informants)selectInformantComboBox.getSelectedItem();
@@ -525,16 +498,9 @@ public class UpdateInformants extends javax.swing.JFrame {
             this.setVisible(false);
             ShowInformants si = new ShowInformants();
             si.setVisible(true);
+            mainwindow.populateTree();
         }
     }//GEN-LAST:event_updateInformantButtonActionPerformed
-
-    private void marriageComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_marriageComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_marriageComboBoxActionPerformed
-
-    private void surnameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_surnameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_surnameTextFieldActionPerformed
 
     /**
      * @param args the command line arguments

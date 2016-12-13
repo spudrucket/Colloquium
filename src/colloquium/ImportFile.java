@@ -5,6 +5,7 @@
  */
 package colloquium;
 
+import colloquium.exceptions.NonexistentEntityException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,6 +18,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -35,30 +37,21 @@ public class ImportFile {
     public ImportFile() {   
     }
     
+    //Import from tab dilineated file tags only
     public void importTags(File file) throws FileNotFoundException, IOException {
-        
-        Connection con = null;
-        try {
-            con = DriverManager.getConnection("jdbc:derby:colloquiumdb;create=true");
-        } catch (SQLException ex) {
-            Logger.getLogger(ImportFile.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (con != null) {
-            Statement stmt;
-            String querydeletetags = "DELETE FROM TAGS WHERE 1=1";
+        EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
+        Query deletequery = entityManager.createQuery("SELECT t.id FROM Tags t");        
+        List<Integer> tagId = deletequery.getResultList();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
+        for (int i : tagId) {
+                TagsJpaController tjc = new TagsJpaController(emf);
             try {
-                stmt = con.createStatement();                
-                stmt.execute(querydeletetags);
-            } catch (SQLException ex) {
-                Logger.getLogger(ImportFile.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                con.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(ImportFile.class.getName()).log(Level.SEVERE, null, ex);
+                tjc.destroy(i);
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(ShowTags.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         try {
             BufferedReader buf = new BufferedReader(new FileReader(file));
             String[] tags;
@@ -70,15 +63,18 @@ public class ImportFile {
                     break;
                 }
                 else {
-                    tags = line.split("\t");
+                    tags = line.split("\\t", -1);
                     addTag(tags);                    
                 }
             }
             buf.close();
+            
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Import failed.");
         }                                        
     }
-
+    
+    // NOT IMPLEMENTED import from tab dilineated file whole database
     public void importBackup (File file) throws FileNotFoundException, IOException {
         
         Connection con = null;
@@ -408,15 +404,15 @@ public class ImportFile {
     
     private void addTag(String[] tag) {
         
-        String tagName = null;
-        String tagDefinition = null;
-        String tagExplanation = null;
+        String tagName = "";
+        String tagDefinition = "";
+        String tagExplanation = "";               
         
-        
- 
         tagName = tag[0];
-        tagDefinition = tag[1];
-        tagExplanation = tag[2];
+        if (tag.length == 2)
+            tagDefinition = tag[1];
+        if (tag.length == 3)
+            tagExplanation = tag[2];
         
         Tags newTag = new Tags();
         newTag.setTagname(tagName);
@@ -428,6 +424,7 @@ public class ImportFile {
         tjc.create(newTag);
     }  
     
+    // restore from a db backup folder
     public void restoreDb(File file) {
         Connection con = null;        
         try {

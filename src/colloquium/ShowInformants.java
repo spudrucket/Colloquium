@@ -7,10 +7,13 @@ package colloquium;
 
 import colloquium.exceptions.IllegalOrphanException;
 import colloquium.exceptions.NonexistentEntityException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,11 +23,17 @@ import javax.swing.JOptionPane;
 public class ShowInformants extends javax.swing.JFrame {
     
     public static int idColumn = 0;
+    MainWindow mainwindow;
 
     /**
      * Creates new form ShowInformants
      */
     public ShowInformants() {
+        initComponents();
+    }
+    
+    public ShowInformants(MainWindow mw) {
+        this.mainwindow = mw;
         initComponents();
     }
 
@@ -197,14 +206,14 @@ public class ShowInformants extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void addNewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewButtonActionPerformed
-        AddInformant addinf = new AddInformant();
+        AddInformant addinf = new AddInformant(mainwindow);
         addinf.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_addNewButtonActionPerformed
 
     private void updateInformantButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateInformantButtonActionPerformed
         if (getSelectedInformant() != null) {
-            UpdateInformants ui = new UpdateInformants(getSelectedInformant());
+            UpdateInformants ui = new UpdateInformants(getSelectedInformant(), mainwindow);
             ui.setVisible(true);
             this.setVisible(false);
         }
@@ -214,20 +223,30 @@ public class ShowInformants extends javax.swing.JFrame {
         if (getSelectedInformant() != null) {
             int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this Informant?");
             if (confirm == 0) {
-                EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
-                InformantsJpaController ijc = new InformantsJpaController(emf);
-                try {
-                    ijc.destroy(getSelectedInformant().getId());
-                } catch (IllegalOrphanException ex) {
-                    Logger.getLogger(ShowInformants.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NonexistentEntityException ex) {
-                    Logger.getLogger(ShowInformants.class.getName()).log(Level.SEVERE, null, ex);
+                int informantId = getSelectedInformant().getId();
+                EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
+                Query query = entityManager.createQuery("SELECT i.id FROM Interviews i WHERE i.informant.id = " + String.valueOf(informantId));
+                List<Integer> interviewId = query.getResultList();
+                if (interviewId.isEmpty()) {
+                    EntityManagerFactory emf = Persistence.createEntityManagerFactory("ColloquiumPU");
+                    InformantsJpaController ijc = new InformantsJpaController(emf);
+                    try {
+                        ijc.destroy(informantId);
+                    } catch (IllegalOrphanException ex) {
+                        Logger.getLogger(ShowInformants.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (NonexistentEntityException ex) {
+                        Logger.getLogger(ShowInformants.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    this.setVisible(false);
+                    ShowInformants si = new ShowInformants();
+                    si.setVisible(true);
+                    mainwindow.populateTree();
                 }
-                
-            this.setVisible(false);
-            ShowInformants si = new ShowInformants();
-            si.setVisible(true);
-            }
+                else {
+                    JOptionPane.showMessageDialog(null,"Please first delete all interviews associated with this informant.");
+                }
+            }           
         }  
     }//GEN-LAST:event_deleteInformantButtonActionPerformed
 
