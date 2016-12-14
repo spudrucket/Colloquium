@@ -1,5 +1,4 @@
 *****fix*****
-add informant interview tag updates jtree and jlist without refresh
 advanced search tag tab query errors???
 restore from backup changed informant names???
 
