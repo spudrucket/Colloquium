@@ -1,8 +1,0 @@
-*****fix*****
-advanced search tag tab query errors???
-restore from backup changed informant names???
-
-*****features*****
-add tokenized word frequency count for major languages.
-add note taking for paragraphs
-titlecase before adding value to db
