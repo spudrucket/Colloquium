@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Sat Jan 07 15:52:33 ALMT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0159-7858-0b3c-000007792930 
+on database directory C:\Users\MarkK\Documents\NetBeansProjects\Colloquium\colloquiumdb with class loader sun.misc.Launcher$AppClassLoader@24d46ca6 
+Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_101/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_101-b13
+user.dir=C:\Users\MarkK\Documents\NetBeansProjects\Colloquium
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

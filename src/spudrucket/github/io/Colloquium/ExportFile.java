@@ -1,7 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2016 spudrucket
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package spudrucket.github.io.Colloquium;
 
@@ -20,10 +31,12 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.JTable;
+import javax.swing.table.TableModel;
 
 /**
  *
- * @author Mark_K
+ * @author spudrucket
  */
 public class ExportFile {
     
@@ -31,7 +44,7 @@ public class ExportFile {
     }
     
     // export tags to a tab dilineated file
-    public void exportTags(File file) throws IOException {
+    public static void exportTags(File file) throws IOException {
         try {
             FileWriter fw = new FileWriter(file);
             LinkedList<Tags> tagsList = getTags();
@@ -46,7 +59,7 @@ public class ExportFile {
         }
     }    
     
-    private LinkedList getInformants() {
+    private static LinkedList getInformants() {
         LinkedList<Informants> informantsList = new LinkedList();
         EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
         Query query = entityManager.createNamedQuery("Informants.findAll");
@@ -54,7 +67,7 @@ public class ExportFile {
         return informantsList;
     }
     
-    private LinkedList getInterviews() {
+    private static LinkedList getInterviews() {
         LinkedList<Interviews> interviewsList = new LinkedList();
         EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
         Query query = entityManager.createNamedQuery("Interviews.findAll");
@@ -62,7 +75,7 @@ public class ExportFile {
         return interviewsList;        
     }
     
-    private LinkedList getParagraphs() {
+    private static LinkedList getParagraphs() {
         LinkedList<Paragraphs> paragraphsList = new LinkedList();
         EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
         Query query = entityManager.createNamedQuery("Paragraphs.findAll");
@@ -70,7 +83,7 @@ public class ExportFile {
         return paragraphsList;
     }
     
-    private LinkedList getTags() {
+    private static LinkedList getTags() {
         LinkedList<Tags> tagsList = new LinkedList();
         EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
         Query query = entityManager.createNamedQuery("Tags.findAll");
@@ -78,12 +91,30 @@ public class ExportFile {
         return tagsList;
     }
     
+    private static LinkedList getTerms() {
+        LinkedList<Terms> termsList = new LinkedList();
+        EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
+        Query query = entityManager.createNamedQuery("Terms.findAll");
+        termsList.addAll(query.getResultList());
+        return termsList;
+    }
+    
+    private static LinkedList getUsages() {
+        LinkedList<Usages> usagesList = new LinkedList();
+        EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
+        Query query = entityManager.createNamedQuery("Usages.findAll");
+        usagesList.addAll(query.getResultList());
+        return usagesList;
+    }
+    
     // export whole database to a tab dilineated file
-    public void exportDatabase(File file) throws IOException {
+    public static void exportDatabase(File file) throws IOException {
         LinkedList<Informants> informantsList = getInformants();
         LinkedList<Interviews> interviewsList = getInterviews();
         LinkedList<Paragraphs> paragraphsList = getParagraphs();
         LinkedList<Tags> tagsList = getTags();
+        LinkedList<Terms> termsList = getTerms();
+        LinkedList<Usages> usagesList = getUsages();
         
         try {
             FileWriter fw = new FileWriter(file);
@@ -178,23 +209,48 @@ public class ExportFile {
             fw.write("TAGS" + System.lineSeparator());
             
             for (Tags t : tagsList) {
+                String tagId = t.getId().toString();
                 String tagName = t.getTagname();
                 String tagDefinition = t.getTagdefinition();
                 String tagExplanation = t.getTagexplanation();
-                fw.write(tagName + "\t" + tagDefinition + "\t" + tagExplanation + System.lineSeparator());
-            }            
+                fw.write(tagId + "\t" + tagName + "\t" + tagDefinition + "\t" + tagExplanation + System.lineSeparator());
+            }   
+            
+            fw.write("TERMS" + System.lineSeparator());
+            
+            for (Terms t : termsList) {
+                String termId = t.getId().toString();
+                String rootWord = t.getRootword();
+                String forms = t.getForms();
+                String occurances = t.getOccurances().toString();
+                String notes = t.getNotes();
+                fw.write(termId + "\t" + rootWord + "\t" + forms + "\t" + occurances + "\t" + notes + System.lineSeparator());
+            }
+            
+            fw.write("USAGES" + System.lineSeparator());
+            
+            for (Usages u : usagesList) {
+                String usagesId = u.getId().toString();
+                String term = u.getTerm().toString();
+                String informant = u.getParagraph().getInformant().toString();
+                String interview = u.getParagraph().getInterviewnumber().toString();
+                String form = u.getForm();
+                String sentence = u.getSentence();
+                fw.write(usagesId + "\t" + informant + "\t" + interview + "\t" + term + "\t" + form + "\t" + sentence + System.lineSeparator());
+            }
+            
             fw.close();
         } catch (IOException ioe) {            
         }
     }
     
     // back up databse to a folder
-    public void backupDb(File file) throws SQLException{
+    public static void backupDb(File file) throws SQLException{
         Connection con = null;
         try {
             con = DriverManager.getConnection("jdbc:derby:colloquiumdb;create=true");
         } catch (SQLException ex) {
-            Logger.getLogger(ImportFile.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ExportFile.class.getName()).log(Level.SEVERE, null, ex);
         }
         String backupdirectory = file.getPath();
         CallableStatement cs = con.prepareCall("CALL SYSCS_UTIL.SYSCS_BACKUP_DATABASE(?)"); 
@@ -210,18 +266,38 @@ public class ExportFile {
     }
         
         //creates etc folder and blank db for createnewdb function (new project)
-        public void backupBlankDb(File file) throws SQLException{
+        public static void backupBlankDb(File file) throws SQLException{
         Connection con = null;
         try {
             con = DriverManager.getConnection("jdbc:derby:colloquiumdb;create=true");
         } catch (SQLException ex) {
-            Logger.getLogger(ImportFile.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ExportFile.class.getName()).log(Level.SEVERE, null, ex);
         }
         String backupdirectory = file.getPath();
         CallableStatement cs = con.prepareCall("CALL SYSCS_UTIL.SYSCS_BACKUP_DATABASE(?)"); 
         cs.setString(1, backupdirectory);
         cs.execute(); 
         cs.close();       
+    }
+        
+    public static void exportTable(JTable tableModel, File file) throws IOException {
+        FileWriter fw = new FileWriter(file);
+        int numColumns = tableModel.getColumnCount();
+        int numRows = tableModel.getRowCount();
+        
+        for (int row = 0; row < numRows; row++) {
+            for (int column = 0; column < numColumns; column++) {
+                if (tableModel.getValueAt(row, column) != null) {
+                    fw.write(tableModel.getValueAt(row, column).toString());
+                    fw.write("\t");
+                }
+                else {
+                    fw.write("\t");
+                }
+            }
+            fw.write(System.lineSeparator());
+        }
+        fw.close();
     }
     
 }

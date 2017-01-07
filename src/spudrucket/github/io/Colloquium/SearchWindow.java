@@ -1,12 +1,26 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2016 spudrucket
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package spudrucket.github.io.Colloquium;
 
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -20,13 +34,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import org.apache.lucene.queryparser.classic.ParseException;
 
 /**
  *
- * @author Mark_K
+ * @author spudrucket
  */
 public class SearchWindow extends javax.swing.JFrame {
     
@@ -208,12 +224,14 @@ public class SearchWindow extends javax.swing.JFrame {
         interviewsLabel = new javax.swing.JLabel();
         jLabel39 = new javax.swing.JLabel();
         paragraphsLabel = new javax.swing.JLabel();
+        saveFileChooser = new javax.swing.JFileChooser();
         searchTextField = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
         instructionsLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         searchTable = new javax.swing.JTable();
         advancedSearchButton = new javax.swing.JButton();
+        exportTableButton = new javax.swing.JButton();
 
         advancedSearchFrame.setTitle("Advanced Search");
         advancedSearchFrame.setMinimumSize(new java.awt.Dimension(1314, 730));
@@ -1062,6 +1080,8 @@ public class SearchWindow extends javax.swing.JFrame {
 
         jTabbedPane.getAccessibleContext().setAccessibleName("Informants");
 
+        saveFileChooser.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
+
         setTitle("Search");
 
         searchTextField.setText("Search all tags");
@@ -1127,6 +1147,13 @@ public class SearchWindow extends javax.swing.JFrame {
             }
         });
 
+        exportTableButton.setText("Export Results");
+        exportTableButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportTableButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -1136,7 +1163,8 @@ public class SearchWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1327, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(exportTableButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(advancedSearchButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -1153,7 +1181,8 @@ public class SearchWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchButton)
-                    .addComponent(advancedSearchButton))
+                    .addComponent(advancedSearchButton)
+                    .addComponent(exportTableButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(instructionsLabel)
                 .addGap(18, 18, 18)
@@ -1170,9 +1199,8 @@ public class SearchWindow extends javax.swing.JFrame {
 
     private void searchTags() {
         LinkedList<Integer> idList = new LinkedList();
-        LocalSearch ls = new LocalSearch();
         try {            
-            idList = ls.searchTags(paragraphsList, searchTextField.getText());
+            idList = LocalSearch.searchTags(paragraphsList, searchTextField.getText());
         } catch (IOException ex) {
             Logger.getLogger(SearchWindow.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
@@ -1573,6 +1601,10 @@ public class SearchWindow extends javax.swing.JFrame {
             tagQueryTextField.setEnabled(true);
         }
     }//GEN-LAST:event_editQueryButtonActionPerformed
+
+    private void exportTableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportTableButtonActionPerformed
+        exportTable();
+    }//GEN-LAST:event_exportTableButtonActionPerformed
 
     private LinkedList advancedSearch() {
         List<String> gender = genderList.getSelectedValuesList();
@@ -3005,7 +3037,7 @@ public class SearchWindow extends javax.swing.JFrame {
                     sqlStartDate = new Date(date.getTime());
                     intDate.add(sqlStartDate.toString());
                 } catch (java.text.ParseException ex) {
-                    Logger.getLogger(ImportFile.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(SearchWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             intTheme1.add(i.getTheme1());
@@ -3136,40 +3168,43 @@ public class SearchWindow extends javax.swing.JFrame {
         tagNotList.setModel(tagNotModel);        
     }
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+    private void exportTable() {
+        saveFileChooser.setSelectedFile(new File("table.txt"));
+        saveFileChooser.setFileFilter(new FileNameExtensionFilter("txt file","txt"));
+        int returnVal = saveFileChooser.showSaveDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            File file = saveFileChooser.getSelectedFile();
+            if (file.exists()) {
+                int result = JOptionPane.showConfirmDialog(this,"Overwrite existing file?","Warning",JOptionPane.YES_NO_CANCEL_OPTION);
+                switch(result) {
+                    case 0 :
+                {
+                    try {
+                        ExportFile.exportTable(searchTable, file);
+                    } catch (IOException ex) {
+                        Logger.getLogger(SearchWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                        break;
+                    case 1 :
+                        break;
+                    case 2 :
+                        break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SearchWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SearchWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SearchWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SearchWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SearchWindow().setVisible(true);
+            else {
+                try {
+                    ExportFile.exportTable(searchTable, file);
+                } catch (IOException ex) {
+                    Logger.getLogger(SearchWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        });
-    }
+            setCursor(null);
+        }       
+    } 
+           
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton advancedSearchButton;
@@ -3182,6 +3217,7 @@ public class SearchWindow extends javax.swing.JFrame {
     private javax.swing.JList<String> economicStatusList;
     private javax.swing.JButton editQueryButton;
     private javax.swing.JList<String> educationList;
+    private javax.swing.JButton exportTableButton;
     private javax.swing.JList<String> genderList;
     private javax.swing.JLabel informantsLabel;
     private javax.swing.JPanel informantsPanel;
@@ -3289,6 +3325,7 @@ public class SearchWindow extends javax.swing.JFrame {
     private javax.swing.JList<String> professionList;
     private javax.swing.JList<String> religionList;
     private javax.swing.JList<String> residenceList;
+    private javax.swing.JFileChooser saveFileChooser;
     private javax.swing.JButton searchButton;
     private javax.swing.JTable searchTable;
     private javax.swing.JTextField searchTextField;

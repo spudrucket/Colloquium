@@ -1,7 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2016 spudrucket
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package spudrucket.github.io.Colloquium;
 
@@ -34,7 +45,7 @@ import org.apache.lucene.queryparser.classic.ParseException;
 
 /**
  *
- * @author Mark_K
+ * @author spudrucket
  */
 public class MainWindow extends javax.swing.JFrame {
     
@@ -58,7 +69,7 @@ public class MainWindow extends javax.swing.JFrame {
         popjList1();
         popFontSizeComboBox();
         fontSizeComboBox.setSelectedItem(12);
-        fontChooserComboBox.setSelectedItem("Arial");
+        fontChooserComboBox.setSelectedItem(searchTextField.getFont().getName());
         jList1.setComponentPopupMenu(jList1PopupMenu);
         resultsTable.setComponentPopupMenu(resultsTablePopupMenu);
         resultsTable.setDefaultRenderer(String.class, new LineWrapCellRenderer());
@@ -101,6 +112,7 @@ public class MainWindow extends javax.swing.JFrame {
         openFileChooser = new javax.swing.JFileChooser();
         saveFileChooser = new javax.swing.JFileChooser();
         jProgressBar1 = new javax.swing.JProgressBar();
+        jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -110,6 +122,7 @@ public class MainWindow extends javax.swing.JFrame {
         interviewsButton = new javax.swing.JButton();
         tagsButton = new javax.swing.JButton();
         queryButton = new javax.swing.JButton();
+        domainButton = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
@@ -125,11 +138,13 @@ public class MainWindow extends javax.swing.JFrame {
         addInformantMenuItem = new javax.swing.JMenuItem();
         addInterviewMenuItem = new javax.swing.JMenuItem();
         addTagMenuItem = new javax.swing.JMenuItem();
+        newTermMenuItem = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         editInformantsMenuItem = new javax.swing.JMenuItem();
         editInterviewsMenuItem = new javax.swing.JMenuItem();
         editParagraphsMenuItem = new javax.swing.JMenuItem();
         editTagsMenuItem = new javax.swing.JMenuItem();
+        editTermsMenuItem = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         refreshMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
@@ -192,6 +207,8 @@ public class MainWindow extends javax.swing.JFrame {
         resultsTablePopupMenu.add(deleteAllTagsPopupMenuItem);
 
         saveFileChooser.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
+
+        jButton2.setText("jButton2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Colloquium");
@@ -256,7 +273,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         informantsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spudrucket/github/io/Colloquium/person-icon.png"))); // NOI18N
         informantsButton.setToolTipText("Informants");
-        informantsButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         informantsButton.setFocusable(false);
         informantsButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         informantsButton.setMaximumSize(new java.awt.Dimension(50, 50));
@@ -271,7 +287,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         interviewsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spudrucket/github/io/Colloquium/text_bubble.png"))); // NOI18N
         interviewsButton.setToolTipText("Interviews");
-        interviewsButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         interviewsButton.setFocusable(false);
         interviewsButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         interviewsButton.setMaximumSize(new java.awt.Dimension(50, 50));
@@ -286,7 +301,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         tagsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spudrucket/github/io/Colloquium/tag.png"))); // NOI18N
         tagsButton.setToolTipText("Tags");
-        tagsButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         tagsButton.setFocusable(false);
         tagsButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tagsButton.setMaximumSize(new java.awt.Dimension(50, 50));
@@ -300,8 +314,7 @@ public class MainWindow extends javax.swing.JFrame {
         jToolBar1.add(tagsButton);
 
         queryButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spudrucket/github/io/Colloquium/search.png"))); // NOI18N
-        queryButton.setToolTipText("Query");
-        queryButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        queryButton.setToolTipText("Search");
         queryButton.setFocusable(false);
         queryButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         queryButton.setMaximumSize(new java.awt.Dimension(50, 50));
@@ -314,9 +327,23 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jToolBar1.add(queryButton);
 
+        domainButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spudrucket/github/io/Colloquium/lamp.png"))); // NOI18N
+        domainButton.setToolTipText("Terms");
+        domainButton.setFocusable(false);
+        domainButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        domainButton.setMaximumSize(new java.awt.Dimension(50, 50));
+        domainButton.setMinimumSize(new java.awt.Dimension(50, 50));
+        domainButton.setPreferredSize(new java.awt.Dimension(50, 50));
+        domainButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        domainButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                domainButtonActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(domainButton);
+
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spudrucket/github/io/Colloquium/refresh.png"))); // NOI18N
         jButton1.setToolTipText("Refresh");
-        jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -349,9 +376,10 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        searchTextField.setFont(searchTextField.getFont());
         searchTextField.setText("Search in this interview");
-        searchTextField.setMaximumSize(new java.awt.Dimension(200, 22));
-        searchTextField.setMinimumSize(new java.awt.Dimension(200, 22));
+        searchTextField.setMaximumSize(new java.awt.Dimension(200, 26));
+        searchTextField.setMinimumSize(new java.awt.Dimension(200, 26));
         searchTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 searchTextFieldFocusGained(evt);
@@ -426,6 +454,14 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         fileMenu.add(addTagMenuItem);
+
+        newTermMenuItem.setText("New Term");
+        newTermMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newTermMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(newTermMenuItem);
         fileMenu.add(jSeparator2);
 
         editInformantsMenuItem.setText("Edit Informants");
@@ -459,6 +495,14 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         fileMenu.add(editTagsMenuItem);
+
+        editTermsMenuItem.setText("Edit Terms");
+        editTermsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editTermsMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(editTermsMenuItem);
         fileMenu.add(jSeparator3);
 
         refreshMenuItem.setText("Refresh");
@@ -530,7 +574,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(fontChooserComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -582,9 +626,9 @@ public class MainWindow extends javax.swing.JFrame {
        }        
         File blankDb = new File("etc" + File.separator + "colloquiumdb");
         if (!blankDb.exists()) {
-            ExportFile ef = new ExportFile();
+
            try {
-               ef.backupBlankDb(etc);
+               ExportFile.backupBlankDb(etc);
            } catch (SQLException ex) {
                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
            }
@@ -682,18 +726,18 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     private void newProjectMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newProjectMenuItemActionPerformed
-        ImportFile imp = new ImportFile();
+
         int result = JOptionPane.showConfirmDialog(this,"Backup existing project first? \nAll current data will be lost.", "New Project",JOptionPane.YES_NO_CANCEL_OPTION);
                 switch(result) {
                     case 0 :
                         backupDb();
-                        imp.createNewDb();
+                        ImportFile.createNewDb();
                         this.setVisible(false);
                         MainWindow mw1 = new MainWindow();
                         mw1.setVisible(true);
                         break;
                     case 1 :                        
-                        imp.createNewDb();
+                        ImportFile.createNewDb();
                         this.setVisible(false);
                         MainWindow mw2 = new MainWindow();
                         mw2.setVisible(true);
@@ -798,7 +842,7 @@ public class MainWindow extends javax.swing.JFrame {
                 TreeSet<String> newTags = new TreeSet();
                 String oldTagsString = p.getTags();
                 if (!oldTagsString.isEmpty()) {
-                   String[] oldTagsArray = oldTagsString.split(" *, *");                        
+                   String[] oldTagsArray = oldTagsString.split(" *, *", -1);                        
                    newTags.addAll(Arrays.asList(oldTagsArray));
                 }                     
                 for (String s : newTagsList) {
@@ -893,9 +937,8 @@ public class MainWindow extends javax.swing.JFrame {
         if (paragraphsList != null && paragraphsList.size() > 0) {
             LinkedList<String> selectedId = new LinkedList();
             if (!searchTextField.getText().isEmpty()) {
-                LocalSearch si = new LocalSearch();
                 try {
-                    selectedId = si.searchText(paragraphsList, searchTextField.getText());
+                    selectedId = LocalSearch.searchText(paragraphsList, searchTextField.getText());
                 } catch (IOException ex) {
                     Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ParseException ex) {
@@ -947,9 +990,8 @@ public class MainWindow extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             File file = openFileChooser.getSelectedFile();
-            ImportFile importFile = new ImportFile();
             try {
-                importFile.importTags(file);
+                ImportFile.importTags(file);
             } catch (IOException ex) {
                 Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -968,9 +1010,8 @@ public class MainWindow extends javax.swing.JFrame {
                 int result = JOptionPane.showConfirmDialog(this,"Overwrite existing file?","Warning",JOptionPane.YES_NO_CANCEL_OPTION);
                 switch(result) {
                     case 0 :
-                        ExportFile exportFile = new ExportFile();
                         try {
-                            exportFile.exportTags(file);
+                            ExportFile.exportTags(file);
                         } catch (IOException ex) {
                             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -982,9 +1023,8 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
             else {
-                ExportFile exportFile = new ExportFile();
                 try {
-                    exportFile.exportTags(file);
+                    ExportFile.exportTags(file);
                 } catch (IOException ex) {
                     Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -1012,9 +1052,8 @@ public class MainWindow extends javax.swing.JFrame {
                 int result = JOptionPane.showConfirmDialog(this,"Overwrite existing file?","Warning",JOptionPane.YES_NO_CANCEL_OPTION);
                 switch(result) {
                     case 0 :
-                        ExportFile exportFile = new ExportFile();
                         try {
-                            exportFile.exportDatabase(file);
+                            ExportFile.exportDatabase(file);
                         } catch (IOException ex) {
                             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -1026,9 +1065,8 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
             else {
-                ExportFile exportFile = new ExportFile();
                 try {
-                    exportFile.exportDatabase(file);
+                    ExportFile.exportDatabase(file);
                 } catch (IOException ex) {
                     Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -1044,9 +1082,8 @@ public class MainWindow extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             File file = openFileChooser.getSelectedFile();
-            ImportFile importFile = new ImportFile();
             try {
-                importFile.importBackup(file);
+                ImportFile.importBackup(file);
             } catch (IOException ex) {
                 Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1070,10 +1107,9 @@ public class MainWindow extends javax.swing.JFrame {
                 backupDb();
             }
             else {
-                ExportFile exportFile = new ExportFile();
 
                 try {
-                    exportFile.backupDb(file);
+                    ExportFile.backupDb(file);
                 } catch (SQLException ex) {
                     Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }               
@@ -1087,9 +1123,8 @@ public class MainWindow extends javax.swing.JFrame {
         int returnVal = openFileChooser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            File file = openFileChooser.getSelectedFile();
-            ImportFile importFile = new ImportFile();            
-            importFile.restoreDb(file);            
+            File file = openFileChooser.getSelectedFile();            
+            ImportFile.restoreDb(file);            
             setCursor(null);
         }
     }
@@ -1173,6 +1208,21 @@ public class MainWindow extends javax.swing.JFrame {
         searchTextField.selectAll();
     }//GEN-LAST:event_searchTextFieldFocusGained
 
+    private void domainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_domainButtonActionPerformed
+        ShowTerms st = new ShowTerms();
+        st.setVisible(true);
+    }//GEN-LAST:event_domainButtonActionPerformed
+
+    private void newTermMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newTermMenuItemActionPerformed
+        AddTerm at = new AddTerm();
+        at.setVisible(true);
+    }//GEN-LAST:event_newTermMenuItemActionPerformed
+
+    private void editTermsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editTermsMenuItemActionPerformed
+        ShowTerms st = new ShowTerms();
+        st.setVisible(true);
+    }//GEN-LAST:event_editTermsMenuItemActionPerformed
+
     public final void populateTree() {
         try {
             LinkedList list = new LinkedList();
@@ -1214,41 +1264,6 @@ public class MainWindow extends javax.swing.JFrame {
         }        
         return (node);
     }
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainWindow().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.persistence.EntityManager ColloquiumPUEntityManager;
@@ -1260,6 +1275,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem createTagPopupMenuItem;
     private javax.swing.JMenuItem deleteAllTagsPopupMenuItem;
     private javax.swing.JMenuItem deletePopupMenuItem;
+    private javax.swing.JButton domainButton;
     private javax.swing.JMenuItem editInformantsMenuItem;
     private javax.swing.JMenuItem editInterviewsMenuItem;
     private javax.swing.JMenu editMenu;
@@ -1267,6 +1283,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem editParagraphsMenuItem;
     private javax.swing.JMenuItem editTagPopupMenuItem;
     private javax.swing.JMenuItem editTagsMenuItem;
+    private javax.swing.JMenuItem editTermsMenuItem;
     private javax.swing.JMenuItem exportMenuItem;
     private javax.swing.JMenuItem exportTagsMenuItem;
     private javax.swing.JMenu fileMenu;
@@ -1276,6 +1293,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton informantsButton;
     private javax.swing.JButton interviewsButton;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPopupMenu jList1PopupMenu;
     private javax.swing.JMenuBar jMenuBar1;
@@ -1292,6 +1310,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTree jTree1;
     private javax.swing.JMenuItem newProjectMenuItem;
+    private javax.swing.JMenuItem newTermMenuItem;
     private javax.swing.JFileChooser openFileChooser;
     private javax.swing.JButton queryButton;
     private javax.swing.JMenuItem refreshMenuItem;

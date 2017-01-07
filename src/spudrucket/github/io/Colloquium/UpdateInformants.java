@@ -12,7 +12,7 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author Mark_K
+ * @author spudrucket
  */
 public class UpdateInformants extends javax.swing.JFrame {
     

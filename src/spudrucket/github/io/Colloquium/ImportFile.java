@@ -1,11 +1,22 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2016 spudrucket
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package spudrucket.github.io.Colloquium;
 
-import colloquium.exceptions.NonexistentEntityException;
+import spudrucket.github.io.Colloquium.exceptions.NonexistentEntityException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,7 +40,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Mark_K
+ * @author spudrucket
  */
 public class ImportFile {
     
@@ -38,7 +49,7 @@ public class ImportFile {
     }
     
     //Import from tab dilineated file tags only
-    public void importTags(File file) throws FileNotFoundException, IOException {
+    public static void importTags(File file) throws FileNotFoundException, IOException {
         EntityManager entityManager = Persistence.createEntityManagerFactory("ColloquiumPU").createEntityManager();
         Query deletequery = entityManager.createQuery("SELECT t.id FROM Tags t");        
         List<Integer> tagId = deletequery.getResultList();
@@ -75,7 +86,7 @@ public class ImportFile {
     }
     
     // NOT IMPLEMENTED import from tab dilineated file whole database
-    public void importBackup (File file) throws FileNotFoundException, IOException {
+    public static void importBackup (File file) throws FileNotFoundException, IOException {
         
         Connection con = null;
         try {
@@ -159,7 +170,7 @@ public class ImportFile {
         }          
     }
     
-    private void addInformant(String[] informant) {
+    private static void addInformant(String[] informant) {
         
         String infoId = null;
         String infoFirstname = null;
@@ -274,7 +285,7 @@ public class ImportFile {
         }
     }
     
-    private void addInterview(String[] interview) {
+    private static void addInterview(String[] interview) {
         
         String intId = null;
         String intInformant = null;
@@ -365,7 +376,7 @@ public class ImportFile {
         }
     }
     
-    private void addParagraph(String[] paragraph) {
+    private static void addParagraph(String[] paragraph) {
         
         String parId = null;
         String parInformant = null;
@@ -402,7 +413,7 @@ public class ImportFile {
         pjc.create(newParagraph);
     }
     
-    private void addTag(String[] tag) {
+    private static void addTag(String[] tag) {
         
         String tagName = "";
         String tagDefinition = "";
@@ -425,7 +436,7 @@ public class ImportFile {
     }  
     
     // restore from a db backup folder
-    public void restoreDb(File file) {
+    public static void restoreDb(File file) {
         Connection con = null;        
         try {
             DriverManager.getConnection("jdbc:derby:colloquiumdb;shutdown=true");
@@ -449,7 +460,7 @@ public class ImportFile {
         }
     }
     
-    public void createNewDb() {
+    public static void createNewDb() {
         File file = new File("etc" + File.separator + "colloquiumdb");
         Connection con = null;        
         try {
@@ -475,7 +486,7 @@ public class ImportFile {
 
     }
     
-    private boolean deleteFolder(File file) throws IOException {
+    private static boolean deleteFolder(File file) throws IOException {
         if (file.isDirectory()) {
             for (File f : file.listFiles()) {
                 deleteFolder(f);

@@ -1,12 +1,25 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2016 Mark_K
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package spudrucket.github.io.Colloquium;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,12 +30,14 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Mark_K
+ * @author spudrucket
  */
 @Entity
 @Table(name = "PARAGRAPHS")
@@ -59,6 +74,8 @@ public class Paragraphs implements Serializable {
     @JoinColumn(name = "INTERVIEWNUMBER", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private Interviews interviewnumber;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paragraph")
+    private Collection<Usages> usagesCollection;
 
     public Paragraphs() {
     }
@@ -128,6 +145,15 @@ public class Paragraphs implements Serializable {
         this.interviewnumber = interviewnumber;
     }
 
+    @XmlTransient
+    public Collection<Usages> getUsagesCollection() {
+        return usagesCollection;
+    }
+
+    public void setUsagesCollection(Collection<Usages> usagesCollection) {
+        this.usagesCollection = usagesCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -150,7 +176,7 @@ public class Paragraphs implements Serializable {
 
     @Override
     public String toString() {
-        return "colloquium.Paragraphs[ id=" + id + " ]";
+        return "spudrucket.github.io.Colloquium.Paragraphs[ id=" + id + " ]";
     }
     
 }
